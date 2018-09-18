@@ -1,0 +1,7 @@
+%h3 Participant Roles
+.ad-nested-form-fields.cnt-user-roles-form
+  = f.link_to_add 'Add Category', :user_roles_main, :data => {:target => '.items'}, :class => 'btn btn-info btn-small'
+  .items
+    = f.fields_for :user_roles_main do |role|
+      = render 'user_role_fields', :role => role
+  .clearfix

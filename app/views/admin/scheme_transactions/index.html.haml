@@ -1,0 +1,67 @@
+%h1 Points Statement
+.clearfix
+  = search_form_for @search, :url => admin_scheme_transactions_path do |f|
+    = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"points_summary_filter"}
+
+.actions
+  .actions-left
+  .grid-pager
+    = paginate @scheme_transactions
+  .actions-right
+    = link_to admin_scheme_transactions_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info pull-right", :id =>"downloadSchemeTransactionsCsv" do
+      %i.icon-arrow-down.icon-white
+      Download
+
+%table.table.table-striped.table-bordered.scheme-transactions
+  %thead
+    %tr
+      %th= sort_link(@search, :created_at,"Date")
+      - if is_super_admin?
+        %th= sort_link(@search, :client_msp_name, "MSP")
+      - unless is_client_manager?
+        %th= sort_link(@search, :client_client_name, "Client")
+      %th= sort_link(@search, :scheme_name, "Scheme")
+      %th= sort_link(@search, :user_full_name, "Full Name")
+      %th= sort_link(@search, :user_username, "Username")
+      %th Description
+      %th Credit
+      %th Debit
+      %th Balance
+
+  - @scheme_transactions.each do |transaction|
+    - summary = points_summary_for(transaction, true)
+    - summary_other_user = points_summary_for_other_user(transaction, true)
+    %tr[transaction]
+      %td= humanize_date(transaction.created_at)
+      - if is_super_admin?
+        %td= transaction.client.msp_name
+      - unless is_client_manager?
+        - if current_admin_user.role == AdminUser::Roles::REGIONAL_MANAGER || current_admin_user.role == AdminUser::Roles::REPRESENTATIVE
+          %td= transaction.client.client_name
+        -else
+          %td= link_to transaction.client.client_name, admin_client_path(transaction.client)
+      - if current_admin_user.role == AdminUser::Roles::REGIONAL_MANAGER || current_admin_user.role == AdminUser::Roles::REPRESENTATIVE
+        %td= transaction.scheme.name
+      - else
+        %td= link_to transaction.scheme.name, admin_points_summary_path({:scheme_id_eq => transaction.scheme_id})
+      %td= transaction.user.full_name
+      - if current_admin_user.role == AdminUser::Roles::REGIONAL_MANAGER || current_admin_user.role == AdminUser::Roles::REPRESENTATIVE
+        %td= transaction.user.username
+      - else
+        %td= link_to transaction.user.username, admin_user_path(transaction.user)
+      - if current_admin_user.role == AdminUser::Roles::REGIONAL_MANAGER || current_admin_user.role == AdminUser::Roles::REPRESENTATIVE
+        %td= summary_other_user[:description]
+        %td= summary_other_user[:credit]
+        %td= summary_other_user[:debit]
+        %td= summary_other_user[:balance]
+      -else
+        %td= summary[:description]
+        %td= summary[:credit]
+        %td= summary[:debit]
+        %td= summary[:balance]
+      
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @scheme_transactions
+  .actions-right

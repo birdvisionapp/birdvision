@@ -1,0 +1,30 @@
+=render :partial => "share/categories_hierarchy", :locals => {:search => @search, :collapsible => @categories.present?}
+= form_for :search, :url => search_path_for(@user_scheme), :html => {:method => :get, :id => 'filters', :class => 'form-inline' } do |f|
+  = f.hidden_field :category
+  = f.hidden_field :parent_category
+  = f.hidden_field :keyword
+  - if @categories.present?
+    %ul.search-result-category-list.category-list
+      %li.nav-header.theme-primary-text-color Sub categories
+      -if @categories.count > 1
+        - @categories.each do |category|
+          %li
+            = f.button "#{category.value} (#{category.count})", :value => category.value, :name => 'search[category]', :class => 'btn btn-link theme-primary-text-color'
+      -else
+        %li
+          ="#{@categories.first.value} (#{@categories.first.count})"
+
+
+  - if show_point_filter
+    .point-filter
+      %h5
+        = "Filter by points"
+      #points_slider{:"data-min" => @point_range[:min], :"data-max"=> @point_range[:max], "data-selected-min"=> @point_range[:selected_min], "data-selected-max"=> @point_range[:selected_max] }
+      .clearfix
+        .input-append
+          = f.text_field :point_range_min, :value => @point_range[:selected_min], :class=>"filter-input"
+          %span.add-on pts
+        .input-append
+          = f.text_field :point_range_max, :value => @point_range[:selected_max], :class=>"filter-input"
+          %span.add-on pts
+        = f.submit ">>" , { :class => "btn" }

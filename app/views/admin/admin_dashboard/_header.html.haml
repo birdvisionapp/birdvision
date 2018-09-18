@@ -1,0 +1,14 @@
+#searchForm.pull-left
+  = search_form_for User.search(params[:q]), :url => admin_users_path, :class => 'form-search form-inline' do |f|
+    .input-append
+      = f.text_field :username_or_full_name_cont, :placeholder => "Enter participant username or full name",:class => 'search-text'
+      = submit_tag  "" , { :class => "btn theme-btn-search"}
+
+.btn-group
+  =button_tag(:class => "btn dropdown-toggle", 'data-toggle' => 'dropdown') do
+    Download Reports
+    %span.caret
+  %ul.dropdown-menu
+    %li=link_to 'Orders Report',admin_order_items_path(:format => "csv")
+    %li=link_to 'Participants Report', admin_users_path(:format => "csv")
+    %li=link_to 'Points Statement Report', admin_scheme_transactions_path(:format => "csv")

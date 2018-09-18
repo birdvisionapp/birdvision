@@ -1,0 +1,37 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @unique_item_code.errors.full_messages}
+= form_for [:admin, :sms_based, @unique_item_code], :html => {:class => 'form-horizontal'} do |f|
+  .fields-group
+    = render "admin/share/select_msp", f: @unique_item_code && @unique_item_code.reward_item_point && @unique_item_code.reward_item_point.reward_item.client
+    - unless is_client_manager?
+      .control-group
+        = label_tag :client, 'Client', :class => 'control-label mandatory-field'
+        .controls
+          = select_tag :client, options_for_select(Client.accessible_by(current_ability).select_options.is_sms_based.map(&:option_format), params[:client]), prompt: 'Please Select', :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name', sms_based: true)}
+
+    .control-group
+      = label_tag :scheme, 'Scheme', :class => 'control-label mandatory-field'
+      .controls
+        = select_tag :scheme, options_for_select(Scheme.accessible_by(current_ability).select_options.map(&:option_format), params[:scheme]), prompt: 'Please Select', :class => 'al-content-loader', :data => {:url => list_for_client_admin_schemes_url}
+    .control-group
+      = f.label :expiry_date,"Expiry Date", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :expiry_date, :class => 'datepicker', :value => ldate(f.object.expiry_date)
+    .control-group
+      = f.label :reward_item_point_id, "Product Pack", :class => 'control-label mandatory-field'
+      .controls
+        = f.select :reward_item_point_id, RewardItemPoint.includes(:reward_item).accessible_by(current_ability).select_options.map{|r| r.option_format << {'data-template' => load_multi_tier_admin_sms_based_unique_item_codes_path(:source_id => r.id)}}, {:selected => (params[:q] && params[:q][:reward_item_point_id_eq]) ? params[:q][:reward_item_point_id_eq] : @unique_item_code.reward_item_point_id, :include_blank => 'Please Select'}, :class => 's-pp-content-loader rvl-widget', :data => {:url => list_for_scheme_admin_sms_based_reward_item_points_url(:template => true), :target => '#multi-tier-pcodes-container'}
+      .controls
+        .icon-info-sign
+        %span.help-inline Please select product pack to configure the product codes and generate
+    .clnt-uic-noc
+      .control-group
+        = f.label :number_of_codes, :class => 'control-label mandatory-field'
+        .controls
+          = f.text_field :number_of_codes
+      .control-group
+        .controls
+          = link_to 'Cancel', admin_sms_based_reward_item_points_path, :class=> "btn"
+          = f.button "Generate", :class => 'btn btn-info', :id => 'pcodes-generate'
+.form-horizontal
+  #multi-tier-pcodes-container
+  .clearfix

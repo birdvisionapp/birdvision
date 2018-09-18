@@ -1,0 +1,70 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h1="Add Items to #{@scheme.name} Catalog"
+
+= search_form_for @search, :url => edit_admin_scheme_catalog_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"admin/share/client_items_filter"}
+
+= render :partial => "share/messages", :locals => {:type => :alert, :message => ""}
+
+- unless @client_items.empty?
+  = form_tag admin_scheme_catalog_path(:q => params[:q]), :method => :put do
+    .actions
+      = render 'admin/share/select_all'
+      .actions-left
+        = submit_tag 'Add To Catalog', :class => 'btn btn-info'
+      .grid-pager
+        = paginate @client_items , :container => false,  :window => 2 , :left => 1, :right => 1
+    %table.table.client-catalog-items.table-striped.table-bordered
+      %thead
+        %tr
+          %th
+            %input{:type=>"checkbox", :class=>"select-all", :title=>"Select all"}
+          - if is_super_admin?
+            %th= sort_link(@search, :item_category_msp_name, "MSP")
+          %th= sort_link(@search, :item_id, "Item Id")
+          %th
+            = sort_link(@search, :item_title, "Item Name")
+          %th
+            %span= Category
+          %th
+            = sort_link(@search, :item_category_title, "Sub Category")
+          %th
+            = sort_link(@search, :item_preferred_supplier_supplier_name, "Pref. Supplier")
+          %th
+            = sort_link(@search, :item_bvc_price, "Channel Price(Rs.)")
+          %th
+            = sort_link(@search, :item_preferred_supplier_supplier_margin, "Supplier margin(%)")
+          %th
+            = sort_link(@search, :item_bvc_price, "Base Price(Rs.)")
+          %th
+            = sort_link(@search, :item_margin, "Base Margin(%)")
+          %th
+            = sort_link(@search, :client_price, "Client Price(Rs.)")
+          %th
+            = sort_link(@search, :margin, "Client Margin(%)")
+          %th
+            %span.align-right= "Schemes"
+
+      - @client_items.each do |client_item|
+        %tr[client_item]
+          %td= check_box_tag 'client_item_ids[]', client_item.id, false, :id => "batch_action_item_#{client_item.id}", :class => "item_checkbox selectable"
+          - if is_super_admin?
+            %td= client_item.item.category.msp_name
+          %td= client_item.item.id
+          %td= client_item.item.title.nil? ? '-' : client_item.item.title
+          %td= client_item.item.category.parent.nil? ? '-' : client_item.item.category.parent.title
+          %td= client_item.item.category.nil? ? '-' : client_item.item.category.title
+          %td= client_item.item.preferred_supplier.present? ? client_item.item.preferred_supplier.supplier.name : '-'
+          %td.align-right= bvc_currency(client_item.item.channel_price)
+          %td.align-right= client_item.item.preferred_supplier.present? ? client_item.item.preferred_supplier.supplier_margin : '-'
+          %td.align-right= bvc_currency(client_item.item.bvc_price)
+          %td.align-right= client_item.item.margin.nil? ? '-' : client_item.item.margin
+          %td.align-right= bvc_currency(client_item.client_price)
+          %td.align-right= client_item.margin.nil? ? '-' : client_item.margin
+          %td.align-right= schemes_for client_item
+    .actions
+      .actions-left
+      .grid-pager
+        = paginate @client_items , :container => false,  :window => 2 , :left => 1, :right => 1

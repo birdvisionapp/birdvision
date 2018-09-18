@@ -1,0 +1,52 @@
+%table.filters
+  %tr
+    %td
+      = f.label :order_id_eq, "Order ID"
+      .input-prepend.prepend-wrapper
+        %span.add-on ORD
+        = f.text_field :order_id_eq, :class => 'input-mini'
+    %td
+      = f.label :id_eq, "Order Item ID"
+      = f.text_field :id_eq, :class => 'input-medium'
+    %td
+      = f.label :client_item_item_title_cont, "Item Name"
+      = f.text_field :client_item_item_title_cont, :class => 'input-medium'
+  - if can? :edit, Client
+    %tr
+      - if is_super_admin?
+        %td
+          = f.label :scheme_client_msp_id_eq, "MSP"
+          = f.collection_select :scheme_client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+      %td
+        = f.label :client_item_item_category_ancestry_eq, "Category"
+        = f.collection_select :client_item_item_category_ancestry_eq, Category.accessible_by(current_ability).main_categories.select([:id, :title]).order(:title), :id, :title, {:include_blank => t(:all)}, :class => 'al-category-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:title')}
+      %td
+        = f.label :client_item_item_category_id_eq, "Sub Category"
+        = f.collection_select :client_item_item_category_id_eq, Category.accessible_by(current_ability).sub_categories.select([:id, :title]).order(:title), :id, :title, {:include_blank => t(:all)}, :class => 'al-subcategory-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:title', subset: true)}
+  %tr
+    -if can? :read, Supplier
+      %td
+        = f.label :supplier_id_eq, "Supplier"
+        = f.collection_select :supplier_id_eq, Supplier.accessible_by(current_ability).select([:id, :name]).order(:name), :id, :name, {:include_blank => t(:all)}, :class => 'al-supplier-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Supplier:name')}
+    - unless is_client_manager?
+      %td
+        = f.label :scheme_client_id_eq, "Client"
+        = f.collection_select :scheme_client_id_eq, Client.accessible_by(current_ability).select_options, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+    %td
+      = f.label :scheme_id_eq, "Scheme"
+      = f.select :scheme_id_eq,  Scheme.accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 'al-content-loader', :data => {:url => list_for_client_admin_schemes_url}
+    %td
+      = f.label :status_eq, "Status"
+      = f.select :status_eq, OrderItem.accessible_by(current_ability).state_machines[:status].states.collect{|state| [state.name.to_s.humanize, state.name]}, :include_blank => t(:all)
+  %tr
+    %td
+      = f.label :order_user_full_name_cont, "Full Name"
+      = f.text_field :order_user_full_name_cont, :class => 'input-medium'
+    %td
+      = f.label :order_user_username_cont, "Username"
+      = f.text_field :order_user_username_cont, :class => 'input-medium'
+    %td
+      = f.label :created_at_date_gteq,"Placed On"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small'

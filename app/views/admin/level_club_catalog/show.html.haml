@@ -1,0 +1,70 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+-if can? :view, :bvc_monetary_fields
+  %h4.pull-right Average client margin: #{@average_client_margin}%
+%h1 #{@level_club.name} Catalog
+
+= search_form_for @search, :url => admin_level_club_catalog_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter => "admin/share/catalog_items_filter" }
+
+= render :partial => "share/messages", :locals => {:type => :alert, :message => ""}
+.actions
+  .actions-left
+    / -if can? :edit, :LevelClub //commented because MSP is unable to see Add Items button, still having permisition by cancan
+    =link_to "Add Items", edit_admin_level_club_catalog_path(@level_club), :class=>"btn btn-info"
+  .grid-pager
+    = paginate @catalog_items, :container => false,  :window => 2 , :left => 1, :right => 1
+
+%table.table.client-catalog-items.table-striped.table-bordered
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :client_item_item_category_msp_name, "MSP")
+      %th= sort_link(@search, :client_item_item_id, "Item Id")
+      %th= sort_link(@search, :client_item_item_title, "Item Name")
+      %th
+        %span= "Category"
+      %th= sort_link(@search, :client_item_item_category_title, "Sub Category")
+      -if can? :view, :bvc_monetary_fields
+        %th= sort_link(@search, :client_item_item_preferred_supplier_supplier_name, "Pref. Supplier")
+        %th= sort_link(@search, :client_item_item_bvc_price, "Channel Price(Rs.)")
+        %th= sort_link(@search, :client_item_item_preferred_supplier_supplier_margin, "Supplier margin(%)")
+        %th= sort_link(@search, :client_item_item_bvc_price, "Base Price(Rs.)")
+        %th= sort_link(@search, :client_item_item_margin, "Base Margin(%)")
+      %th= sort_link(@search, :client_item_client_price, "Client Price(Rs.)")
+      -if can? :view, :bvc_monetary_fields
+        %th= sort_link(@search, :client_item_margin, "Client Margin(%)")
+      %th= sort_link(@search, :client_item_client_price, "Points")
+      -if can? :edit, :LevelClub
+        %th
+          %span= "Actions"
+
+
+  - @catalog_items.each do |catalog_item|
+    - client_item = catalog_item.client_item
+    %tr[client_item]
+      - if is_super_admin?
+        %td= client_item.item.category.msp_name
+      %td= client_item.item.id
+      %td= client_item.item.title.nil? ? '-' : client_item.item.title
+      %td= client_item.item.category.parent.nil? ? '-' : client_item.item.category.parent.title
+      %td= client_item.item.category.nil? ? '-' : client_item.item.category.title
+      -if can? :view, :bvc_monetary_fields
+        %td= client_item.item.preferred_supplier.present? ? client_item.item.preferred_supplier.supplier.name : '-'
+        %td.align-right= bvc_currency(client_item.item.channel_price)
+        %td= client_item.item.preferred_supplier.present? ? client_item.item.preferred_supplier.supplier_margin : '-'
+        %td.align-right= bvc_currency(client_item.item.bvc_price)
+        %td.align-right= client_item.item.margin.nil? ? '-' : client_item.item.margin
+      %td.align-right= bvc_currency(client_item.client_price)
+      -if can? :view, :bvc_monetary_fields
+        %td.align-right= client_item.margin.nil? ? '-' : client_item.margin
+      %td.align-right= client_item.client_price.nil? ? '-' : bvc_currency(client_item.price_to_points)
+      -if can? :edit, :catalog_item
+        %td= link_to 'Delete', admin_remove_from_level_club_catalog_path(:id => @level_club.id,:client_item_id =>client_item.id, :q => params[:q]), :method => :put
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @catalog_items, :container => false,  :window => 2 , :left => 1, :right => 1
+  .actions-right

@@ -1,0 +1,30 @@
+%h1 Ashok Leyland Channel Linkage
+
+= search_form_for @search, :url => al_channel_linkage_admin_al_transactions_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "al_linkage_filter" }
+
+.actions
+  =link_to 'Upload Channel Linkage', upload_linkage_admin_al_transactions_path, :class => 'btn btn-info'
+
+%table.table.table-striped.table-bordered.clients
+  %thead
+    %tr.header
+      %th.span3 Retailer Code
+      %th.span3 RO
+      %th.span3 Dealer Code
+      %th.span3 Actions
+  %tbody
+    - @acl.each do |acl|
+      %tr.order.item
+        %td.product-description= acl.retailer_code
+        %td.points= acl.ro_code
+        %td.points= acl.dealer_code
+        %td
+          =link_to 'Edit', edit_al_linkage_admin_al_transaction_path(acl.id)
+          %span /
+          =link_to 'Delete', delete_al_linkage_admin_al_transaction_path(acl), :method => :delete
+.actions-down.participants
+  .actions-left
+  .grid-pager
+    = paginate @acl
+  .actions-right

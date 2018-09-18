@@ -1,0 +1,70 @@
+/** Subheader **/
+$search-box-btn-image: url(image_path("btn-search.png")) !default
+
+/** Item Listing **/
+$listing-item-title-hover-bg-color: #666 !default
+$listing-item-title-bg-color: #181818 !default
+$listing-item-title-color: #FFF !default
+$listing-thumbnail-border-color: #cccccc !default
+$listing-thumbnail-hover-border-color: #666 !default
+$item-page-item-title-color: #3C8C97 !default
+
+/** Login Form **/
+$office-address-bg-color: #F2F9FC !default
+$office-address-border-color: #DFF3FC !default
+
+
+$checkout_steps_i2i :image_path('breadcrumbs/i2i.png')
+$checkout_steps_a2i: image_path('breadcrumbs/a2i.png')
+$checkout_steps_c2c: image_path('breadcrumbs/c2c.png')
+$checkout_steps_c2a: image_path('breadcrumbs/c2a.png')
+$checkout_steps_inactive_bg: image_path('breadcrumbs/inactive_bg.png')
+$checkout_steps_active_bg: image_path('breadcrumbs/active_bg.png')
+$checkout_steps_completed_bg:  image_path('breadcrumbs/completed_bg.png')
+$checkout_steps_inactive_start: #cccccc
+$checkout_steps_inactive_end: #dfe1e1
+$checkout_steps_active_start: #686767
+$checkout_steps_active_end: #343434
+$checkout_steps_completed_start: #a4a3a3
+$checkout_steps_completed_end: #7b7a7a
+
+/**End**/
+
+@import "common/variables"
+@import "participant/bootstrap.override"
+
+@import "bootstrap"
+@import "bootstrap/reset"
+@import "bootstrap-responsive"
+
+@import "lib/new.mixins"
+
+@import "common"
+
+@import "participant/layout"
+@import "participant/components/items.grid"
+@import "participant/components/header.footer"
+@import "participant/components/category.filter"
+@import "participant/components/shopping.cart"
+@import "participant/components/checkout_steps"
+@import "participant/components/common"
+@import "participant/components/breadcrumb"
+@import "participant/components/dashboard"
+@import "participant/components/add-to-cart"
+
+@import "participant/pages/login"
+@import "participant/pages/items.carousel"
+@import "participant/pages/show.item"
+@import "participant/pages/orders"
+@import "participant/pages/scheme.landing"
+@import "participant/pages/static_pages"
+
+@import "participant/media.queries"
+@import "participant/filters"
+@import "participant/theme"
+
+@import "participant/jqzoom"
+
+
+@import "ie.all"
+

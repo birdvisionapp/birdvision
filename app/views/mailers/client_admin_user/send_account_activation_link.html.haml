@@ -1,0 +1,29 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@user.name},"
+  %div{:style=>"padding-left:20px"}
+    - content_block = (['regional_manager', 'representative'].include?(@admin_user.role)) ? "#{@user.client.client_name} Rewards, for the role of #{@admin_user.role.titleize}" : "#{APP_TITLE} Rewards"
+    %p= "We are pleased to inform you that you have been registered with #{content_block}."
+    %p
+      = "Please make a note of the following information."
+    %p
+      = "Agent Id:"
+      %strong= "#{@user.id}"
+    %p
+      = "Username:"
+      %strong= "#{@admin_user.username}"
+    %p
+      = "Please activate your account"
+      = link_to "here.", edit_admin_user_password_url(@admin_user, :reset_password_token => @admin_user.reset_password_token, :mode => "activate")
+      %br
+      %br
+      %em{:style=>"font-size: 0.8em;"}
+        = "If you are unable to click the activation link please copy the following and paste it in the address bar of your browser:"
+        %br
+        =link_to edit_admin_user_password_url(@admin_user, :reset_password_token => @admin_user.reset_password_token, :mode => "activate"), edit_admin_user_password_url(@admin_user, :reset_password_token => @admin_user.reset_password_token, :mode => "activate")
+
+    %p= "Please save your username for all future reference and communication."
+    %p
+      = "If you have any problems accessing or activating your account feel free to reach out to the "
+      = link_to "#{APP_TITLE} Team.", "mailto:customercare@birdvision.in"
+
+  = render :partial => "mailers/admin_user/email_footer", :locals => {:user => @admin_user}

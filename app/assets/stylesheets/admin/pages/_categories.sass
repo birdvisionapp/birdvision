@@ -1,0 +1,35 @@
+$categoryListBorder: 1px solid #dfdfdf
+
+#categoryListContainer
+  border: $categoryListBorder
+  width: 500px
+  .header
+    +gradient-vertical(#f2f2f2, #e6e8e9)
+    font-weight: bold
+    color: #696969
+    label
+      font-weight: bold
+    li,label
+      line-height: 40px
+  >li
+    border-bottom: $categoryListBorder
+    overflow: hidden
+    //for striped rows
+    background-color: #ffffff
+    &:nth-child(2n+1)
+      background-color: #f8f8f8
+    label
+      float: left
+      margin-bottom: 0
+      padding-left: 5px
+    ul
+      border-left: $categoryListBorder
+      //decides width of the column for category name
+      margin-left: 250px
+      li
+        border-top: $categoryListBorder
+        padding-left: 5px
+        &:first-child
+          border: none
+    label, ul li
+      line-height: 30px

@@ -1,0 +1,33 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :linkable_of_User_type_client_msp_id_eq, "MSP"
+        = f.collection_select :linkable_of_User_type_client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      - if is_admin_user?
+        = f.label :linkable_of_User_type_client_id_eq, "Client"
+        = f.collection_select :linkable_of_User_type_client_id_eq, Client.accessible_by(current_ability).select_options.is_sms_based, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name', sms_based: true)}
+    %td
+      = f.label :linkable_of_User_type_user_schemes_scheme_id_eq, "Scheme"
+      = f.select :linkable_of_User_type_user_schemes_scheme_id_eq,  Scheme.accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 'al-content-loader', :data => {:url => list_for_client_admin_schemes_url}
+  %tr
+    %td
+      = f.label :unique_item_code_reward_item_point_id_eq, "Product"
+      = f.select :unique_item_code_reward_item_point_id_eq,  RewardItemPoint.includes(:reward_item).accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 's-pp-content-loader', :data => {:url => list_for_scheme_admin_sms_based_reward_item_points_url}
+    %td
+      = f.label :linkable_of_User_type_user_role_id_eq, "Category"
+      = f.select :linkable_of_User_type_user_role_id_eq, @user_roles, {:include_blank => t(:all)}, :class => 'al-category-content-loader', :data => {:url => list_user_roles_admin_clients_url}
+    %td
+      = f.label :linkable_of_User_type_telecom_circle_regional_managers_id_eq, "Region"
+      = f.select :linkable_of_User_type_telecom_circle_regional_managers_id_eq, @telecom_regions, {:include_blank => t(:all)}, :class => 'al-region-content-loader', :data => {:url => list_telecom_regions_admin_clients_url}
+  %tr
+    %td
+      = f.label :linkable_of_User_type_full_name_cont, "Full Name"
+      = f.text_field :linkable_of_User_type_full_name_cont, :class => 'input-medium'
+    %td
+      = f.label :linkable_of_User_type_username_cont, "Username"
+      = f.text_field :linkable_of_User_type_username_cont, :class => 'input-medium'
+    %td
+      = f.label :linkable_of_User_type_mobile_number_cont, "Mobile Number"
+      = f.text_field :linkable_of_User_type_mobile_number_cont, :class => 'input-medium'

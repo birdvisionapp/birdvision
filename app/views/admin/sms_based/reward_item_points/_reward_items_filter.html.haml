@@ -1,0 +1,26 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :reward_item_client_msp_id_eq, "MSP"
+        = f.collection_select :reward_item_client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      - unless is_client_manager?
+        = f.label :reward_item_client_id_eq, "Client"
+        = f.collection_select :reward_item_client_id_eq, Client.accessible_by(current_ability).select_options.is_sms_based, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name', sms_based: true)}
+    %td
+      = f.label :reward_item_scheme_id_eq, "Scheme"
+      = f.select :reward_item_scheme_id_eq,  Scheme.accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 'al-content-loader', :data => {:url => list_for_client_admin_schemes_url}
+  %tr
+    %td
+      = f.label :id_eq, "Product Pack"
+      = f.select :id_eq,  RewardItemPoint.includes(:reward_item).accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 's-pp-content-loader', :data => {:url => list_for_scheme_admin_sms_based_reward_item_points_url}
+    %td
+      = f.label :status_eq, "Status"
+      = f.select :status_eq, RewardItemPoint::Status::ALL.collect {|status| [status.titleize, status]}, :include_blank => t(:all), :class => 'input-s-medium'
+    %td
+      = f.label :created_at_date_gteq,"Created On"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small'
+    %td

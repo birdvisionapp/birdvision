@@ -1,0 +1,49 @@
+%h3 Allow User Sign Up #{f.check_box :sign_up_enabled, :class => 'tc-widget fm-check-input bg-ck-med', :onclick => 'show()', 'data-target' => '#allow-sign-up-container' }
+.icon-info-sign
+.help-inline When enabled Participants will be able to Register online.
+#allow-sign-up-container
+  .control-group
+    = f.label :coupen_code_enabled, "Coupon Code Required",:class => 'control-label'
+    .controls
+      = f.check_box :coupen_code_enabled
+  .control-group
+    = f.label :additional_info_enabled, "Additoinal Info Required",:class => 'control-label'
+    .controls
+      = f.check_box :additional_info_enabled, :class => 'tc-widget', 'data-target' => '#allow-field-container'
+  #allow-field-container
+    .control-group
+      = f.label :field_title, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :field_title
+      .controls
+        .icon-info-sign
+        .help-inline This will apppear as a heading to Required Field.
+    .control-group
+      = f.label :field_subtitle, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :field_subtitle
+      .controls
+        .icon-info-sign
+        .help-inline Enter field name for what additional info you require from user. 
+  .control-group
+    = f.label :user_role_id, "Linkage Category",:class => 'control-label'
+    .controls
+      - if @new_client
+        .icon-info-sign
+        .help-inline Set Linkage Category in edit page.
+      - else
+        = f.collection_select :user_role_id, @client.user_roles.select_options, :id, :name, {:include_blank => 'None'}
+  .control-group
+    = f.label :image, 'Background Image', :class => 'control-label'
+    .controls
+      - if @client.client_customization.image.present?
+        = image_tag f.object.image.url(:medium), :size => "180x72"
+        = f.check_box :delete_image
+        .help-inline
+          = f.label :delete_image, 'Delete Image'
+    .controls
+      .icon-info-sign
+      .help-inline This image will be set as your background image for login and registration page.
+      .clerfix
+      = f.file_field :image
+      

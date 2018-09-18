@@ -1,0 +1,54 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h1 Draft Items
+
+= search_form_for @search, :url => admin_draft_items_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter => "draft_items_filter" }
+
+.grid-pager
+  = paginate @draft_items , :container => false,  :window => 2 , :left => 1, :right => 1
+
+%table.table.draft_items.table-striped.table-bordered
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :supplier_msp_name, "MSP")
+      %th= sort_link(@search, :supplier_name, DraftItem.human_attribute_name(:supplier))
+      %th= sort_link(@search, :title, "Item Name")
+      %th= sort_link(@search, :listing_id, "Listing ID")
+      %th= sort_link(@search, :model_no,"Model No.")
+      %th.align-right= sort_link(@search, :mrp, "MRP(Rs.)")
+      %th.align-right= sort_link(@search, :channel_price,"Channel Price(Rs.)")
+      %th
+        %span Category
+      %th= sort_link(@search, :category_title, "Sub Category")
+      %th= sort_link(@search, :created_at,"Created On")
+      %th= sort_link(@search, :supplier_margin,"Supplier Margin(%)")
+      %th
+        %span Action
+
+  - @draft_items.each do |draft_item|
+    %tr[draft_item]
+      - if is_super_admin?
+        %td= draft_item.supplier.msp_name
+      %td= draft_item.supplier.nil? ? '-' : draft_item.supplier.name
+      %td= draft_item.title
+      %td= draft_item.listing_id
+      %td= draft_item.model_no
+      %td.align-right= bvc_currency(draft_item.mrp)
+      %td.align-right= bvc_currency(draft_item.channel_price)
+      %td= (draft_item.category.nil? || draft_item.category.parent.nil?) ? '-' : draft_item.category.parent.title
+      %td= draft_item.category.nil? ? '-' : draft_item.category.title
+      %td= humanize_date(draft_item.created_at)
+      %td= draft_item.supplier_margin
+
+      %td
+        = link_to 'Lookup', admin_draft_item_lookup_path(draft_item)
+        %span /
+        = link_to 'View', admin_draft_item_path(draft_item)
+        %span /
+        = link_to 'Delete', admin_draft_item_path(draft_item), :method => :delete
+
+.grid-pager
+  = paginate @draft_items , :container => false,  :window => 2 , :left => 1, :right => 1

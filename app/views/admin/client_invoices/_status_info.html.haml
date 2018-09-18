@@ -1,0 +1,3 @@
+.ci-cp-status-info
+  - @invoice_stats.each do |att, stat|
+    = styling_status_label(att, stat) if att.present?

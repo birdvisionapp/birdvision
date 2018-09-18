@@ -1,0 +1,36 @@
+= form_for(:offer_manager, :url => create_and_store_offer_admin_targeted_offer_managers_path, :method => :post, :html => {:id => 'purchase_freq_form'}) do |f|
+  
+  = f.hidden_field :client_id , :value => @client_id  
+  - if @offer.get_client_templates(@tot.id).empty?
+    %h3 You have no templates for #{@tot.offer_type_name}
+  -else
+    #template-scheme-div
+      = render :partial => "template_scheme", :locals => {:f => f, :client_id => @client_id , :tot_id => @tot.id}
+    
+    #product
+    .incent
+      %table.table.table-bordered.table-style
+        %tr
+          %td
+            .incentive_for
+              %fieldset#id-set-incentive-for
+                %h3 Incentive For  
+                .controls
+                  = f.radio_button(:first_action, 'first_action', :checked => 'checked') 
+                  = f.label :first_action, 'First action in given window period'
+                  %br
+                  = f.radio_button(:first_action, 'all_action')
+                  = f.label :first_action, 'For all action in given window period'
+          %td
+            .incentive_type_gift
+    .festival-type
+      %fieldset#id-set-festival
+        %h3 Seasonal/Festival Details
+        .control
+          = f.label "Seasonal/Festival Type" 
+          .group
+            = f.text_field :festival_type
+    .space
+    #alignsubmit
+      = link_to "Back" , targeted_offer_list_admin_targeted_offer_managers_path , :class => 'btn btn-info'
+      = f.submit 'Save & Next', remote: true, :class => 'btn btn-info'

@@ -1,0 +1,30 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@client_admin.name},"
+
+  %div{:style=>"padding-left: 20px"}
+    %p
+      = "The new member registrations information till date: "
+      %strong= @new_registrations.length
+    = render 'mailers/client_admin/registrations' if @new_registrations.present?
+    %p{:style=>"margin-top:5px;margin-bottom:5px"}= "Please confirm the name, location, pin code details of the participants."
+
+    %p{:style=>"margin-bottom:0px"}
+      = "A brief program summary:"
+    %ul{:style=>"margin:5px; padding-left: 30px"}
+      %li
+        = "Total members registered till date: "
+        %strong= @sales_volume.total_memebrs_registered
+      %li
+        = "Total points earned by members: "
+        %strong= @sales_volume.total_points_earned
+      %li
+        = "Total sales volume till date: "
+        %strong= @sales_volume.total_sales_volume
+   
+    %p
+      = "For further details please download the attached reports."
+     
+  %p
+    = "Thanks,"
+    %br
+    = "The #{@client_admin.client.client_name} Rewards Team"

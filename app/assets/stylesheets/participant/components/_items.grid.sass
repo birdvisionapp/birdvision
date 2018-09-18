@@ -1,0 +1,131 @@
+*
+  +transition((color 0s linear 0s, opacity 0.3s linear 0s, background-color 0.3s linear 0s, border-color 0.3s linear 0s, outline-color 0.3s linear 0s, box-shadow 0.3s linear 0s, bottom 0.3s linear 0s))
+
+.client-item.span4.thumbnail
+  .item-image-container
+    a
+      line-height: 320px
+      text-align: center
+      display: block
+    img
+      margin: 0 auto
+      max-height: 320px
+      max-width: 217px
+      vertical-align: middle
+
+.client-item.thumbnail
+  border: 2px solid $listing-thumbnail-border-color
+  border-radius: 0
+  padding: 1px
+  .image-container
+    float: left
+    a
+      display: inline-block
+      width: 160px
+      height: 160px
+      text-align: center
+    img
+      max-height: 160px
+      max-width: 160px
+
+  .item-details
+    padding-left: 180px
+    padding-right: 10px
+    height: 160px
+    .item-title a
+      @extend .ellipsis
+      display: block
+  .client-item
+    padding: 30px 45px
+  .description
+    margin-bottom: 40px
+  .item-image-container
+    background: white
+    overflow: hidden
+    a
+      line-height: 265px
+      text-align: center
+      display: block
+    img
+      margin: 0 auto
+      max-height: 261px
+      max-width: 217px
+      vertical-align: middle
+  &:hover
+    border: 1px solid $listing-thumbnail-hover-border-color
+
+.item-content
+  display: table
+  height: 55px
+  font-size: 12px
+  width: 100%
+  .item-title
+    background-color: $listing-item-title-bg-color
+    color: $listing-item-title-color
+    display: table-cell
+    font-size: 14px
+    line-height: 18px
+    padding: 0 5px
+    text-align: center
+    text-decoration: none
+    vertical-align: middle
+    &:hover
+      background-color: $listing-item-title-hover-bg-color
+
+
+.catalogs
+  &.span9
+    margin-left: 0
+  .header
+    position: relative
+    background: lavender
+    padding: 7px
+    padding-top: 12px
+    margin-bottom: 8px
+    .club-name
+      display: inline-block
+      margin-right: 10px
+    .view-all:after
+      content: ""
+      display: inline-block
+      border: 5px solid
+      border-color: transparent transparent transparent #686767
+      margin-left: 3px
+    .fyi
+      font-size: 1.15em
+      font-style: italic
+      position: absolute
+      right: 0
+      bottom: 5px
+      padding-right: 5px
+      color: gray
+
+  .catalog
+    border-bottom: 1px solid #F8F8F8
+    border-top: 1px solid rgb(242,242,242)
+    padding: 20px 0 10px
+    &:first-child
+      border-top: none
+      
+.client-item.thumbnail:hover
+  border: 2px solid $listing-thumbnail-border-color
+  
+.caption
+  position: absolute
+  background: rgba(222, 222, 222, 0.75)
+  width: 276px
+  height: 302px
+  padding: 2%
+  display: none
+  text-align: center
+  color: #fff !important
+  z-index: 2
+  p
+    color: black
+    
+.mobile-only
+  display: none
+    
+@media screen and (max-width: 480px)
+  .mobile-only
+    display: table

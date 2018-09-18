@@ -1,0 +1,372 @@
+.wizard
+  width: 67%
+  margin: 0 auto
+
+a#enabled
+  background-color: green
+  color: yellow
+
+a#disabled
+  background-color: #3db2c3
+  color: white
+
+.wizard a
+  padding: 10px 6% 10px
+  margin-bottom: 1%
+  margin-left: 1%
+  background: #efefef
+  position: relative
+  display: inline-block
+
+.wizard a:before 
+  width: 0
+  height: 0
+  border-top: 20px inset transparent
+  border-bottom: 20px inset transparent
+  border-left: 20px solid #fff
+  position: absolute
+  content: ""
+  top: 0
+  left: 0
+
+.wizard a:after 
+  width: 0
+  height: 0
+  border-top: 20px inset transparent
+  border-bottom: 20px inset transparent
+  border-left: 20px solid #efefef
+  position: absolute
+  content: ""
+  top: 0
+  right: -20px
+  z-index: 2
+
+.wizard a:first-child:before, .wizard a:last-child:after 
+  border: none
+
+.wizard a:first-child 
+  -webkit-border-radius: 4px 0 0 4px
+  -moz-border-radius: 4px 0 0 4px
+  border-radius: 4px 0 0 4px
+
+.wizard a:last-child 
+  -webkit-border-radius: 0 4px 4px 0
+  -moz-border-radius: 0 4px 4px 0
+  border-radius: 0 4px 4px 0
+
+.wizard .badge 
+  margin: 0 5px 0 18px
+  position: relative
+  top: -1px
+
+.wizard a:first-child .badge 
+  margin-left: 0
+
+.wizard .current:after
+  background: #007ACC
+  color: #fff
+
+.wizard .current:after
+  border-left-color: #007ACC
+  
+.space
+  margin-top: 2%
+
+.error
+  color: red
+  display: outline-block
+
+label.error
+  font-family:verdana, Helvetica 
+
+.table-style
+  border: none !important
+
+.age
+  width: 25%
+
+.table-style th
+  width: 40% !important
+
+.inner-table-style
+  width: 90%
+  margin: auto
+
+.table-style th
+  background-color: none !important
+  background-image: none !important
+
+.table.th
+  border: none !important
+
+.table-style th
+  background-color: #ffffff
+  border-style: none !important
+
+.table-style td
+  border-collapse: collapse
+  border: 0
+
+.main-div
+  margin: auto
+  width: 75%
+  box-shadow: 0 0 6px #62A1AC
+  padding-top: 1%
+  padding-bottom: 1%
+
+.submitbtn
+  margin-bottom: 5px
+
+#alignsubmit
+  margin-left: 37%
+
+.titles h3
+  font-size: 21px
+  padding: 10px 15px
+  color: gray
+  border-bottom: 1px solid lightgrey
+  width: 96%
+
+#form
+  padding: 1%
+
+.toTemplate
+  width: 98%
+  margin: inherit
+  
+label, div.group-by, div.control-by
+  display: inline 
+
+div#offer_manager_gift_catlog_id-error.error
+  width: 108%
+
+.group-template
+  padding-left: 2%
+
+div.name-div.panel
+  padding: 2%
+  box-shadow: 0 0px 6px #62a1ac
+  font-size: 256%
+  text-align: center
+  margin-right: 12%
+  margin-left: 12%
+  margin-bottom: 1%
+  margin-top: 3%
+  background-color: ghostwhite
+  
+#dateFrom, #dateTo
+  width: 25%
+  
+div#participant table.table.table-bordered.table-style tbody tr td div.control div.control div.control-error
+  padding-left: 6%
+
+.control-scroll
+  OVERFLOW-Y: auto
+  HEIGHT: 100px 
+  
+form#relationship_matrix_form, form#major_life_event_form, form#purchase_freq_form
+  padding: 1%
+  
+div.select-drop
+  padding-left: 2%
+  padding-bottom: 1%
+  
+div#scheme1 table.table.table-bordered.table-style .groups, div#product table.table.table-bordered.table-style .groups
+  padding-left: 6%
+  
+div.targeted_offer_type
+  padding-bottom: 1%
+  
+div.incentive_for div.controls
+  margin-left: 7%
+  
+input#campaingn_manager_start_date.datepicker, input#campaingn_manager_end_date.datepicker
+  width: 25% 
+  
+fieldset
+  // display: block
+  // margin-left: 2px
+  // margin-right: 2px
+  // padding-top: 0.35em
+  // padding-bottom: 0.625em
+  // padding-left: 0.75em
+  // padding-right: 0.75em
+  // border: 2px groove
+  width: 94%
+  height: 100%
+  margin: 0 1em 0 0
+  padding: 0.5em 1em
+  overflow-x: hidden
+
+#date_valid.control-group input#start, #date_valid.control-group input#end 
+  width: 25%
+
+#scheme1 fieldset input#id_scheme, input#id_product
+  margin-left: 7%
+  
+#scheme1 fieldset  div.scheme-group
+  margin-left: 14%
+  
+#product-group
+  margin-left: 21%
+
+div#template-scheme-div table.table.table-bordered.table-style tbody tr td, 
+div.incent table.table.table-bordered.table-style tbody tr td 
+  width: 50%
+  table-layout: fixed
+  overflow: hidden
+  word-wrap: break-word
+
+#id-set-incentive-for
+  padding-bottom: 24%
+  background: none repeat scroll 0 0 white
+  border-radius: 6px 6px 6px 6px
+  box-shadow: 0 0 6px #62A1AC
+
+#id-set-incentive-type
+  background: none repeat scroll 0 0 white
+  border-radius: 6px 6px 6px 6px
+  box-shadow: 0 0 6px #62A1AC
+  padding-bottom: 2%
+
+#id-set-purchase, #id-set-TO
+  margin-left: 1%
+  margin-right: 1%
+
+#id-set-TO h3
+  float: left
+  
+#targeted_offer_type_id
+  margin-left: 3%
+  
+fieldset#id-set-scheme h3,fieldset#id-set-product h3, fieldset#id-set-incentive-for h3, 
+fieldset#id-set-incentive-type h3, #id-set-participant h3, #id-set-geography h3, #id-set-age h3, 
+#id-set-datepicker h3, #id-set-medium h3, .performance-count-div h3 
+  text-align: center
+
+#id-set-participant h3, #id-set-geography h3, #id-set-age h3, #id-set-datepicker h3,
+#id-set-medium h3, .performance-count-div h3 
+  text-align: center
+
+#id-set-participant, #id-set-geography, #id-set-age, #id-set-datepicker,#id-set-purchase,
+#id-set-performance, #id-set-festival, #id-set-datepicker-edit, #id-set-scheme, #id-set-product, #id-set-TO
+  background: none repeat scroll 0 0 white
+  border-radius: 6px 6px 6px 6px
+  box-shadow: 0 0 6px #62A1AC
+
+#id-set-festival
+  padding-left: 3%
+  margin-left: 1%
+  
+#id-set-participant .control .control-scroll
+  margin-left: 10% 
+  
+#id-set-geography
+  padding-bottom: 1%
+  
+#id-set-datepicker
+  padding-bottom: 9%
+  
+#id-set-template
+  margin-left: 1%
+  margin-right: 1%
+  background: whitesmoke
+  padding-top: 2%
+  
+#id-set-medium
+  width: 97%
+  background: none repeat scroll 0 0 white
+  border-radius: 6px 6px 6px 6px
+  box-shadow: 0 0 6px #62A1AC
+table.table.table-bordered.table-style tbody tr td #id-set-medium  .adjust
+  margin-left: 40%
+
+table.table.table-bordered.table-style tbody tr td div.inner-medium
+  padding-left: 12%
+  
+#offer_manager_performance_from, #offer_manager_performance_to
+  width: 25%
+  
+#id-set-threshold
+  padding-bottom: 18%
+  background: none repeat scroll 0 0 white
+  border-radius: 6px 6px 6px 6px
+  box-shadow: 0 0 6px #62A1AC  
+div.scheme-group div.error
+  padding-left: 15%
+  
+#id-set-incentive-type div#points_div.control-group-seasonal, 
+#gift_div.control-group-seasonal div.inline,
+#gift_div1.control-group-seasonal div.inline
+  margin-left: 37%
+  
+div#scheme1 table.table.table-bordered.table-style tbody tr td,  
+.performance-count-div table.table.table-bordered.table-style tbody tr td
+  width: 50%
+  
+#id-set-template-header
+  text-align: center
+  background: none repeat scroll 0 0 white
+  border-radius: 6px 6px 6px 6px
+  box-shadow: 0 0 6px #62A1AC
+  margin-left: 17%
+  margin-right: 17%
+  margin-top: 4%
+  background: #3db2c3
+  width: 64%
+  color: white
+  
+#id-set-template-new
+  background: none repeat scroll 0 0 white
+  border-radius: 6px 6px 6px 6px
+  box-shadow: 0 0 6px #62A1AC
+  margin-left: 17%
+  background: ghostwhite
+  width: 64%
+  
+#id-set-template-form
+  margin-left: 17%
+  margin-right: 17%
+  background: none repeat scroll 0 0 white
+  border-radius: 6px 6px 6px 6px
+  box-shadow: 0 0 6px #62A1AC
+
+.template-new a.btn.btn-default
+  margin-left: 45%
+
+.group-template1, .group-template2, .group-template3
+  margin-left: 10%
+  
+.group-header1 h3, .group-header3 h3
+  float: left
+  
+.group-header2 h3
+  float: left
+   
+.group-header2
+  margin-top: 1%
+   
+.group-header1, .group-header2,.group-header3 
+  margin-left: 12%
+  
+.group-template1,.group-template2, .group-template3
+  margin-left: 37%
+
+.group-header
+  float: left 
+  
+#selective_telecom_circle.controls div.control-scroll
+  margin-left: 12%
+  
+#selective_telecom_circle div.error
+  padding-left: 12%
+  
+div.purchase_frequency_info
+  margin-right: -1%
+  
+.template-header, .template-new
+  width: 77%
+  padding-left: 10%
+
+#al-specific
+  display: none

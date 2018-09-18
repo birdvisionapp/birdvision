@@ -1,0 +1,128 @@
+%h1 Show Targeted Offer
+%h3.dl-header Client Details
+%dl.dl-horizontal.draft_item
+
+  - unless get_msp_name(@targeted_offer_config).empty?
+    %dt MSP Name
+    %dd= get_msp_name(@targeted_offer_config)
+  - else
+    %dt MSP Name
+    %dd --
+  
+  %dt Client Name
+  %dd= get_client_name(@targeted_offer_config)
+  
+  %dt Offer Basis
+  %dd= get_basis(@targeted_offer_config.template)
+
+%h3.dl-header Configuration 
+%dl.dl-horizontal.draft_item
+  - schemes = to_client_schemes(@targeted_offer_config)
+  %dt Schemes
+  - schemes.each do |scheme|
+    %dd= scheme
+  -if get_basis(@targeted_offer_config.template) == "Purchase Frequency" || get_basis(@targeted_offer_config.template) == "Seasonal Festival"
+    - product_all = get_all_product_status(@targeted_offer_config)
+    - if product_all.count > @targeted_offer_config.to_products.length
+      - products = to_client_product(@targeted_offer_config)
+      - unless products.nil?
+        %dt Products
+        - products.each do |product| 
+          %dd= product
+    - else
+      %dt Products
+      %dd All Products
+      
+%h2.dl-header Incentive Informations
+- incentive_info = find_incentive_info(@targeted_offer_config.id)
+%dl.dl-horizontal.draft_item
+  %dt Incentive Type
+  %dd= incentive_info.incentive_type.humanize
+  -if get_basis(@targeted_offer_config.template) == "Purchase Frequency" || get_basis(@targeted_offer_config.template) == "Seasonal Festival"
+    %dt Incentive on
+    %dd= incentive_info.incentive_for.underscore.humanize unless incentive_info.incentive_for.nil? 
+  
+  %dt Incentive Description
+  %dd
+    -if incentive_info.incentive_type == "percentage"
+      = "#{incentive_info.incentive_detail} %"
+    -else
+      = "#{incentive_info.incentive_detail}"
+- if get_basis(@targeted_offer_config.template) != "Seasonal Festival"
+  %h2.dl-header Purchase frequency Informations
+  %dl.dl-horizontal.draft_item
+    -if get_basis(@targeted_offer_config.template) == "Purchase Frequency"
+      %dt Client Purchase Frequency
+    -elsif get_basis(@targeted_offer_config.template) == "Major Life Event" || get_basis(@targeted_offer_config.template) == "Relationship Matrix" 
+      %dt Threshold Value
+    %dd= @targeted_offer_config.client_purchase_frequency
+
+%h2.dl-header User Categories
+%dl.dl-horizontal.draft_item
+  - user_name  = @offer.get_user_roles(@targeted_offer_config)
+  %dt User Categories
+  - user_name.each do |name|
+    %dd= name
+     
+%h2.dl-header Age Range
+%dl.dl-horizontal.draft_item
+  - if @targeted_offer_config.start_age.nil? && @targeted_offer_config.end_age.nil?
+    %dt Start Age
+    %dd No Start age selected
+    %dt End Age
+    %dd No End age selected
+  - else
+    %dt Start Age
+    %dd= @targeted_offer_config.start_age
+     
+    %dt End Age
+    %dd= @targeted_offer_config.end_age
+
+%h2.dl-header Telecom Circles
+%dl.dl-horizontal.draft_item
+  - telecom_circles = @targeted_offer_config.to_telephone_circles
+  - if telecom_circles != '{}'
+    - if @targeted_offer_config.to_telephone_circles.length() < TelecomCircle.all.count
+      - telecom_circle = @offer.telecom_circle_info(telecom_circles)
+      %dt Telecom Circles
+      - telecom_circle.each do |telecom_info|
+        %dd= telecom_info.description
+    - else telecom_circles.present?
+      %dt Telecom Circles
+      %dd All Telecom Circles
+  -else
+    %dt Telecom Circles
+    %dd No telecom circles selected
+    
+- validity = get_validity(@targeted_offer_config)
+%h2.dl-header Validity Period
+%dl.dl-horizontal.draft_item
+  - if validity.nil?
+    %dt Start date
+    %dd No Start date selected
+    %br/
+    %dt End date
+    %dd No End date selected
+  - else
+    %dt Start date
+    %dd= validity.start_date unless validity.nil?
+    %br/ 
+    %dt End date
+    %dd= validity.end_date unless validity.nil?
+  
+-if get_basis(@targeted_offer_config.template) == "Major Life Event" || get_basis(@targeted_offer_config.template) == "Relationship Matrix"
+  %h2.dl-header Performance Count
+  %dl.dl-horizontal.draft_item
+    %dt Performance from
+    %dd= @targeted_offer_config.performance_from
+  
+    %dt Performance to
+    %dd= @targeted_offer_config.performance_to
+    
+%h2.dl-header Communication Medium
+%dl.dl-horizontal.draft_item
+  %dt Sms
+  %dd= styling_status_label(get_style_to_medium(@targeted_offer_config, "sms"))
+  %dt Email
+  %dd= styling_status_label(get_style_to_medium(@targeted_offer_config, "email"))
+= link_to "Back" , targeted_offer_list_admin_targeted_offer_managers_path , :class => 'btn btn-info'

@@ -1,0 +1,62 @@
+%h1 Schemes
+
+= search_form_for @search, :url => admin_schemes_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "schemes_filter" }
+
+.actions
+  .actions-left
+    -if can? :create, Scheme
+      = link_to 'Add New Scheme', new_admin_scheme_path, :class => 'btn btn-info'
+
+  - if @schemes.empty?
+    %p There are no schemes yet
+  - else
+    .grid-pager
+      = paginate @schemes
+    %table.table.table-striped.table-bordered.schemes
+      %thead
+        %tr
+          %th
+            = sort_link(@search, :name)
+          - if is_super_admin?
+            %th= sort_link(@search, :client_msp_name, "MSP")
+          - unless is_client_manager?
+            %th= sort_link(@search, :client_client_name, "Client Name")
+          %th
+            %span Uploaded Points
+          %th
+            %span Redeemed Points
+          %th
+            %span Scheme Period
+          %th
+            %span Redemption Period
+          %th
+            %span Scheme Phase
+          %th
+            %span Action
+      - scheme_budgets = SchemeBudget.for_schemes(@schemes)
+      - scheme_budgets.each do |scheme_budget|
+        - scheme = scheme_budget.scheme
+        %tr[scheme]
+          %td= scheme.name
+          - if is_super_admin?
+            %td= scheme.client.msp_name
+          - unless is_client_manager?
+            %td= link_to scheme.client.client_name, admin_client_path(scheme.client)
+          %td= bvc_currency(scheme_budget.total_points_uploaded)
+          %td= bvc_currency(scheme_budget.total_points_redeemed)
+          %td= raw date_range(scheme.start_date, scheme.end_date)
+          %td= raw date_range(scheme.redemption_start_date, scheme.redemption_end_date)
+          %td= scheme.phase
+          %td
+            -if can? :edit, Scheme
+              = link_to 'Edit', edit_admin_scheme_path(scheme)
+              %span /
+            = link_to 'Report', admin_scheme_download_report_path(scheme,:format => 'csv')
+            %span /
+            = points_summary_link({:scheme_id_eq => scheme.id})
+- unless @schemes.empty?
+  .actions-down
+    .actions-left
+    .grid-pager
+      = paginate @schemes

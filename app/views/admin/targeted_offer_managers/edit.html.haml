@@ -1,0 +1,209 @@
+.header-div
+  = render(:partial => 'header' , :locals => {:f => 1})
+.main-div
+  .form-div
+    = form_for :edit_to_offer, :url => {:action => 'update'}, :method => :get do |f|
+      = f.hidden_field :config_id, :value => @targeted_offer_config_id, :id => "hidden_config_id"
+      .titles
+        %h3 MSP
+      %tr
+        %td
+          .control
+            = f.text_field :msp, :value => get_msp_name(@targeted_offer_config), :disabled => 'disabled'
+      .titles
+        %h3 Client
+      %tr
+        %td
+          .control
+            = f.text_field :msp, :value => get_client_name(@targeted_offer_config), :disabled => 'disabled'
+      .titles
+        %h3 Targeted Offer Type Basis
+      %tr
+        %td
+          .control
+            = f.text_field :msp, :value => get_basis(@targeted_offer_config.template), :disabled => 'disabled'
+      %table.table.table-bordered
+        %tr
+          %th Template Name
+          %th Template Content
+          %th Select Template
+        -@templates.each do |template|
+          %tr
+            %td= template.name
+            %td= template.template_content
+            %td= f.radio_button(:select_template, template.id)
+      %table.table.table-bordered.table-style
+        .titles
+          %h3 Schemes
+        %tr
+          %td
+            .control
+              <input name="all_scheme" type="checkbox" class="check" id ="id_scheme">
+              .group
+                = f.label 'All Scheme'
+          %td
+            .control-scroll
+              =f.label :Selective_Scheme, 'Selective Scheme'
+              .groups
+                -@client_schemes.each do |client_scheme|
+                  -if @to_schemes.include?(client_scheme)
+                    = check_box_tag "scheme_edit[]", client_scheme, true
+                    #{check_scheme_name(client_scheme)}
+                    %br
+                  -else
+                    = check_box_tag "scheme_edit[]", client_scheme, false
+                    #{check_scheme_name(client_scheme)}
+                    %br
+      %table.table.table-bordered.table-style
+        .titles
+          %h3 Products
+        %tr
+          %td
+            .control
+              <input name="all_product" type="checkbox" class="check" id ="id_scheme">
+              .group
+                = f.label 'All Products'
+          %td
+            .control-scroll
+              =f.label :Selective_Products, 'Selective Products'
+              .groups
+                -@targeted_offer_config.client.reward_items.each do |product|
+                  -if @to_product.include?(product.id)
+                    = check_box_tag "product_edit[]", product, true
+                    #{product.name}
+                    %br
+                  -else
+                    = check_box_tag "product_edit[]", product, false
+                    #{product.name}
+                    %br
+      %table.table.table-bordered.table-style
+        .titles
+          %h3 Incentive For
+        %tr
+          - incentive_info = find_incentive_info(@targeted_offer_config.id)
+          -if incentive_info.incentive_for == "first_action" 
+            %td
+              .control
+                = f.radio_button(:first_action, 'first_action', :checked => 'checked')
+                .group
+                  = f.label  'First action in given window period'
+            %td
+              .control
+                = f.radio_button(:first_action, 'all_action')
+                .group
+                  = f.label 'For all action in given window period'
+          -elsif incentive_info.incentive_for == "all_action"
+            %td
+              .control
+                = f.radio_button(:first_action, 'first_action')
+                .group
+                  = f.label  'First action in given window period'
+            %td
+              .control
+                = f.radio_button(:first_action, 'all_action', :checked => 'checked')
+                .group
+                  = f.label 'For all action in given window period'
+                
+      %table.table.table-bordered.table-style
+        .titles                  
+          %h3 Incentive Type
+        - incentive_info = find_incentive_info(@targeted_offer_config.id)
+        - if  incentive_info.incentive_type == "percentage"
+          %tr
+            %td
+              .control
+                = f.radio_button :incentive_type, "percentage", :checked => 'checked'
+                .group
+                  = f.label :incentive_type, 'Extra Points'
+            %td
+              .control
+                = f.label :incentive_percentage,'Enter the percentage of extra points'
+                .group
+                  = f.text_field :incentive_percentage, :placeholder => 'Extra Points', :value => incentive_info.incentive_detail
+                  \%
+          %tr
+            %td
+              .control
+              = f.radio_button :incentive_type , "gift"
+              .group
+                = f.label :incentive_type, 'Gift' 
+            %td
+              .control
+                .inline
+                  = f.radio_button :incentive_type_gift, "client-gift"
+                  = f.label :incentive_type_gift, "Client's Gift"
+                  .group
+                    = f.text_field :gift_name, :placeholder => 'Enter Gift Name'
+          %tr
+            %td
+            %td
+              .control
+                .inline
+                  = f.radio_button :incentive_type_gift, 'catlog-gift'
+                  = f.label :incentive_type_gift, "Gift from Catlog"
+                  .group
+                    /drop down remain
+        -else
+          %tr
+            %td
+              .control
+                = f.radio_button :incentive_type, "percentage"
+                .group
+                  = f.label :incentive_type, 'Extra Points'
+            %td
+              .control
+                = f.label :incentive_percentage,'Enter the percentage of extra points'
+                .group
+                  = f.text_field :incentive_percentage, :placeholder => 'Extra Points'
+                  \%
+          %tr
+            %td
+              .control
+                = f.radio_button :incentive_type , "gift", :checked => 'checked'
+                .group
+                  = f.label :incentive_type, 'Gift'
+            - if incentive_info.incentive_type == "client-gift"
+              %td
+                .control
+                  .inline
+                    = f.radio_button :incentive_type_gift, "client-gift", :checked => 'checked'
+                    = f.label :incentive_type_gift, "Client's Gift"
+                    .group
+                      = f.text_field :gift_name, :placeholder => 'Enter Gift Name', :value => incentive_info.incentive_detail
+              %tr
+                %td
+                %td
+                  .control
+                    .inline
+                      = f.radio_button :incentive_type_gift, 'catlog-gift'
+                      = f.label :incentive_type_gift, "Gift from Catlog"
+                      .group
+                        /dropdown remain
+            - elsif incentive_info.incentive_type == "catlog-gift"
+              %td
+                .control
+                  .inline
+                    = f.radio_button :incentive_type_gift, "client-gift", :checked => 'checked'
+                    = f.label :incentive_type_gift, "Client's Gift"
+                    .group
+                      = f.text_field :gift_name, :placeholder => 'Enter Gift Name'
+              %tr
+                %td
+                %td
+                  .control
+                    .inline
+                      = f.radio_button :incentive_type_gift, 'catlog-gift', :checked => 'checked'
+                      = f.label :incentive_type_gift, "Gift from Catlog"
+                      .group
+                        /drop down remain
+      %table.table.table-bordered.table-style
+        .titles
+          %h3 Purchase Frequency Info
+        %tr
+          %td
+            .control
+              = f.label "Client Purchase Frequency"
+              %br
+              .group
+                = f.text_field :client_purchase_frequency, :value => @targeted_offer_config.client_purchase_frequency
+      = f.submit 'Save and Continue', :class => 'btn btn-info', :id => 'submitTo'

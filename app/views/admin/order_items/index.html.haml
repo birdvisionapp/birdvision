@@ -1,0 +1,108 @@
+%h1 Orders
+
+= search_form_for @search, :url => admin_order_items_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"order_items_filter"}
+
+.actions
+  .actions-left
+  .grid-pager
+    = paginate @orders
+  .actions-right
+    = link_to admin_order_items_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info pull-right", :id =>"downloadOrdersCsv" do
+      %i.icon-arrow-down.icon-white
+      Download
+
+
+%table.table.table-striped.table-bordered.orders
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :scheme_client_msp_name, "MSP")
+      %th= sort_link(@search, :order_id, "Order ID")
+      %th= sort_link(@search, :id, "Order Item ID")
+      %th= sort_link(@search, :client_item_item_title, "Item Name")
+      -if can? :read, Supplier
+        %th= sort_link(@search, :supplier_name, "Supplier")
+      %th= sort_link(@search, :quantity)
+      - unless is_client_manager?
+        %th= sort_link(@search, :order_user_client_client_name, "Client")
+      %th= sort_link(@search, :order_user_full_name, "Full Name")
+      %th= sort_link(@search, :order_user_username, "Username")
+      %th
+        %span Contact Details
+      %th= sort_link(@search, :order_address_city, "City")
+      %th= sort_link(@search, :order_address_zip_code, "Pin Code")
+      %th= sort_link(@search, :status, "Status")
+      %th= sort_link(@search, :created_at,"Placed On")
+      %th
+        %span Aging
+      -if can? :update, OrderItem
+        %th.tracking-info
+          %span Tracking Info
+        %th.status-actions
+          %span Actions
+      -if can? :approve_order, OrderItem
+        %th Approve Orders
+      %th Edit
+
+  - @orders.each do |order_item|
+    - order = order_item.order
+    - item = order_item.client_item.item
+    - points = order_item.client_item.price_to_points
+    - client = Client.find(order_item.scheme.client_id)
+    %tr[order_item]
+      - if is_super_admin?
+        %td= order_item.scheme.client.msp_name
+      %td= order.order_id
+      %td= order_item.id
+      %td= item.title
+      -if can? :read, Supplier
+        %td= order_item.supplier.name
+      %td= order_item.quantity
+      - unless is_client_manager?
+        %td= order.user.client.client_name
+      %td= order.user.nil? ? '' : order.user.full_name
+      %td=  order.user.username
+      %td= raw order.complete_address_for_show
+      %td= raw order.address_city
+      %td= raw order.address_zip_code
+      %td.status
+        %span{:class => css_class_for_status(order_item.status) }
+          =order_item.status.humanize
+      %td= humanize_date(order_item.created_at)
+      %td= distance_of_time_in_words order_item.created_at , order_item.time_to_delivery
+      -if can? :update, OrderItem
+        %td.tracking-info
+          %p=order_item.tracking_info
+          %p=link_to "Update tracking info.", admin_order_item_edit_tracking_info_path(:order_item_id => order_item.id, :q => params[:q])  if order_item.tracking_info_updatable?
+        %td.status-actions
+          - if client.order_approval && !order_item.order_approved && order_item.status == "new" && client.order_approval_limit < points
+            %span.badge.badge-warning
+              Waiting For Approval
+          - else
+            - order_item.status_events.each do |event|
+              = link_to event.to_s.humanize,
+                  admin_order_item_change_status_path(:order_item_id => order_item.id,:perform_action => event, :q => params[:q]),
+                  :method => :put, :class => "#{class_of_status_action(event.to_s)} btn-block", :confirm => ("Are you sure? This action cannot be reverted." if %w(incorrect refund).include?(event.to_s))
+      -if can? :approve_order, OrderItem
+        %td.status-actions
+          - if client.order_approval && order_item.status == "new"
+            - if !order_item.order_approved && client.order_approval_limit < points
+              -if can? :approve_order, OrderItem
+                =link_to 'Approve', admin_order_item_approve_order_path(:cancel_order => false, :order_item_id => order_item.id, :q => params[:q]),
+                      :method => :put, :class => "btn btn-block", :confirm => ("Are you sure? This action cannot be reverted.")
+                = link_to 'Cancel And Refund',
+                    admin_order_item_approve_order_path(:cancel_order => true, :order_item_id => order_item.id, :q => params[:q]),
+                    :method => :put, :class => "btn btn-block", :confirm => ("Are you sure? This action cannot be reverted.")
+            - else
+              %span.badge.badge-success
+                Approved
+      %td.status-actions
+        - if Order.find(order_item.order_id).redemption_type.present?
+          =link_to 'Edit', edit_admin_order_item_path(order_item.id)
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @orders
+  .actions-right

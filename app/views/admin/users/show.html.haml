@@ -1,0 +1,86 @@
+%h1 Participant Details
+
+- if is_admin_user?
+  %h3.dl-header Client
+  %dl.dl-horizontal
+    - if is_super_admin?
+      %dt MSP
+      %dd= resource.client.msp_name 
+    %dt= :client_name.to_s.humanize.titleize
+    %dd= resource.client_name || "-"
+- if (is_super_admin? || is_gvi(current_admin_user)) && resource.client_id == ENV['AL_CLIENT_ID'].to_i
+  .pull-right
+    %h3.dl-header Personal Details
+    %dl.dl-horizontal
+      .control-group
+        %dt Profile Pic
+        %dd= image_tag resource.avatar.url, :size => "200x200"
+      .control-group
+        %dt Shop Image
+        %dd= image_tag resource.extra_pic.url, :size => "200x200"
+      %dt Family Details
+      %dd= resource.extra_field
+%h3.dl-header Account Details
+%dl.dl-horizontal
+  %dt Category
+  %dd= resource.role_display
+  %dt Participant Id
+  %dd= resource.participant_id
+  - [:username,:full_name].each do |attr|
+    %dt= attr.to_s.humanize.titleize
+    %dd= resource.send(attr).presence || "-"
+  - unless resource.dob.nil?
+    %dt Date Of Birth
+    %dd= resource.dob
+  - unless resource.anniversary.nil?
+    %dt Anniversary
+    %dd= resource.anniversary
+  = display_time_stamp_details(resource)
+  - if @user.reset_password_token.present? && can?(:view, :activation_link)
+    %dt Activation Link
+    %dd= edit_password_path_for(@user)
+  %dt= 'Status'
+  %dd= resource.status.titleize
+  - if resource.client.code == 'petronas'
+    - if resource.parent.present?
+      %dt= 'Retailer'
+      %dd= link_to resource.parent.name_mobile, admin_user_path(resource.parent)
+    - if resource.children.present?
+      %dt= 'Participants'
+      %dd= resource.children_details
+  %dt Uploaded Points
+  %dd= resource.total_points_for_past_and_active_schemes || "-"
+  %dt Redeemed Points
+  %dd= resource.total_redeemed_points || "-"
+  %dt Balance Points
+  %dd= resource.total_redeemable_points || "-"
+
+%h3.dl-header Contact
+%dl.dl-horizontal
+  - [:email,:mobile_number,:landline_number, :address].each do |attr|
+    %dt= attr.to_s.humanize.titleize
+    %dd= resource.send(attr).presence || "-"
+  %dt= "Pin code"
+  %dd= resource.send(:pincode).presence || "-"
+  %dt Region
+  %dd= resource.region.presence || '-'
+  %dt Telecom Circle
+  %dd= resource.circle_name.presence || 'Undefined'
+
+- resource.user_schemes.each do |user_scheme|
+  %h3.dl-header= user_scheme.scheme.name
+  %dl.dl-horizontal
+    -[:total_points, :current_achievements, :region].each do |attr|
+      %dt= attr.to_s.humanize.titleize
+      %dd= user_scheme.send(attr) || "-"
+    %dt= Level
+    %dd= user_scheme.level.try(:name) || "-"
+    %dt= Club
+    %dd= user_scheme.club.try(:name) || "-"
+    - user_scheme.targets.includes(:club).each do |target|
+      %dt= "#{target.club.name.titleize} Start Target"
+      %dd= target.start || "-"
+
+=link_to 'Back', admin_users_path(:q => params[:q]), :class=> "btn"
+=link_to "Edit", edit_admin_user_path(resource), :class => 'btn btn-info' if can? :edit, User
+= points_summary_link({:user_id_eq => resource.id}, true)

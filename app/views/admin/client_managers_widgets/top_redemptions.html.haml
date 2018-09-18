@@ -1,0 +1,23 @@
+.heading Top Redemptions
+
+= search_form_for @search, :url => top_redemptions_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/top_redemptions_filter" }
+    
+.content-container.widgets-container
+  .widgets-wrapper
+    .top-users-info
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th Full Name
+            %th Total Redemptions
+            
+        %tbody
+          - @top_redemptions.each do |user|
+            - next unless user["redeemed_points"] !=0
+            %tr
+              %td=user["full_name"].capitalize
+              %td=user["redeemed_points"]
+              
+    #widget-description
+      %span This level of the widget shows the top redeemers. This redemption considers all kinds of debit from the participants' accounts. Where as, the first level widget shows the value of total redemptions based on the orders place by the community.

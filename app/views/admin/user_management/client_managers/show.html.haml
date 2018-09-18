@@ -1,0 +1,29 @@
+%h1 Client Manager Details
+%dl.dl-horizontal
+  %h3 Account Details
+
+  %dt Client
+  %dd=link_to @client_manager.client.client_name, admin_client_path(@client_manager.client)
+
+  %dt Name
+  %dd=@client_manager.name
+
+  %dt Username
+  %dd=@client_manager.admin_user.username
+
+  %dt Email
+  %dd=@client_manager.email
+
+  %dt Mobile Number
+  %dd=@client_manager.mobile_number.presence
+
+  %dt Is Locked
+  %dd= styling_boolean_label(@client_manager.admin_user.is_locked)
+  
+  %dt Enable Dashboard
+  %dd= styling_boolean_label(@client_manager.is_client_dashboard_unabled)
+
+  = display_time_stamp_details(@client_manager.admin_user)
+
+  =link_to 'Back', admin_user_management_client_managers_path, :class=> "btn"
+  =link_to "Edit", edit_admin_user_management_client_manager_path(@client_manager), :class => 'btn btn-info' if can? :edit, ClientManager

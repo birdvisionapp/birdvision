@@ -1,0 +1,91 @@
+/*
+    Site customization template.
+
+    Important: Standard Chartered Theme
+*/
+
+/*
+    customize the logo here by changing the value of url
+    size of the logo must be 180 X 60 px otherwise it will be truncated
+*/
+#siteHeader .logo, .login-page-body .logo {
+    background-image: url("http://www.standardchartered.co.in/assets/pws/images/page/standard-chartered-logo-top.png");
+}
+a, a:hover, a:active, a:focus, .theme-primary-text-color, .theme-primary-text-color:hover, .theme-primary-text-color:focus {
+    color: #095888;
+}
+.theme-primary-gradient, .btn-info {
+    background-color: #007ccd;
+    background-image: -moz-linear-gradient(top, #0083db, #0072ba);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0083db), to(#0072ba));
+    background-image: -webkit-linear-gradient(top, #0083db, #0072ba);
+    background-image: -o-linear-gradient(top, #0083db, #0072ba);
+    background-image: linear-gradient(to bottom, #0083db, #0072ba);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF0083DB', endColorstr='#FF0072BA', GradientType=0);
+}
+.btn-info:hover, .btn-info:focus {
+    background-color: #0072ba;
+}
+.theme-auth-form {
+    border-color: #085786;
+    color: #095888;
+}
+.theme-header-component {
+    border-color: #2b96dd;
+}
+.theme-header-component:hover {
+    background-color: #096ca5;
+}
+.theme-header-component ul a:hover {
+    background-color: #94cff1;
+}
+.theme-btn-search, .theme-btn-search:hover, .theme-btn-search:focus {
+    background-color: #085786;
+}
+.theme-category-header {
+    background-color: #94cff1;
+}
+.theme-actions {
+    border-color: #26922c;
+    color: #26922c;
+}
+.theme-actions .actions, .theme-actions .add-to-cart-icon {
+    background-color: #26922c;
+}
+.theme-actions:hover, .theme-actions:focus {
+    color: #26922c;
+}
+.theme-actions:hover.actions, .theme-actions:hover .actions, .theme-actions:focus.actions, .theme-actions:focus .actions {
+    background-color: #26922c;
+    color: white;
+}
+.theme-btn-cko {
+    background-color: #0072ba;
+    color: white;
+}
+.theme-btn-cko:hover {
+    background-color: #0083db;
+}
+.btn-continue-shopping {
+    background-color: #e8e6e4;
+    border-color: #0072ba;
+    color: #0072ba;
+}
+.btn-continue-shopping:hover, .btn-continue-shopping:focus {
+    background-color: white;
+}
+.btn-continue-shopping:before, .btn-continue-shopping .btn-continue-shopping-cart {
+    background-color: #0072ba;
+}
+#points_slider {
+    border-color: #2b96dd;
+}
+#points_slider div {
+    background-color: #94cff1;
+}
+#points_slider a {
+    background-color: #2b96dd;
+    border-color: #0083db;
+}
+

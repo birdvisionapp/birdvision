@@ -1,0 +1,22 @@
+= render "mailers/client_invoice/details", :resource => resource.client_invoice
+%p{:style=>"margin-top: 20px; margin-bottom:0px"}
+  %strong= "Payment Details"
+%ul{:style=>"margin:5px; padding-left: 10px;list-style:none;"}
+  %li
+    = "Bank Name: "
+    %strong= resource.bank_name
+  %li
+    = "Payment Mode: "
+    %strong= resource.payment_mode.upcase
+  %li
+    = "Transaction Reference: "
+    %strong= resource.transaction_reference
+  %li
+    = "Paid Date: "
+    %strong= humanize_date(resource.paid_date)
+  %li
+    = "Amount Paid: "
+    %strong= bvc_currency(resource.amount_paid)
+  %li
+    = "Payment Credit Date: "
+    %strong= resource.client_invoice.credit_status

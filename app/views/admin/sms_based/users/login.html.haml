@@ -1,0 +1,8 @@
+%h1 Login to Participant Account
+= form_tag login_admin_sms_based_users_path, {:class => 'form-horizontal'} do |f|
+  .fields-group
+    .control-group
+      = label_tag :participant_id, 'Participant ID', :class => 'control-label'
+      .controls
+        = text_field_tag :participant_id, params[:participant_id], :class => 'input-medium'
+        = submit_tag "Login", :class => 'btn btn-info'

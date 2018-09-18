@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+command = ARGV[0]
+sub_command = ARGV[1]
+
+case command
+
+	when "solr"
+		if sub_command
+			`bundle exec rake sunspot:solr:#{sub_command}`
+			`bundle exec rake sunspot:solr:#{sub_command} RAILS_ENV=test`
+		else
+			puts "Usage: #{__FILE__} solr [start|stop]"
+      puts " ---------- SOLR STATUS ---------- ", `ps aux | grep solr`
+		end
+
+  when "gpr"
+    `git add . && git stash`
+		`git pull --rebase && git stash pop`
+
+  when "cuke"
+    if sub_command == "qa"
+      `bundle exec cucumber BROWSER=firefox ENVIRONMENT=bvc-qa.herokuapp.com`
+    else
+      `bundle exec cucumber`
+    end
+
+  when "test"
+    `bundle exec rake spec`
+    `bundle exec cucumber`
+
+  else
+		puts "unknown command"
+end
+		

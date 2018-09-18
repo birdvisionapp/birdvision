@@ -1,0 +1,7 @@
+= form_tag track_admin_sms_based_unique_item_codes_path, {:class => 'form-horizontal'} do |f|
+  .fields-group
+    .control-group
+      = label_tag :product_code, 'Product Code', :class => 'control-label'
+      .controls
+        = text_field_tag :product_code, params[:product_code], :class => 'input-medium'
+        = submit_tag "Track", :class => 'btn btn-info'

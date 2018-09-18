@@ -1,0 +1,8 @@
+- if is_super_admin?
+  .control-group
+    = f.label :msp_id, "MSP", :class => 'control-label'
+    .controls
+      - unless f.object.new_record?
+        %b= f.object.msp_name
+      - else
+        = f.collection_select :msp_id, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => 'Please Select'}, {:class => 'msp-selector-init', :disabled => local_assigns.has_key?(:disable_msp)}

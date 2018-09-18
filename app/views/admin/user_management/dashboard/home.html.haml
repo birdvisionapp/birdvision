@@ -1,0 +1,63 @@
+%h1 User Management Dashboard
+.transfer_rights_to_admin= render 'transfer_rights' if  can_manage_roles? && @admin_users.present?
+- action_label = (can?(:manage, :admin_management)) ? "Manage" : "View"
+%ul.nav.nav-tabs#myTab
+  - unless is_client_manager?
+    %li.active
+      %a{"data-toggle"=>"tab",:href=>"#tab1"}== #{(!is_super_admin?) ? current_admin_user.msp_id && current_admin_user.msp.name : "BVC"} Admins
+    - if is_super_admin?
+      %li
+        %a{"data-toggle"=>"tab",:href=>"#tab2"}Intermediate Admins
+  %li{:class => ("active" if is_client_manager? )}
+    %a{"data-toggle"=>"tab",:href=>"#tab3"}Client Level Admins
+
+.tab-content#myTabContent
+  - unless is_client_manager?
+    #tab1.tab-pane.fade.active.in
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th= "Role"
+            %th= "Number of Admin Users"
+            %th= "Actions"
+          %tr#super_admins
+            %td="Admin Users"
+            %td= @counts['super_admin']
+            %td= link_to action_label, admin_user_management_super_admins_path, :class => "btn btn-info"
+    - if is_super_admin?
+      #tab2.tab-pane.fade
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+              %th= "Role"
+              %th= "Number of Admin Users"
+              %th= "Actions"
+            %tr#resellers
+              %td="Resellers"
+              %td= @counts['reseller'].presence || 0
+              %td= link_to "Manage", admin_user_management_resellers_path, :class => "btn btn-info"
+            %tr#msps
+              %td="MSPs"
+              %td= @counts['msp']
+              %td= link_to "Manage", admin_user_management_msps_path, :class => "btn btn-info"
+
+  #tab3.tab-pane.fade{:class => ("active in" if is_client_manager? )}
+    %table.table.table-striped.table-bordered
+      %thead
+        %tr
+          %th= "Role"
+          %th= "Number of Admin Users"
+          %th= "Actions"
+        - unless is_client_manager?
+          %tr#client_managers
+            %td="Client Managers"
+            %td= @counts['client_manager'].presence || 0
+            %td= link_to "Manage", admin_user_management_client_managers_path, :class => "btn btn-info"
+        %tr#regional_managers
+          %td="Regional Managers"
+          %td= @counts['regional_manager'].presence || 0
+          %td= link_to "Manage", admin_user_management_regional_managers_path, :class => "btn btn-info"
+        %tr#representatives
+          %td="Representatives"
+          %td= @counts['representative'].presence || 0
+          %td= link_to "Manage", admin_user_management_representatives_path, :class => "btn btn-info"

@@ -1,0 +1,12 @@
+.header-div
+  - offer = Offer.new(current_admin_user , @client_id)
+  = render(:partial => 'header' , :locals => {:f => 1})
+.main-div
+  %input#hidden_client{:type => "hidden", :value => @client_id}
+  .targeted_offer_type
+    %fieldset#id-set-TO
+      %h3 Targeted Offer Type
+      .select-drop
+        = collection_select(:targeted_offer_type, :type_id, offer.to_types, :id, :offer_type_name, {:prompt =>true}, :id => "targeted_offer_type_id")
+  .to-config-ajax-div
+      

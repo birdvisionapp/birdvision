@@ -1,0 +1,76 @@
+.header-div
+  = render(:partial => 'header' , :locals => {:f => 3})
+.main-div
+  %p= render "template_header"
+  .form-div
+    = form_for :communication, :url => {:action => 'store_communication'}, :method => :post do |f|
+      = f.hidden_field :config_id, :value => @targeted_offer_config.id, :id => "hidden_config_id"
+      = f.hidden_field :edit
+      .communication
+        %table.table.table-bordered.table-style
+          %tr
+            %td
+              - if @targeted_offer_config.sms_based == true && @targeted_offer_config.email_based == true
+                %fieldset#id-set-medium
+                  %h3 Communication Medium
+                  .adjust
+                    = f.check_box :select_all, :class => "check", :id => "select_all", :checked => 'checked'
+                    = f.label "Select All"
+                    .inner-medium
+                      = f.check_box :sms_based, :class => "medium-check", :id => "sms_based", :checked => 'checked'
+                      = f.label "Sms"
+                      %br/
+                      = f.check_box :email_based, :class => "medium-check", :id => "email_based", :checked => 'checked'
+                      = f.label "Email"
+              - if @targeted_offer_config.sms_based == true && @targeted_offer_config.email_based == false
+                %fieldset#id-set-medium
+                  %h3 Communication Medium
+                  .adjust
+                    = f.check_box :select_all, :class => "check", :id => "select_all"
+                    = f.label "Select All"
+                    .inner-medium
+                      = f.check_box :sms_based, :class => "medium-check", :id => "sms_based", :checked => 'checked'
+                      = f.label "Sms"
+                      %br/
+                      = f.check_box :email_based, :class => "medium-check", :id => "email_based"
+                      = f.label "Email"
+              - if @targeted_offer_config.sms_based == false && @targeted_offer_config.email_based == true
+                %fieldset#id-set-medium
+                  %h3 Communication Medium
+                  .adjust
+                    = f.check_box :select_all, :class => "check", :id => "select_all"
+                    = f.label "Select All"
+                    .inner-medium
+                      = f.check_box :sms_based, :class => "medium-check", :id => "sms_based"
+                      = f.label "Sms"
+                      %br/
+                      = f.check_box :email_based, :class => "medium-check", :id => "email_based", :checked => 'checked'
+                      = f.label "Email"
+              - if @targeted_offer_config.sms_based == false && @targeted_offer_config.email_based == false
+                %fieldset#id-set-medium
+                  %h3 Communication Medium
+                  .adjust
+                    = f.check_box :select_all, :class => "check", :id => "select_all"
+                    = f.label "Select All"
+                    .inner-medium
+                      = f.check_box :sms_based, :class => "medium-check", :id => "sms_based"
+                      = f.label "Sms"
+                      %br/
+                      = f.check_box :email_based, :class => "medium-check", :id => "email_based"
+                      = f.label "Email"
+              - if @targeted_offer_config.sms_based == nil && @targeted_offer_config.email_based == nil
+                %fieldset#id-set-medium
+                  %h3 Communication Medium
+                  .adjust
+                    = f.check_box :select_all, :class => "check", :id => "select_all"
+                    = f.label "Select All"
+                    .inner-medium
+                      = f.check_box :sms_based, :class => "medium-check", :id => "sms_based"
+                      = f.label "Sms"
+                      %br/
+                      = f.check_box :email_based, :class => "medium-check", :id => "email_based"
+                      = f.label "Email"
+      .space
+      #alignsubmit
+        = link_to "Back" , campaingn_manager_edit_admin_targeted_offer_managers_path(:to_conf =>@targeted_offer_config.id) , :class => 'btn btn-info'
+        = f.submit "Update Targeted Offer", :class => 'btn btn-info'   

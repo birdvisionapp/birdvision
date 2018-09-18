@@ -1,0 +1,63 @@
+#header.container.clearfix
+  = link_to "", default_landing_path, :title=>"Home", :class=>"logo pull-left", :style => "#{"background-image: url(#{client_logo_url})" if client_logo_url.present?}"
+
+  -if user_signed_in? && @user_scheme.present?
+    - if @user_scheme.show_points?
+      = render :partial => "layouts/point_barometer"
+      .points-information.pull-right
+        %span.total-points-text Total Points Earned
+        %span.total-points.theme-primary-text-color #{bvc_currency(current_user.total_points_for_past_and_active_schemes)}
+        %span.note Across All Schemes
+    - elsif @user_scheme.current_achievements.present?
+      .points-information.pull-right
+        %span.total-achievements-text Total Achievements
+        %span.total-achievements.theme-primary-text-color #{bvc_currency(@user_scheme.current_achievements)}
+        %span.note For This Scheme
+
+#subHeader.theme-primary-gradient.clearfix
+  - if user_signed_in?
+    .container
+      .row
+        - if @user_scheme.present?
+          .span3
+            #mySchemes.theme-header-component
+              = link_to(@user_scheme.scheme.name, catalog_path_for(@user_scheme), :class => "scheme-name",:title => "#{@user_scheme.scheme.name}")
+              - if my_browsable_user_schemes_except(@user_scheme).size > 0
+                .down-arrow
+                %ul.theme-header-component
+                  - my_browsable_user_schemes_except(@user_scheme).each do |user_scheme|
+                    %li
+                      = link_to user_scheme.scheme.name, catalog_path_for(user_scheme)
+                  %li.view-all.theme-header-component
+                    = link_to "View All Schemes", schemes_path
+        .span9.pull-right
+          #myAccount.theme-header-component
+            = link_to("#{current_user.full_name}", "#", :class=>"user-name", :title=>"#{current_user.full_name}")
+            .down-arrow
+            %ul.theme-header-component
+              %li
+                = link_to "My Orders", order_index_path
+              %li= link_to "Points Statement", points_summary_path
+              %li= link_to "Account Settings", user_root_path unless current_user.encrypted_password_was.empty?
+              - if current_user.client_id == ENV['AL_CLIENT_ID'].to_i
+                %li= link_to "Uploaded Points Summary", al_point_report_path
+              %li
+                = link_to 'Logout', destroy_user_session_path, :class => 'logout'
+          -if user_signed_in? && @user_scheme.present?
+            .btn-group
+              %a#list.btn.btn-info.btn-sm{:href => "#", :title=>"List View", :style =>"display: none;"}
+                %i.icon-align-justify.icon-white
+              %a#grid.btn.btn-info.btn-sm{:href => "#", :title=>"Grid View", :style =>"display: none;"}
+                %i.icon-th.icon-white
+              %a#picture.btn.btn-info.btn-sm{:href => "#", :title=>"Image View"}
+                %i.icon-th-large.icon-white
+          - if  @user_scheme.present? && !@user_scheme.single_redemption?
+            %a.shopping-cart-icon.theme-header-component{:title=>"View cart",
+                                      :href => carts_path(:scheme_slug => @user_scheme.scheme.slug)}
+              %span
+                %i.items-count
+                  = "#{@user_scheme.cart.size}"
+          %a.home-icon.theme-header-component{:href => default_landing_path, :title=>"Home"}
+            %span
+          = render :partial => "share/search_box"
+          

@@ -1,0 +1,5 @@
+- activate = params[:mode] == "activate"
+.span12
+  = render "share/messages", :type => :alert, :message => devise_error_messages!
+.row
+  = render (activate ? "account_activation" : "forgot_password")

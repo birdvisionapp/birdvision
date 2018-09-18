@@ -1,0 +1,25 @@
+= form_tag admin_user_management_representative_path(:q => params[:q]), :method => :put do
+  .actions
+    = render 'admin/share/select_all'
+    .actions-left
+      = submit_tag 'Add Participants', :name => 'add_participants', :class => 'btn btn-info'
+    .grid-pager
+      = paginate @users , :container => false,  :window => 2 , :left => 1, :right => 1
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %th
+          %input{:type=>"checkbox", :class=>"select-all", :title=>"Select all"}
+        %th Username
+        %th Full Name
+        %th Mobile Number
+    - @users.each do |user|
+      %tr[user]
+        %td= check_box_tag 'user_ids[]', user.id, false, :id => "batch_action_item_#{user.id}", :class => "user_checkbox selectable"
+        %td= user.username
+        %td= user.full_name
+        %td= user.mobile_number
+  .actions
+    .actions-left
+    .grid-pager
+      = paginate @users , :container => false,  :window => 2 , :left => 1, :right => 1

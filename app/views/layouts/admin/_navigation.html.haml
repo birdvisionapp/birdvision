@@ -1,0 +1,20 @@
+%nav.navbar.navbar-default{role: "navigation"}
+  #bvc-admin-main-navbar.collapse2.navbar-collapse
+    %ul.nav.navbar-nav
+      - if admin_user_signed_in?
+        - build_nav_items.each do |build_nav_item|
+          - main_nav = build_nav_item[:main_nav]
+          - sub_nav = build_nav_item[:sub_nav]
+          - if sub_nav.present?
+            %li.dropdown{:class => active_admin_nav(sub_nav.map{|v| v[2]}.flatten!)}
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "javascript:void(0)"}
+                = "#{main_nav[0]}"
+                %b.caret
+              %ul.dropdown-menu
+                - sub_nav.each do |sub_item|
+                  %li{:class => active_admin_nav(sub_item[2])}= link_to sub_item[0], sub_item[1]
+          - else
+            %li{:class => active_admin_nav(main_nav[2])}= link_to main_nav[0], main_nav[1]
+
+  .clearfix
+#ajx-flash-notice{:style => 'display:none'}

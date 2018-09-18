@@ -1,0 +1,53 @@
+.nested-fields
+  .fields-group.supplier
+    %h3="Supplier - #{f.object.supplier.name}"
+    .control-group
+      = f.hidden_field :supplier_id
+      = f.label :supplier, :class => 'control-label'
+      .controls
+        = f.text_field :supplier_name, {:value=>f.object.supplier.name, :disabled=>true}
+    .control-group
+      = f.label :preferred_supplier, "Preferred", :class => 'control-label'
+      .controls
+        = f.check_box :is_preferred, :class=> "preferred"
+
+    .control-group
+      = f.label :listing_id, "Listing ID", :class => 'control-label'
+      .controls
+        = f.text_field :listing_id
+
+    .control-group
+      = f.label :delivery_time,"Delivery Time", :class => 'control-label'
+      .controls
+        = f.text_field :delivery_time, :class=>"input-small"
+        .icon-info-sign
+        %span.help-inline eg. 1-2 days
+
+    .control-group
+      = f.label :geographic_reach,"Geographic Reach", :class => 'control-label'
+      .controls
+        = f.text_field :geographic_reach
+    .control-group
+      = f.label :available_quantity,"Available Quantity", :class => 'control-label'
+      .controls
+        = f.text_field :available_quantity, :class=>"input-small"
+
+    .control-group
+      = f.label :available_till_date,"Available Till Date", :class => 'control-label'
+      .controls
+        = f.text_field :available_till_date, :value => f.object.available_till_date.present? ? f.object.available_till_date.presence.strftime("%d-%m-%Y") : "", :class=>"input-small datepicker"
+        .icon-info-sign
+        %span.help-inline eg. 01-12-2013
+
+    .control-group
+      = f.label :channel_price,"Channel Price(Rs.)", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :channel_price, :class=> "channel-price"
+    .control-group
+      = f.label :mrp, "MRP(Rs.)", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :mrp, :class=> "mrp"
+    .control-group
+      = f.label :supplier_margin, "Supplier Margin(%)", :class => 'control-label'
+      .controls
+        = f.text_field :supplier_margin, :readonly => true, :class=> "supplier-margin"

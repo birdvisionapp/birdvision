@@ -1,0 +1,8 @@
+title,listing_id,model_no,mrp,channel_price,description,available_quantity,available_till_date
+S,
+Red Leather Chair,RLC2,223,25000,20000,Chair,,
+Cream Leather Chair,CLC2,223,25000,20000,Leather Chair,,
+Blue Sofa,BS2,223,,20000,Sofa,,
+Blue Globe Chair,BSC,223,25000,,Blue Chair
+
+Glass Table,GS1,223,25000,20000,Table

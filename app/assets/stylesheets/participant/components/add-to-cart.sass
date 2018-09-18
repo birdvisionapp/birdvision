@@ -1,0 +1,98 @@
+.action-container
+  border-width: 1px
+  border-style: solid
+  display: inline-block
+  .actions
+    +size(30px, 40px)
+    background: url(image_path('icons.png')) no-repeat 0px -329px
+    display: inline-block
+    vertical-align: middle
+    border-left-width: 1px
+    border-left-style: solid
+  &:hover, &:focus, &:active
+    text-decoration: none
+    .actions
+      border-left-width: 0px
+      background: url(image_path('icons.png')) no-repeat 9px -278px
+
+.action-container, .not-eligible-container
+  .item-pts
+    font-size: 14px
+    font-weight: bold
+    padding: 10px
+    .text
+      font-size: 12px
+      font-weight: normal
+
+.not-eligible-container
+  border: 1px solid rgb(218, 218, 218)
+  background-color: rgb(218, 218, 218)
+  display: inline-block
+  width: 110px
+  text-align: center
+  cursor: pointer
+  .item-pts
+    display: block
+    padding: 5px 0
+  .not-eligible-text
+    padding: 5px 0
+    display: block
+  &.show-points
+    .not-eligible-text
+      display: none
+    &:hover
+      .not-eligible-text
+        display: block
+      .item-pts
+        display: none
+
+.item-content
+  .not-eligible
+    background-color: #DADADA
+    border: 1px solid #DADADA
+    color: #000
+    cursor: default
+
+  .actions
+    +transition((background 0s linear 0s))
+    border-width: 1px
+    border-style: solid
+    form
+      margin: 0px
+    .add-to-cart-icon
+      +size(20px ,25px)
+      background-image: url(image_path('icons.png'))
+      background-repeat: no-repeat
+      background-position: -9px -335px
+      display: block
+      margin: 0px auto
+    .add-to-cart-text
+      display: none
+      font-size: 10px
+      a
+        color: #FFF
+        text-decoration: none
+
+    &:hover
+      .add-to-cart-icon
+        display: none
+      .add-to-cart-text
+        display: block
+
+  .actions, .not-eligible
+    border-left: none
+    display: table-cell
+    text-align: center
+    text-decoration: none
+    vertical-align: middle
+    width: 85px
+    .item-points
+      font-weight: bold
+    .pts-text
+      font-size: 12px
+  .not-eligible
+    .not-eligible-text
+      display: block
+      font-size: 10px
+
+

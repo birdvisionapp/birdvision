@@ -1,0 +1,6 @@
+%h1 Track Product Code
+= render 'track_filter'
+- if @unique_item_code.present?
+  = render 'code_details'
+- elsif params[:product_code].present?
+  .text-error Product Code not found.

@@ -1,0 +1,39 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @client_manager.errors.full_messages}
+= form_for [:admin,:user_management, @client_manager], :html => {:class => 'form-horizontal'} do |f|
+  .fields-group
+    = render "admin/share/select_msp", f: @client_manager.client
+    .control-group
+      = f.label :"Client", :class => 'control-label mandatory-field'
+      .controls
+        = f.collection_select :client_id, Client.accessible_by(current_ability), :id, :client_name, {:include_blank => 'Please Select'}, {:disabled => local_assigns.has_key?(:disable_client), :class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}}
+    .control-group
+      = f.label :name, "Name",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :name
+
+    .control-group
+      = f.label :email, "Email",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :email
+
+    .control-group
+      = f.label :mobile_number, "Mobile Number",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :mobile_number
+        
+    .control-group
+      = f.label :is_client_dashboard_unabled, "Enable Client Dashboard",:class => 'control-label'
+      .controls
+        = f.check_box :is_client_dashboard_unabled, {:class => 'fm-check-input bg-ck-med'}
+                
+    - if @client_manager.id.present?
+      .control-group
+        = f.label :username, "Username", :class => 'control-label'
+        .controls
+          = @client_manager.admin_user.username
+      = f.fields_for :admin_user do |admin_user|
+        = render :partial => "admin/share/admin_security", :locals => {:f => admin_user}
+  .control-group
+    .controls
+      =link_to 'Cancel', admin_user_management_client_managers_path, :class=> "btn"
+      = f.button @client_manager.id.nil? ? "Create" : "Save", :class => 'btn btn-info'

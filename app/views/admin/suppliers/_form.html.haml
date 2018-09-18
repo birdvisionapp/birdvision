@@ -1,0 +1,58 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => resource.errors.full_messages}
+
+= form_for [:admin, @supplier], :html => {:class => 'form-horizontal'} do |f|
+
+  .fields-group
+    %h3 Contact Details
+    = render "admin/share/member_msp", f: f
+    .control-group
+      = f.label :name, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :name
+
+    .control-group
+      = f.label :phone_number,"Phone Number", :class => 'control-label'
+      .controls
+        = f.text_field :phone_number
+
+    .control-group
+      = f.label :address, :class => 'control-label'
+      .controls
+        = f.text_area :address, :rows=> 4
+
+  .fields-group
+    %h3 Additional Information
+    .control-group
+      = f.label :supplied_categories,"Supplier Categories", :class => 'control-label'
+      .controls
+        = f.text_field :supplied_categories
+    .control-group
+      = f.label :delivery_time,"Delivery Time", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :delivery_time, :class=>"input-small"
+        .icon-info-sign
+        %span.help-inline eg. 1-2 days
+
+    .control-group
+      = f.label :payment_terms,"Payment Terms", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :payment_terms, :class=>"input-small"
+        .icon-info-sign
+        %span.help-inline eg. 15 days
+    .control-group
+      = f.label :geographic_reach,"Geographic Reach", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_area :geographic_reach, :rows=> 4
+    .control-group
+      = f.label :description, :class => 'control-label'
+      .controls
+        = f.text_area :description, :rows=> 4
+    .control-group
+      = f.label :additional_notes,"Additional Notes", :class => 'control-label'
+      .controls
+        = f.text_area :additional_notes, :rows=> 4
+
+  .control-group
+    .controls
+      =link_to 'Cancel', admin_suppliers_path, :class=> "btn"
+      = f.button "Save Supplier", :class => 'btn btn-info'

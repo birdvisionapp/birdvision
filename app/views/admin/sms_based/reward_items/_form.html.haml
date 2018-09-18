@@ -1,0 +1,36 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @reward_item.errors.full_messages}
+
+= nested_form_for [:admin, :sms_based, @reward_item], :html => {:class => 'form-horizontal'} do |f|
+  .fields-group
+    %h3 Product Details
+    = render "admin/share/select_msp", f: @reward_item.client
+    .control-group
+      = f.label :client_id, :class => 'control-label mandatory-field'
+      .controls
+        = f.collection_select :client_id, Client.accessible_by(current_ability).select_options.is_sms_based, :id, :client_name, {:include_blank => 'Please Select'}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name', sms_based: true)}, :disabled => local_assigns.has_key?(:disable_client)
+    .control-group
+      = f.label :scheme_id, :class => 'control-label mandatory-field'
+      .controls
+        = f.select :scheme_id,  Scheme.accessible_by(current_ability).select_options .map(&:option_format), {:include_blank => 'Please Select'}, :class => 'al-selector-init al-content-loader', :disabled => local_assigns.has_key?(:disable_scheme), :data => {:url => list_for_client_admin_schemes_url}
+    .control-group
+      = f.label :reward_product_catagory_id, :class => 'control-label'
+      .controls
+        = f.select :reward_product_catagory_id,  RewardProductCatagory.accessible_by(current_ability).select_categories.map(&:option_format), {:include_blank => 'Please Select'}, :class => 'al-content-loader', :data => {:url => list_for_product_categories_admin_reward_product_catagories_url}
+    .control-group
+      = f.label :name, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :name
+    .control-group#al-specific
+      = f.label :al_part_no, 'AL Part Number', :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :al_part_no
+    .control-group
+      = f.label :status, :class => 'control-label'
+      .controls
+        = f.select :status, RewardItem::Status::ALL.collect {|status| [status.titleize, status]}, {}, {:class => 'input-s-medium'}
+    .ad-nested-form-fields.nst-reward-item-points= render 'reward_item_points_fields', :f => f
+
+  .control-group
+    .controls
+      = link_to 'Cancel', admin_sms_based_reward_items_path, :class=> "btn"
+      = f.button @reward_item.id.nil? ? "Create Reward Product" : "Save Reward Product", :class => 'btn btn-info'

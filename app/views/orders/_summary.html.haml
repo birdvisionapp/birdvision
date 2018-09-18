@@ -1,0 +1,36 @@
+#orderDetails.span3.pull-right
+  #order_summary.well
+    %h5 Order Summary
+    .details
+      %ul
+        - @order.order_items.each do |order_item|
+          %li
+            ="- #{order_item.client_item.item.title} "
+            = "( #{order_item.quantity} )"
+    - if @user_scheme.show_points?
+      %p.order-total
+        Total:
+        %strong= @order.points.nil? ? bvc_currency(@order.total) : bvc_currency(@order.points)
+        %small points
+
+  -if show_shipping_info
+    .vcard.pull-right.well
+      %h5 Shipping Address
+      .details
+        %span.fn
+          = @order.address_name
+        .adr
+          .street-address
+            = @order.address_body
+          .extended-address
+            = @order.address_landmark
+          %span.locality
+            = @order.address_city
+          %span.region
+          = @order.address_state
+          %span.postal-code
+            = @order.address_zip_code
+        .tel
+          = @order.address_phone
+        .tel
+          = @order.address_landline_phone

@@ -1,0 +1,16 @@
+.control-group
+  %fieldset#id-set-TO
+    %h3
+      = get_basis(@targeted_offer_config.template)
+%table.table.table-bordered.toTemplate
+  %tr
+    %td Template Name
+    %td Template Content
+    %td Used
+  %tr
+    %td
+      = @targeted_offer_config.template.name
+    %td
+      = @targeted_offer_config.template.template_content
+    %td
+      %h1 &#x2714;

@@ -1,0 +1,147 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @client.errors.full_messages}
+
+= nested_form_for [:admin, @client], :html => {:class => 'form-horizontal'} do |f|
+
+  .fields-group
+    %h3 Contact Details
+    - if is_super_admin?
+      .control-group
+        = f.label :msp_id, "MSP", :class => 'control-label'
+        .controls
+          = f.collection_select :msp_id, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => 'Default - BVC'}, :disabled => local_assigns.has_key?(:disable_msp), :class => 'tc-widget', 'data-target' => '#contact-us-details-config-form'
+          = check_box_tag :enable_move_client_to_msp, :id => 'enable_move_client_to_msp', :class => 'fm-check-input bg-ck-med' if local_assigns.has_key?(:disable_msp)
+        - if local_assigns.has_key?(:disable_msp)
+          .controls
+            .icon-info-sign
+            .help-inline please click on the checkbox to enable move client to specific MSP/BVC.
+
+    .control-group
+      = f.label :client_name,"Client Name", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :client_name
+    .control-group
+      = f.label :code,"Client Code", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :code
+      .controls
+        .icon-info-sign
+        .help-inline used to generate participant username. Use a small code to simplify participant usernames.
+    .control-group
+      = f.label :contact_name,"Contact Name", :class => 'control-label'
+      .controls
+        = f.text_field :contact_name
+    .control-group
+      = f.label :contact_email, "Email",:class => 'control-label'
+      .controls
+        = f.text_field :contact_email
+    .control-group
+      = f.label :contact_phone_number, "Phone Number", :class => 'control-label'
+      .controls
+        = f.text_field :contact_phone_number
+    .control-group
+      = f.label :address, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_area :address , :rows => 4
+  .fields-group= render 'user_roles_form', :f => f
+  .fields-group= render 'payment_form', :f => f
+  .fields-group.site-customizations
+    %h3 Site Customizations
+    .control-group
+      = f.label :logo, 'Logo', :class => 'control-label'
+      .controls
+        - if @client.logo.present?
+          = image_tag f.object.logo.url(:medium), :size => "180x72"
+          = f.check_box :delete_logo
+          = f.label :delete_logo, 'Delete Logo'
+        .clerfix
+        = f.file_field :logo
+      .controls
+        .icon-info-sign
+        .help-inline Allowed image types are jpg,jpeg,png,gif. Please ensure that the image is of 180x72 resolution to ensure best appearance
+
+    .control-group
+      = f.label :domain_name, "Subdomain", :class => 'control-label'
+      .controls
+        = f.text_field :domain_name
+      .controls
+        .icon-info-sign
+        .help-inline eg. abc.bvcrewards.com
+
+    /todo - allow only .css to be browsed as precaution
+    .control-group
+      = f.label :custom_theme, :class => 'control-label'
+      .controls
+        = f.file_field :custom_theme, :accept => 'text/css'
+      .controls
+        .icon-info-sign
+        .help-inline attach a .css file based on template. Ensure that you have specified a corresponding subdomain
+      .controls
+        =link_to "Download template theme", "/theme_template.css", :target => "_blank"
+      .controls
+        =link_to "Download existing theme", @client.custom_theme.url , :target => "_blank" if @client.custom_theme.exists?
+  .fields-group
+    %h3 Additional Information
+    .control-group
+      = f.label :points_to_rupee_ratio,"1 Rupee =", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :points_to_rupee_ratio, :class=> 'input-mini'
+        .help-inline points
+    .control-group
+      = f.label :description, :class => 'control-label'
+      .controls
+        = f.text_area :description, :rows => 5
+    .control-group
+      = f.label :notes, :class => 'control-label'
+      .controls
+        = f.text_area :notes, :rows => 5
+    .control-group
+      = f.label :is_live, "Live Client",:class => 'control-label'
+      .controls
+        = f.check_box :is_live, :class => 'fm-check-input bg-ck-med'
+    .control-group
+      = f.label :allow_total_points_deduction, "Allow Total Points Deduction",:class => 'control-label'
+      .controls
+        = f.check_box :allow_total_points_deduction, :class => 'fm-check-input bg-ck-med'
+    .control-group
+      = f.label :order_approval, "Approve Order",:class => 'control-label'
+      .controls
+        = f.check_box :order_approval, :class => 'fm-check-input bg-ck-med', :id => "ord-approval"
+      .controls
+        .icon-info-sign
+        .help-inline Order is sent to supplier only after the approval by Respective Client Manager.
+    .control-group#ord-approval-lt
+      = f.label :order_approval_limit, "Approved Order Limit",:class => 'control-label'
+      .controls
+        = f.text_field :order_approval_limit, :class=> 'input-mini'
+        .help-inline points
+      .controls
+        .icon-info-sign
+        .help-inline Orders below this value will not require approval.
+    = render 'settings_form', :f => f
+  
+  .fields-group
+    %h3 Value Added Services
+    .control-group
+      = f.label :is_targeted_offer_enabled, "Targeted Offer Enable",:class => 'control-label'
+      .controls
+        = f.check_box :is_targeted_offer_enabled, :class => 'fm-check-input bg-ck-med'
+      .controls
+        .icon-info-sign
+        .help-inline MSP cannot use this functionality for their clients unless BVC has enabled it for MSP
+        
+  .fields-group= render 'api_form', :f => f
+
+  .fields-group= render 'otp_form', :f => f
+
+  .fields-group= render 'sms_based_form', :f => f
+  
+  .fields-group
+    = f.fields_for :client_customization do |custom|
+      = render 'user_sign_up_customization_form', :f => custom
+      
+  .fields-group#contact-us-details-config-form{:style => "display: #{(@client.msp_id) ? 'block' : 'none'} !important"}= render 'contact_us_form', :f => f
+  
+  .control-group
+    .controls
+      = link_to 'Cancel', admin_clients_path, :class=> "btn"
+      = f.button @client.id.nil? ? "Create Client" : "Save Client", :class => 'btn btn-info'

@@ -1,0 +1,47 @@
+%h1 Manage - Client Managers
+
+= search_form_for @search, :url => [:admin, :user_management, :client_managers] do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"admin/user_management/client_admin/filter"}
+
+.actions
+  .actions-left
+    = link_to 'Back', admin_user_management_dashboard_path, :class=> 'btn'
+    = link_to 'New Client Manager', new_admin_user_management_client_manager_path, :class => 'btn btn-info' if can? :create, ClientManager
+  .grid-pager
+    = paginate @client_managers
+
+%table.table.table-striped.table-bordered.client-managers
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :client_msp_name, "MSP")          
+      %th=sort_link(@search, :client_client_name,  "Client")
+      %th=sort_link(@search, :name,  "Name")
+      %th=sort_link(@search, :admin_user_username,  "Username")
+      %th= "Mobile Number"
+      %th
+        %span Is Locked
+      %th
+        %span Action
+  - @client_managers.each do |client_manager|
+    %tr[client_manager]
+      - if is_super_admin?
+        %td= client_manager.client.msp_name          
+      %td= link_to client_manager.client.client_name, admin_client_path(client_manager.client)
+      %td= client_manager.name
+      %td= client_manager.admin_user.username
+      %td= client_manager.mobile_number
+      %td= styling_boolean_label(client_manager.admin_user.is_locked)
+      %td
+        = link_to "View", admin_user_management_client_manager_path(client_manager)
+        - if can? :edit, ClientManager
+          = "/"
+          = link_to "Edit", edit_admin_user_management_client_manager_path(client_manager)
+        - if can? :destroy, ClientManager
+          = "/"
+          = link_to "Delete", admin_user_management_client_manager_path(client_manager), :confirm => "Are you sure, you want to delete Client Manager: #{client_manager.name} ?", :method => :delete
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @client_managers
+  .actions-right

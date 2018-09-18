@@ -1,0 +1,45 @@
+#filters-container
+  border: 1px solid #3DB2C3
+  border-radius: 6px
+  display: inline-block
+  #filters-title
+    cursor: pointer
+    margin-bottom: 0
+    padding: 0 10px
+    line-height: 30px
+  .btn
+    float: right
+    margin: 0 30px 10px 0
+    padding: 5px 20px
+  #filters-opener
+    +size(20px, 17px)
+    background: url('category-down-arrow-black.png') 0 0 no-repeat
+    display: inline-block
+    margin: 0 5px
+    vertical-align: middle
+    &.opened
+      background: url('category-down-arrow-black-right.png') 0 0 no-repeat
+
+.filters
+  margin-bottom: 10px
+  overflow: hidden
+  padding: 0 5px
+  margin-bottom: 10px
+  td
+    padding: 5px 10px 0px
+  label
+    display: inline-block
+    min-width: 100px
+    padding-right: 5px
+    text-align: right
+    white-space: nowrap
+    &.to
+      min-width: 0 !important
+      padding-right: 0 !important
+  select
+    width: 150px
+    margin-bottom: 10px
+
+#user_search
+  label
+    min-width: 75px

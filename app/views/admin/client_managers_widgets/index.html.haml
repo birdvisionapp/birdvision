@@ -1,0 +1,17 @@
+.widgets-container.row
+  .add-edit-widget
+    = link_to "Add New Widget", admin_widgets_path, :class => "add-widget"
+    .edit-widget-position
+      = link_to "Edit Widgets", "#", :id => "edit-widgets", :class => "edit-widget"
+    = link_to "Refresh Page", "#", :id => "refresh-page"
+  .hidden-values
+    %span.unused-codes
+      = @client_manager_dashboard.total_codes
+    %span.used-codes
+      = @client_manager_dashboard.used_codes.first
+  .widgets-wrapper
+    - !@widgets.blank?
+    - @widgets_name.each do |widget|
+      - @wid = widget
+      - partial_name = widget.downcase.tr(" ", "_")
+      = render :partial => "admin/client_managers_widgets/widgets/#{partial_name}", :locals => { :wid => @wid, :client_manager_dashboard => @client_manager_dashboard, :dashboard => @dashboard }

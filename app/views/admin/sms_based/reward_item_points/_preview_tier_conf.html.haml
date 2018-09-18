@@ -1,0 +1,30 @@
+- if reward_item_point.pack_tier_configs.present?
+  %h4
+    = "Number of Tiers (Packaging Layers) Selected: #{reward_item_point.pack_tier_configs.select(:id).count}"
+    = link_to 'Edit', '#', :class => 'btn btn-info', :id => 'clnt-pp-tiers-edit-ac'
+  .control-group
+    - codes_per_pack = []
+    - configs = reward_item_point.pack_tier_configs
+    - configs.each_with_index do |config, indx|
+      - unless indx == 0
+        - prev_element = configs[indx-1]
+        - prev_count = codes_per_pack[indx-1]
+      - codes_count = config.codes * ((prev_count) ? prev_count : 1)
+      - codes_per_pack << codes_count
+      .controls
+        .span2
+          %strong= "(For #{config.user_role.name}): "
+        = "#{config.tier_name} = #{codes_count} code(s)"
+        = " (#{config.codes} codes for each '#{prev_element.tier_name}')" unless indx == 0
+    %h5= "Total Codes per Codes Pack = #{codes_per_pack.sum}"
+    - default_packs = 10
+    .generate-code-packs-details
+      .controls
+        %h6 Enter the No. of Codes Pack(s) To Be Generated:
+        = number_field_tag 'unique_item_code[code_packs]', default_packs, :maxlength => 20, :autocomplete => :off, :min => 1, :class => 'preventEdit input-small', :id => 'clnt-no-code-packs-gen', 'data-codes-per-pack' => codes_per_pack.sum
+        .total-codes-cont
+          = "Total Codes = "
+          = content_tag(:span, (default_packs * codes_per_pack.sum), :id => 'clnt-total-codes-update')
+      .controls
+        = link_to 'Cancel', admin_sms_based_reward_item_points_path, :class=> 'btn'
+        = submit_tag "Generate Code Pack(s)", :class => 'btn btn-info', :id => 'sbt-gen-code-packs'

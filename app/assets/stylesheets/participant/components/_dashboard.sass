@@ -1,0 +1,217 @@
+*
+  +transition((color 0s linear 0s, opacity 0.3s linear 0s, background-color 0.5s linear 0s, border-color 0.3s linear 0s, outline-color 0.3s linear 0s, box-shadow 0.5s linear 0s, bottom 0.3s linear 0s))
+#dashboard
+  height: 310px
+  background-color: #EFEFEF
+  margin-top: -25px
+  margin-bottom: 25px
+  +box-shadow(0px 0px 10px rgba(102, 100, 100, 0.8))
+
+  .tabs
+    li
+      +size(50%,100%)
+      +box-sizing(border-box)
+      border-right: 1px solid #BEBDBD
+      border-bottom: 1px solid rgb(179, 179, 179)
+      border-top: 1px solid rgb(223, 221, 221)
+      position: relative
+      &:first-child
+        border-top: none
+        &.active:after, .active-after
+          top: 20%
+      &:last-child
+        border-bottom: none
+        &.active:after
+          top: 80%
+      &.active a
+        background-color: rgb(173, 172, 172)
+      &.active:after, .active-after
+        left: 100%
+        height: 0
+        width: 0
+        position: absolute
+        pointer-events: none
+        border: solid transparent
+        border-left-color: rgb(173, 172, 172)
+        border-width: 8px
+        top: 80%
+        margin-top: -8px
+        content: ""
+      .active-after
+        display: none
+      &.active .active-after
+        display: block
+    .tab
+      color: #333
+      text-align: center
+      font-size: 1.2em
+      text-decoration: none
+      display: block
+      height: 100%
+      padding-top: 20px
+      +box-sizing(border-box)
+      &:hover
+        background-color: rgb(173, 172, 172)
+
+      .speedometer-icon
+        display: block
+        height: 65px
+        background: url(image_path("dashboard.png")) 20px 0px no-repeat transparent
+      .leaderboard-icon
+        display: block
+        height: 95px
+        background: url(image-path("dashboard.png")) 20px -75px no-repeat transparent
+
+  .avg-achievements
+    color: #474747
+    margin-top: -17px
+    .avg
+      font-size: 31px
+      line-height: 1.7em
+    .avg span
+      font-size: 20px
+      margin-left: -5px
+    .text
+      font-size: 0.8em
+      margin-top: -15px
+  .aw-icon-bar-chart
+    margin-top: 15px
+
+  .tab-content, .tabs
+    height: 100%
+    margin-left: 0px
+    +box-sizing(border-box)
+  .tab-content
+    overflow: hidden
+    margin-left: 140px
+    padding: 20px 0
+    .tab-pane
+      height: 100%
+      +box-sizing(border-box)
+
+
+#speedometers
+  position: relative
+  .speedometer-container
+    height: 100%
+    +box-sizing(border-box)
+    white-space: nowrap
+    margin: 0px 25px
+    text-align: center
+    overflow: hidden
+    position: relative
+  .scheme-name
+    @extend .ellipsis
+    color:  rgb(19, 18, 18)
+    font-size: 1.3em
+    line-height: 2em
+    text-align: center
+    text-shadow: 1px 0px 2px rgb(235, 223, 223)
+    padding:  2px 15px
+  .scheme-speedometer
+    display: inline-block
+    position: relative
+    margin-left: -4px
+    height: 100%
+    width: 380px
+    border-left: 1px solid rgb(179, 179, 179)
+    border-right:  1px solid rgb(223, 221, 221)
+    +box-sizing(border-box)
+    &:last-child
+      border-right: none
+    &:first-child
+      border-left: none
+      padding-left: 4px
+
+  .carousel-control
+    background: url("/assets/icons.png") no-repeat 0 -250px
+    border: none
+    border-radius: 0
+    color: rgb(193, 193, 193)
+    height: 30px
+    opacity: 1
+    top: 50%
+    left: 5px
+    &.right
+      background-position: -45px -250px
+      left: auto
+      right: 5px
+  .achievement-container
+    text-align: center
+    color: #666666
+    font-size: 16px
+    .achievements
+      font-size: 30px
+      line-height: 35px
+      font-weight: bold
+  .club-details
+    font-size:  0.9em
+    text-decoration: none
+    cursor: pointer
+    display: block
+#club-details-table
+  td:first-child
+    width: 20px
+    border: 2px solid white
+
+#leaderboard
+  .leaderboard-container
+    @extend .clearfix
+    height: 100%
+    +box-sizing(border-box)
+    overflow: hidden
+  .chart
+    +box-sizing(border-box)
+    +size(100%, 90%)
+    margin: 0 auto
+
+  .title-bar
+    float: right
+    min-width: 17%
+    color: #464444
+    font-size: 16px
+    line-height: 30px
+    margin-top: 15px
+
+  .bars-container
+    margin: 15px 0px
+    padding: 0px
+    li
+      @extend .clearfix
+      line-height: 18px
+      font-size: 16px
+      color: #000
+      padding: 15px 0px
+      border-top: 1px solid rgb(223, 221, 221)
+      &:first-child
+        border-top: none
+    span, div
+      float: left
+      display: inline-block
+      +box-sizing(border-box)
+
+    .user-name
+      @extend .ellipsis
+      width: 25%
+      padding: 0px 10px 0px 15px
+
+    .bar-container
+      width: 55%
+      height: 18px
+      margin: 0px 10px
+      .bar
+        height: 100%
+        background-color: rgb(35,88,168)
+        border-radius: 4px
+        &.my
+          background-color: #EF9901
+    .achievements
+      min-width: 10%
+      text-align: right
+  .scheme-name-title
+    font-size: 1.1em
+    font-weight: bold
+  #schemes
+    width: 180px
+    option
+      +transition((background-color 0s linear 0s))

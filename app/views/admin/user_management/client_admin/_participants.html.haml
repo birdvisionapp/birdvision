@@ -1,0 +1,15 @@
+- url = [:admin, :user_management, :representative]
+- url.unshift(controller.action_name.to_sym) if controller.action_name == 'edit'
+= search_form_for @search, :url => url do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "participants_filter", :default_display => true }
+%h3 Linked Participants
+- unless @linked_users.present?
+  %p There are no Linked Participants
+- else
+  = render 'linked_participants'
+
+%h3 Add Participants
+- unless @users.present?
+  %p There are no Participants
+- else
+  = render 'add_participants'

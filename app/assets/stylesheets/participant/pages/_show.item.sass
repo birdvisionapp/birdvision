@@ -1,0 +1,28 @@
+.item-page
+  .item-details
+    margin: 0px 0 30px 20px
+  .item-image-container
+    height: 271px
+    .thumbnail-image
+      max-width: 217px
+      max-height: 271px
+  .zoomPad
+    position: relative
+    &:after, .zoomPad-after
+      +size(15px, 100%)
+      background-color: rgba(0,0,0,0.2)
+      bottom: 0px
+      color: #FFF
+      content: "Mouse over to zoom"
+      font-size: 10px
+      line-height: 15px
+      left: 0px
+      position: absolute
+      text-align: center
+
+  .item-description
+    padding-bottom: 20px
+  .item-category-hierarchy
+    color: #494949
+    .separator
+      color: #bbbbbb

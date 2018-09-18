@@ -1,0 +1,38 @@
+%h1 Categories
+
+= search_form_for @search, :url => admin_categories_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "categories_filter" }
+
+.actions-left
+  = link_to 'Add New Category', new_admin_category_path(:type => "cat"), :class => 'btn btn-info'
+  = link_to 'Add New Subcategory', new_admin_category_path(:type => "subcat"), :class => 'btn btn-info'  
+.actions
+  .grid-pager
+    = paginate @main_categories
+
+- if @main_categories.empty?
+  %p There are no Categories yet
+- else
+  %ul#categoryListContainer
+    %li.header
+      %label
+        = "Category"
+      %ul
+        %li
+          = "Subcategory"
+
+
+    - @main_categories.each do |category|
+      %li.category
+        %label
+          =link_to category.title,edit_admin_category_path(category.id,:type => "cat")
+          = category.msp_name if is_super_admin?
+        %ul.subcategories-container
+          - category.children.order("lower(title)").each do |sub_category|
+            %li
+              =link_to sub_category.title, edit_admin_category_path(sub_category.id,:type => "subcat")
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @main_categories

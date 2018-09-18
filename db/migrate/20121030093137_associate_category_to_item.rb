@@ -1,0 +1,5 @@
+class AssociateCategoryToItem < ActiveRecord::Migration
+  def up
+    add_column :items, :category_id, :integer
+  end
+end

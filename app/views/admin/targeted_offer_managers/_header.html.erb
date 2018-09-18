@@ -1,0 +1,17 @@
+<div class="wizard" class="header-div">
+	<%if f==1%>
+   		<a id="enabled"><span class="badge">1</span> Offer Manager</a>
+   		<a id="disabled"><span class="badge" >2</span> Campaign Manager</a>
+   		<a class="current" id="disabled"><span class="badge badge-inverse">3</span> Communication manager</a>
+   	<%end%>
+   	<%if f==2%>
+   		<a id="disabled"><span class="badge">1</span> Offer Manager</a>
+   		<a id="enabled"><span class="badge">2</span> Campaign Manager</a>
+   		<a class="current" id="disabled"><span class="badge badge-inverse">3</span> Communication manager</a>
+   	<%end%>
+   	<%if f==3%>
+   		<a id="disabled"><span class="badge">1</span> Offer Manager</a>
+   		<a id="disabled"><span class="badge">2</span> Campaign Manager</a>
+   		<a class="current" id="enabled"><span class="badge badge-inverse">3</span> Communication manager</a>
+   	<%end%>
+</div>

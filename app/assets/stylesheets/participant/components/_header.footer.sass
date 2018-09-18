@@ -1,0 +1,182 @@
+#siteHeader
+  +box-shadow(0px 1px 10px #666)
+  padding-top: 10px
+  .logo
+    +size(72px, 200px)
+    background-repeat: no-repeat
+    background-position: 0 0
+    background-color: transparent
+.btn-group
+  padding: 11px
+#header
+  padding-bottom: 10px
+  .points-information
+    text-align: center
+    span
+      display: block
+      line-height: 1
+    .total-points-text, .total-achievements-text
+      font-size: 12px
+      font-weight: bold
+    .total-points, .total-achievements
+      font-size: 18px
+      font-weight: bold
+      padding: 5px 0px
+    .note
+      color: #606060
+      font-size: 10px
+
+.barometer-container
+  width: 45%
+  margin-left: 60px
+  margin-top: 15px
+  .barometer
+    border: 1px solid #ccc
+    border-top: none
+    border-radius: 6px
+    font-size: 12px
+    height: 15px
+    line-height: 15px
+    padding: 4px 7px 5px
+    .point-based
+      +square(100%)
+      display: table
+      position: relative
+      .reading
+        &:first-child
+          +border-top-left-radius(6px)
+          +border-bottom-left-radius(6px)
+        &:last-child
+          +border-top-right-radius(6px)
+          +border-bottom-right-radius(6px)
+    .redeemed
+      +gradient-striped(#4ca52d, 135deg)
+    .remaining
+      +gradient-striped(#bdbdbd, 135deg)
+
+    .redeemed, .remaining
+      display: table-cell
+      position: relative
+    .redeemed, .remaining
+      background-size: 30px 30px
+      height: 15px
+
+  .barometer-attributes
+    font-size: 12px
+
+#subHeader
+  height: 50px
+  position: relative
+  .control-group, form
+    margin-bottom: 0px
+    padding-top: 3px
+  #myAccount, #mySchemes
+    min-width: 100px
+    position: relative
+    border-left-width: 1px
+    border-left-style: solid
+    .user-name, .scheme-name
+      +text-overflow()
+      color: #FFF
+      display: block
+      padding: 15px 25px 15px 10px
+      text-decoration: none
+    .down-arrow
+      +size(5px, 11px)
+      background: url(image_path('icons.png')) no-repeat -67px -52px transparent
+      content: ''
+      display: block
+      position: absolute
+      right: 4px
+      top: 45%
+    ul
+      +box-shadow(0px 1px 5px 1px #AAA)
+      background-color: #FFFFFF
+      border-width: 1px
+      border-style: solid
+      border-top: none
+      display: none
+      margin-left: -1px
+      position: absolute
+      width: 100%
+      z-index: 6
+      a
+        display: block
+        padding: 4px 0 4px 10px
+        text-decoration: none
+    &:hover
+      ul
+        display: block
+  #myAccount
+    @extend .pull-right
+    max-width: 180px
+    width: 154px
+  #mySchemes
+    max-width: 200px
+    ul li.view-all
+      border-top-width: 1px
+      border-top-style: solid
+  .header-icon
+    +size(50px, 65px)
+    border-left-width: 1px
+    border-left-style: solid
+    text-decoration: none
+    span
+      +square(25px)
+      cursor: pointer
+      display: block
+      margin: 15px auto
+      position: relative
+  .home-icon
+    @extend .header-icon
+    @extend .pull-right
+    span
+      background: url(image_path('home_white.png')) no-repeat 0 0 transparent
+
+  .shopping-cart-icon
+    @extend .header-icon
+    @extend .pull-right
+    span
+      background: url(image_path('icons.png')) no-repeat 0 -280px transparent
+      .items-count
+        color: #FFF
+        display: block
+        font-size: 10px
+        font-style: normal
+        position: relative
+        left: 17px
+        top: -8px
+        z-index: 0
+        &:after, .items-count-after
+          +border-radius(6px)
+          +square(15px)
+          background: #fa7100
+          content: ''
+          display: inline-block
+          left: -4px
+          position: absolute
+          top: 3px
+          z-index: -1
+
+#searchForm          //TODO - Search form breaks in small windows - responsove..!!
+  .input-append
+    .search-text
+      border-radius: 6px
+      height: 25px
+      margin-right: 5px
+      padding-left: 10px
+      width: 280px
+    .btn
+      +box-shadow(none)
+      background-image: url(image_path('icons.png'))
+      background-repeat: no-repeat
+      background-position: -48px -278px
+      border: none
+      border-radius: 6px
+      display: inline-block
+      height: 35px
+      width: 45px
+      
+.span12
+  li
+    margin-bottom: 10px

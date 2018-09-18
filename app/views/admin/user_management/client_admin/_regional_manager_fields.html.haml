@@ -1,0 +1,10 @@
+= label_tag :telecome_circles, "Circles",:class => 'control-label mandatory-field'
+.controls.telecom-circles-check-box
+  - if @telecom_circles.present?
+    - @telecom_circles.each_slice(10) do |slice|
+      .pull-left
+        - slice.each do |telecom_circle|
+          - elmid = "slct-tc-circle-#{telecom_circle.id}"
+          = label_tag "regional_manager[telecom_circle_ids][]", :for => elmid, :title => telecom_circle.description do
+            = check_box_tag "regional_manager[telecom_circle_ids][]", telecom_circle.id, @assigned_telecom_circles.include?(telecom_circle.id), :id => elmid
+            = telecom_circle.name

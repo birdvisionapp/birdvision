@@ -1,0 +1,39 @@
+%h1 Upload Participants (CSV)
+= form_tag 'upload_csv', :id=>"uploadForm", :multipart => true, :class=>"form-horizontal" do
+  #selectClient.control-group
+    - unless is_client_manager?
+      = render "admin/share/select_msp"
+      .control-group
+        = label_tag :client, 'Client', :class => 'control-label mandatory-field'
+        .controls
+          = select_tag :client, options_for_select(Client.accessible_by(current_ability).select_options.map{|s|[s.client_name, s.id]}, params[:client]), prompt: 'Please Select', :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+    .control-group
+      = label_tag :category, 'Category', :class => 'control-label mandatory-field'
+      .controls
+        = select_tag :category, options_for_select(@user_roles, params[:category]), prompt: 'Please Select', :class => 'al-category-content-loader', :data => {:url => list_user_roles_admin_clients_url}
+    .control-group
+      = label_tag :scheme, 'Scheme', :class => 'control-label mandatory-field'
+      .controls
+        = select_tag :scheme, options_for_select(Scheme.accessible_by(current_ability).select_options.map{|s|[s.name, s.id, {'data-parent' => s.client_id, 'data-template' => admin_scheme_csv_template_path(s.id, :csv)}]}), prompt: 'Please Select', :class => 'al-content-loader', :data => {:url => list_for_client_admin_schemes_url(:template => true)}
+  #uploadCsv.control-group
+    %label.control-label CSV:
+    .controls
+      = file_field_tag :csv
+    .alert.alert-info.template
+      %strong Note:
+      Make sure your CSV is formatted using this
+      =link_to "#", :class => 'template-link' do
+        %strong template
+
+  #replacePoints.control-group
+    .controls.points-radio-text
+      = radio_button_tag :add_points, 'true', true
+      %span
+        Add Points
+      = radio_button_tag :add_points, 'false'
+      %span
+        Replace Points
+
+  #submit.control-group
+    .controls
+      = submit_tag "Start Upload", :disable_with => 'Uploading...', :class => "btn btn-info"

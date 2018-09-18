@@ -1,0 +1,49 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :client_msp_id_eq, "MSP"
+        = f.collection_select :client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    - if is_admin_user?
+      %td
+        = f.label :client_id_eq, "Client"
+        = f.collection_select :client_id_eq, Client.accessible_by(current_ability).select_options, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+    %td
+      = f.label :user_schemes_scheme_id_eq, "Scheme"
+      = f.select :user_schemes_scheme_id_eq,  Scheme.accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 'al-content-loader', :data => {:url => list_for_client_admin_schemes_url}  
+    %td
+      = f.label :user_role_id_eq, "Category"
+      = f.select :user_role_id_eq, @user_roles, {:include_blank => t(:all)}, :class => 'al-category-content-loader', :data => {:url => list_user_roles_admin_clients_url}
+  %tr
+    %td
+      = f.label :participant_id_cont, "Participant ID"
+      = f.text_field :participant_id_cont, :class => 'input-medium'
+    %td
+      = f.label :username_cont, "Username"
+      = f.text_field :username_cont, :class => 'input-medium'
+    %td
+      = f.label :created_at_date_gteq,"Created On"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small'
+  %tr
+    %td
+      = f.label :full_name_cont, "Full Name"
+      = f.text_field :full_name_cont, :class => 'input-medium'
+    %td
+      = f.label :email_cont, "Email"
+      = f.text_field :email_cont, :class => 'input-medium'
+    - unless current_client && current_client.allow_sso?
+      %td
+        = f.label :activation_status_eq, "Activation Status"
+        = f.select :activation_status_eq, User::ActivationStatus::ALL.collect {|status| [status, status]}, :include_blank => t(:all)
+  %tr
+    %td
+      = f.label :status_eq, "Status"
+      = f.select :status_eq, User::Status::ALL.collect {|status| [status.titleize, status]}, :include_blank => t(:all)
+    %td
+      = f.label :mobile_number_cont, "Mobile Number"
+      = f.text_field :mobile_number_cont, :class => 'input-medium'
+    %td
+      = f.label :telecom_circle_regional_managers_id_eq, "Region"
+      = f.select :telecom_circle_regional_managers_id_eq, @telecom_regions, {:include_blank => t(:all)}, :class => 'al-region-content-loader', :data => {:url => list_telecom_regions_admin_clients_url}

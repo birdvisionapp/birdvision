@@ -1,0 +1,14 @@
+= form_for :search, :url => search_path_for(@user_scheme), :html => {:method => :get, :id => 'category-filter', :class => 'form-inline' } do |f|
+  %ul{class: collapsible ? 'global-category-list collapsible' : 'global-category-list'}
+    %li.global-category-header
+      %span.theme-category-header.theme-primary-text-color-ovr
+        ="All Categories"
+      %ul.category-list
+        - if @catalogs.categories.present?
+          - @catalogs.categories.each do |category|
+            %li
+              = f.button "#{category.title}", :value => category.title, :name => 'search[parent_category]', :class => 'btn btn-link theme-primary-text-color'
+              %ul
+                - @catalogs.sub_categories_for(category).each do |sub_category|
+                  %li
+                    = f.button "#{sub_category.title}", :value => sub_category.title, :name => 'search[category]', :class => 'btn btn-link theme-primary-text-color'

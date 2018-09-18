@@ -1,0 +1,58 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+%h1
+  =@client_item.item.title
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @client_item.errors.full_messages}
+= form_for @client_item, :url => admin_client_item_update_path(:id => @client_item.id, :q => params[:q]), :html => {:class => 'form-horizontal'} do |f|
+
+  .fields-group
+    %h3 Item Details
+    = render "admin/share/select_msp", f: @client_item.item.category
+    .control-group
+      = label_tag "category", "Category", :class => 'control-label'
+      .controls
+        = text_field_tag "category_title", @client_item.item.category.title, :disabled => true
+
+    .control-group
+      = label_tag "supplier", "Supplier", :class => 'control-label'
+      .controls
+        = text_field_tag "supplier_name",@client_item.item.preferred_supplier.supplier.name, :disabled => true
+
+    .control-group
+      = label_tag "channel_price","Channel Price(Rs.)", :class => 'control-label'
+      .controls
+        = text_field_tag "channel_price", @client_item.item.channel_price, :disabled => true, :id => "item_channel_price", :class=> "channel-price"
+
+    .control-group
+      = label_tag "bvc_price","Base Price(Rs.)", :class => 'control-label'
+      .controls
+        = text_field_tag "bvc_price", @client_item.item.bvc_price, :disabled => true
+
+    .control-group
+      = label_tag "bvc_margin","Base Margin(%)", :class => 'control-label'
+      .controls
+        = text_field_tag "Margin", @client_item.item.margin, :readonly => true
+
+    .control-group
+      = label_tag "mrp","MRP(Rs.)", :class => 'control-label'
+      .controls
+        = text_field_tag "MRP", @client_item.item.preferred_supplier.mrp, :readonly => true
+    .control-group
+      = label_tag "supplier_margin","Supplier Margin(%)", :class => 'control-label'
+      .controls
+        = text_field_tag "Supplier Margin", @client_item.item.preferred_supplier.supplier_margin, :readonly => true
+
+    .control-group
+      = f.label :client_price,"Client Price(Rs.)", :class => 'control-label'
+      .controls
+        = f.text_field :client_price, :class=> "client-price"
+
+    .control-group
+      = f.label :margin, "Client Margin(%)", :class => 'control-label'
+      .controls
+        = f.text_field :margin, :readonly => true, :class=> "client-margin"
+
+  .control-group
+    .controls
+      =link_to 'Cancel', admin_client_catalog_path(:id => @client_item.client.id, :q => params[:q]), :class=> "btn"
+      = f.button "Save Item", :class => 'btn btn-info'

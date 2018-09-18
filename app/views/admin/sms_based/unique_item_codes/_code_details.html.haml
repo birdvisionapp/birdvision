@@ -1,0 +1,31 @@
+%dl.dl-horizontal.prpduct-code
+  %h3.dl-header Product Code Details
+  - if is_super_admin?
+    %dt MSP
+    %dd= @unique_item_code.reward_item_point.reward_item.client.msp_name
+  - unless is_client_manager?
+    %dt Client
+    %dd= @unique_item_code.reward_item_point.reward_item.client.client_name
+  %dt Scheme
+  %dd= @unique_item_code.reward_item_point.reward_item.scheme.name
+  %dt Product name
+  %dd= @unique_item_code.reward_item_point.reward_item.name
+  %dt Pack Size
+  %dd= @unique_item_code.reward_item_point.pack_size_metric
+  %dt Points
+  %dd= @unique_item_code.reward_item_point.points
+  %dt Product Code
+  %dd= @unique_item_code.code
+  %dt Expiry Date
+  %dd= humanize_date(@unique_item_code.expiry_date)
+  - if @unique_item_code.user.present?
+    %dt Participant Id
+    %dd= @unique_item_code.user.participant_id
+    %dt Username
+    %dd= link_to @unique_item_code.user.username, admin_user_path(@unique_item_code.user)
+    %dt Full Name
+    %dd= @unique_item_code.user.full_name.presence || '-'
+    %dt Mobile Number
+    %dd= @unique_item_code.user.mobile_number
+    %dt Used At
+    %dd= l @unique_item_code.used_at, :format => :long_date_time rescue ''

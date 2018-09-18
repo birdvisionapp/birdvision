@@ -1,0 +1,44 @@
+%h1= "#{@resource_name.to_s.titleize} Details"
+%dl.dl-horizontal{:class => "#{(@resource_name == :representative) ? 'pull-left' : ''}"}
+  %h3 Account Details
+  - unless is_client_manager?
+    %dt Client
+    %dd=link_to @resource.client.client_name, admin_client_path(@resource.client)
+
+  - if @resource_name == :regional_manager
+    %dt Region
+    %dd=@resource.region
+
+  %dt ID
+  %dd=@resource.id
+
+  %dt Name
+  %dd=@resource.name
+
+  %dt Username
+  %dd=@resource.admin_user.username
+
+  %dt Email
+  %dd=@resource.email
+
+  %dt Mobile Number
+  %dd=@resource.mobile_number.presence
+ 
+  %dt Address
+  %dd=@resource.address.presence || '-'
+
+  %dt Pincode
+  %dd=@resource.pincode.presence || '-'
+
+  %dt Is Locked
+  %dd= styling_boolean_label(@resource.admin_user.is_locked)
+
+  = render "#{@resource_name.to_s}_links"  
+
+  = display_time_stamp_details(@resource.admin_user)
+  %br
+  = link_to 'Back', [:admin, :user_management, @resource_name.to_s.pluralize.to_sym], :class=> "btn"
+  = link_to "Edit", [:edit, :admin, :user_management, @resource], :class => 'btn btn-info' if can? :edit, @resource_name.to_s.classify.constantize
+- if @resource_name == :representative
+  .clnt-mn-right-pn.pull-left= render 'participants'
+  .clearfix

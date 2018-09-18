@@ -1,0 +1,17 @@
+errors:
+  cart:
+    cart_item:
+      invalid_quantity: 'Please enter valid quantity'
+      invalid_selection: 'Please select available product in the catalog'
+  search:
+      keyword_not_found: "No Search Results with keyword \"%s\" found"
+      search_criteria_not_defined: 'Please enter at least one search word'
+  order_item:
+      invalid_change_in_status: "You are performing an invalid action"
+      order_approved: "Order has been approved for further processing"
+      order_approved_fail: "Error occured while approving the order."
+  order:
+      otp_blank: "Please enter the One Time Password (OTP) which was sent to your %s"
+      invalid_otp: "The One Time Password (OTP) entered by you is Incorrect, hence your order cannot be processed."
+      otp_not_enabled: "The One Time Password (OTP) is not enabled for %s"
+

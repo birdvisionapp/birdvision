@@ -1,0 +1,58 @@
+%h1 Product Packs
+
+= search_form_for @search, :url => admin_sms_based_reward_item_points_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"reward_items_filter"}
+
+.actions
+  .actions-left
+    - if can? :create, RewardItemPoint
+      = link_to 'New Product Pack', new_admin_sms_based_reward_item_point_path, :class => 'btn btn-info'
+  .grid-pager
+    = paginate @reward_item_points
+  .actions-right
+    = link_to admin_sms_based_reward_item_points_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info pull-right", :id =>"downloadRewardProductsCsv" do
+      %i.icon-download.icon-white
+      Download
+
+%table.table.table-striped.table-bordered.orders
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :reward_item_client_msp_name, "MSP")
+      - unless is_client_manager?
+        %th= sort_link(@search, :reward_item_client_client_name, "Client")
+      %th= sort_link(@search, :reward_item_scheme_name, "Scheme")
+      %th= sort_link(@search, :reward_item_name, "Product Name")
+      %th= sort_link(@search, :pack_size_name, "Pack Size")
+      %th Points
+      %th= sort_link(@search, :status, "Status")
+      %th Last Created At
+      %th Product Codes
+      %th Action
+
+  - @reward_item_points.each do |reward_item_point|
+    %tr
+      - if is_super_admin?
+        %td= reward_item_point.reward_item.client.msp_name
+      - unless is_client_manager?
+        %td= link_to reward_item_point.reward_item.client.client_name, admin_client_path(reward_item_point.reward_item.client)
+      %td= reward_item_point.reward_item.scheme.name
+      %td= reward_item_point.reward_item.name
+      %td= reward_item_point.pack_size_metric
+      %td= reward_item_point.points
+      %td.status= styling_status_label(reward_item_point.status)
+      %td
+        = l reward_item_point.unique_item_codes.select(:created_at).last.created_at, :format => :long_date_time rescue ''
+      %td
+        = reward_item_point.product_code_detail.join("<br />").html_safe
+        = render_code_links(reward_item_point)
+      %td
+        = link_to "View", admin_sms_based_reward_item_point_path(reward_item_point)
+        - if can? :edit, RewardItem
+          %span /
+          = link_to 'Edit', edit_admin_sms_based_reward_item_point_path(reward_item_point)
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @reward_item_points
+  .actions-right

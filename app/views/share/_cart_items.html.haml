@@ -1,0 +1,37 @@
+%table.cart-items.clearfix
+  %tr.header
+    %td= "Product"
+    %td= "Product Description"
+    %td.align-right= "Points"
+    %td.quantity-container= "Quantity"
+    %td.align-right= "Subtotal"
+    %td
+
+  - @cart.cart_items.order("updated_at desc").each do |cart_item|
+    - client_item = cart_item.client_item
+    - item = client_item.item
+    %tr{:id => client_item.slug}
+      %td.image-container= image_tag(item.image.url, :alt => item.title)
+      %td.product-description
+        %h2.product-title= link_to item.title, client_item_path(:slug => client_item, :scheme_slug =>@user_scheme.scheme.slug)
+        .cart-item-service-charge= cart_item.extra_charges.display
+        %p= item.description
+      %td.points.align-right= bvc_currency(client_item.price_to_points)
+      %td.quantity-container
+        .quantity= "#{cart_item.quantity}"
+        = link_to "change" , "#", :class => "change-quantity"
+        .change-quantity-form.hide
+          = form_for cart_item,:url => update_quantity_path(:scheme_slug => @user_scheme.scheme.slug), :class => 'inline'  do |form|
+            = form.text_field :quantity, :maxlength =>  3, :size => 3, :value => cart_item.quantity, :class=>"item-quantity", :id => "#{client_item.slug}_quantity"
+            = form.hidden_field :id
+            = form.submit 'save', :class => "btn-link save-quantity theme-primary-text-color"
+      %td.sub-total.align-right= bvc_currency(cart_item.total_price_in_points)
+      %td.remove-cart-item
+        = button_to '', remove_from_cart_path(:id => client_item.id,:scheme_slug => @user_scheme.scheme.slug), :method => :delete, :title=>"Remove"
+
+  %tr.footer
+    %td{:colspan=>7, :class=>'align-right cart-total-points'}
+      %span.total-text= "Grand Total :   "
+      %span{:class => "#{!@sufficient_points ? 'insufficient' : ''} total" }
+        =bvc_currency(@cart.total_points)
+      %span.pts-text= " pts"

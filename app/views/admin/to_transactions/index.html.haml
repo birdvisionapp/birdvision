@@ -1,0 +1,79 @@
+%h1
+  Targeted Offer Transactions
+
+= search_form_for @search, :url => admin_to_transactions_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"to_order_items_filter"}
+
+.actions
+  .actions-left
+  .grid-pager
+    = paginate @to_orders
+  / .actions-right
+  /   = link_to admin_to_transactions_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info pull-right", :id =>"downloadToTransactionCsv" do
+  /     %i.icon-arrow-down.icon-white
+  /     Download
+
+%table.table.table-bordered       
+  %tr
+    %th Msp
+    %th Client
+    %th Participant Id
+    %th Redemption Id
+    %th Participant Name
+    %th Coupon Code
+    %th Extra Points
+    %th Targeted Offer Basis
+    %th Incentive
+    %th Description
+    %th Status
+    %th Placed On
+    - unless current_admin_user.role == AdminUser::Roles::CLIENT_MANAGER
+      %th Tracking Info
+      %th Actions
+      %th
+        %span Contact Details
+    
+  - @to_orders.each do |transaction|
+    %tr
+      %td= msp_info(transaction)
+      %td= client_info(transaction)
+      - user_info = user_info(transaction)
+      %td= user_info.participant_id
+      %td= "RID#{transaction.id}"
+      %td= user_info.full_name
+      %td= transaction.unique_code
+      %td= transaction.extra_points
+      %td= to_type(transaction)
+      - incentive_info, incentive_desc = incentive_type_info(transaction)
+      %td= incentive_info
+      %td= incentive_desc
+      %td.status
+        %span{:class => css_class_for_status(transaction.status) }
+          =transaction.status.humanize
+      %td= humanize_date(transaction.created_at)
+      - unless current_admin_user.role == AdminUser::Roles::CLIENT_MANAGER
+        %td.tracking-info
+          %span
+          - if incentive_info == "Manual"
+            %p=transaction.tracking_info
+            %p=link_to "Update tracking info.", admin_to_transaction_to_edit_tracking_info_path(:to_transaction_id => transaction.id, :q => params[:q])  if transaction.tracking_info_updatable?
+        %td.status-actions
+          %span
+          - if incentive_info == "Manual"
+            - transaction.status_events.each do |event|
+              = link_to event.to_s.humanize,
+                  admin_to_transaction_to_change_status_path(:to_transaction_id => transaction.id, :perform_action => event, :q => params[:q]),
+                  :method => :put, :class => "#{class_of_status_action(event.to_s)} btn-block", :confirm => ("Are you sure? This action cannot be reverted." if %w(incorrect refund).include?(event.to_s))
+        %td
+          %span
+          - if incentive_info == "Manual"
+            %dd= raw transaction.to_complete_address_for_show rescue ""
+            %dd= raw transaction.address_city rescue ""
+            %dd= raw transaction.address_zip_code rescue ""
+            %p= link_to 'Edit User Address', edit_admin_to_transaction_path(transaction.id)
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @to_orders
+  .actions-right

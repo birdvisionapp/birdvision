@@ -1,0 +1,37 @@
+.span12.points-summary
+  .row
+    %h3.span12 Points Statement
+  .row
+    .pull-left
+      = search_form_for @search, :url => points_summary_path do |f|
+        = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter => "points_summary_filter", :default_display => true}
+    .pull-right.pt-points-sum-info= render 'points_info'
+  .row
+    .span9.order-pagination-info
+      = page_entries_info @point_transactions, :entry_name => "records"
+  - if @point_transactions.present?
+    .row
+      %table.orders.table-striped
+        %thead
+          %tr.header
+            %td.span3= sort_link(@search, :created_at, "Date")
+            %td.span3= sort_link(@search, :scheme_name, "Scheme")
+            %td.span4 Description
+            %td.align-right Credit
+            %td.align-right Debit
+            %td.align-right Balance
+        %tbody
+          -@point_transactions.each do |transaction|
+            - summary = points_summary_for(transaction)
+            %tr.order.item
+              %td= humanize_date(transaction.created_at)
+              %td= link_to_if transaction.scheme.browsable?, transaction.scheme.name, catalog_path_for(transaction.scheme.user_schemes.last)
+              %td.product-description= summary[:description]
+              %td.align-right.points= summary[:credit]
+              %td.align-right.points= summary[:debit]
+              %td.align-right.points= summary[:balance]
+    .row
+      .span12.order-pagination-info
+        = page_entries_info @point_transactions, :entry_name => "records"
+    .row.grid-pager
+      = paginate @point_transactions, :container => false,  :window => 2 , :left => 1, :right => 1

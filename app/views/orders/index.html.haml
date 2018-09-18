@@ -1,0 +1,45 @@
+.span12#participantOrders
+  .row
+    %h3.span12 My Orders
+  .row
+    .span9.order-pagination-info
+      = page_entries_info @orders, :entry_name => "orders"
+    .span3.continue-shopping
+      =continue_shopping_index_button(@user_scheme)
+  - if @orders.present?
+    .row
+      %table.orders.table-striped
+        %thead
+          %tr.header
+            %td.order-id Order ID
+            %td Scheme Name
+            %td Item Name
+            %td.align-right Quantity
+            %td.align-right Points
+            %td Order Status
+            %td Tracking
+
+        %tbody
+          -@orders.each do |order|
+            - order.order_items.each_with_index do |order_item, index|
+              %tr.order.item
+                - if index == 0
+                  %td.order-id.span2{:rowspan=>order.order_items.size}
+                    = order.order_id
+                %td.span2
+                  = order_item.scheme.name
+                %td.product-description
+                  = order_item.client_item.item.title
+                %td.align-right.quantity.span1
+                  = order_item.quantity
+                %td.align-right.points
+                  = order_item.scheme.show_points? ? bvc_currency(order_item.points_claimed) : "-"
+                %td.status.span2
+                  = humanize_order_status order_item.status
+                %td.span2
+                  = order_item.tracking_info
+    .row
+      .span12.order-pagination-info
+        = page_entries_info @orders, :entry_name => "orders"
+    .row.grid-pager
+      = paginate @orders, :container => false,  :window => 2 , :left => 1, :right => 1

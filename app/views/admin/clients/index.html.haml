@@ -1,0 +1,76 @@
+%h1 Clients
+
+= search_form_for @search, :url => admin_clients_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "clients_filter" }
+
+.actions
+  -if can? :create, Client
+    .actions-left
+      = link_to 'Add New Client', new_admin_client_path, :class => 'btn btn-info'
+
+  - if @clients.empty?
+    %p.text-danger There are no clients yet
+  - else
+    .grid-pager
+      = paginate @clients
+
+%table.table.table-striped.table-bordered.clients
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :msp_name, "MSP")          
+      %th SMS Based
+      %th= sort_link(@search, :client_name,"Client Name")
+      %th= sort_link(@search, :contact_name,"Contact Name")
+      %th= sort_link(@search, :contact_email,"Contact Email")
+      %th= sort_link(@search, :contact_phone_number,"Contact Phone Number")
+      %th= sort_link(@search, :points_to_rupee_ratio,"Points To Rs. Ratio")
+      %th= sort_link(@search, :description)
+      %th= sort_link(@search, :notes)
+      -if can? :view, :reseller_info
+        %th
+          %span Reseller
+      %th Value Added services
+      %th
+        %span Action
+
+  - @clients.each do |client|
+    %tr[client]
+      - if is_super_admin?
+        %td= client.msp_name          
+      %td= styling_boolean_label(client.sms_based)
+      %td= client.client_name
+      %td= client.contact_name
+      %td= client.contact_email
+      %td= client.contact_phone_number
+      %td= client.points_to_rupee_ratio
+      %td= client.description
+      %td= client.notes
+      -if can? :view, :reseller_info
+        %td= client.resellers.collect {|reseller| reseller.name}.join(", ") if client.resellers.present?
+      %td
+        %table
+          %tr
+            -if client.is_targeted_offer_enabled
+              %td Targeted Offer
+          %tr
+            -if client.allow_sso
+              %td Allow API
+          %tr
+            -if client.allow_otp
+              %td Allow OTP
+      %td
+        =link_to 'View', admin_client_path(client.id)
+        -if can? :edit, Client
+          %span /
+          =link_to 'Edit', edit_admin_client_path(client.id)
+        %span /
+        =link_to 'Report',admin_client_download_report_path(client, format: "csv")
+        %span /
+        = points_summary_link({:client_id_eq => client.id})
+
+- unless @clients.empty?
+  .actions-down
+    .actions-left
+    .grid-pager
+      = paginate @clients

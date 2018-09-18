@@ -1,0 +1,5 @@
+%h2 Preview
+#ppc-preview-if
+  - pdf_url = coupons_preview_admin_sms_based_unique_item_codes_url(:q => params[:q], :languages => @languages)
+  - src = (request.env['HTTP_USER_AGENT'].downcase =~ /msie/i) ? "http://docs.google.com/viewer?url=#{pdf_url}&embedded=true" : pdf_url
+  %iframe{:src => src, :height => '1056px', :width => '816px', :frameborder => 0, :style => 'border: none'}

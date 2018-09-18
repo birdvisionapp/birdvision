@@ -1,0 +1,25 @@
+= render :partial => "summary", :locals => {:show_shipping_info => true }
+.span9
+  %ul.checkout-steps
+    %li.completed
+      %label
+        %span 1
+        Shipping Address
+    %li.completed
+      %label
+        %span 2
+        Order Summary
+    %li.last-child.active
+      %label
+        %span 3
+        Confirmation
+  .checkout-step-content
+    #orderInfo
+      = render :partial => "share/flash_messages"
+      %h4= "Order: #{@order.order_id}"
+      %p= App::Config.messages[:order][:receipt_writeup].html_safe
+      %br
+      = render :partial => "receipt", :locals => { :order =>  @order}
+      %p Your order will be delivered in approximately 15 working days.
+    .action-items
+      = continue_shopping_index_button(@user_scheme)

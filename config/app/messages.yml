@@ -1,0 +1,98 @@
+messages:
+  admin:
+    category:
+      created_successfully: '%s was successfully created'
+      updated_successfully: '%s was successfully updated'
+  cart:
+    insufficient_points: "You need %s more points to redeem everything in your cart. Kindly remove a few items to continue redeeming"
+    removed_item: "The Item %s has been removed from your Cart, you can add it again from your Catalog."
+    empty: 'Your cart is empty'
+    upcoming_scheme : "You can redeem this cart once this scheme's redemption begins"
+  order:
+    confirmation: "Thank you for your order"
+    receipt_writeup: "Please note down your Order ID. It can be quoted in all further communications with our Support team.You can track your Order status on your <a href='/orders'>My Orders</a> page. If you have any questions or queries please feel free to reach out to us on our <a href='/contact_us'>Contact Us</a> page"
+    sent_otp_confirmation: "The One Time Password (OTP) has been sent to your registered %s"
+  draft_item:
+    processed_successfully: "File has successfully been scheduled for upload, please check the upload tab after a while."
+    no_supplier: "Please select a Supplier from the dropdown menu when uploading Draft Items"
+    file_not_provided: "Please choose a file"
+    invalid_csv_file: "Please use a CSV file in the template provided to upload Draft Items."
+    item_cannot_be_moved: "The Item %s cannot be published to the Master Catalog"
+    successful_publish: "The Item %s has been published to the Master Catalog"
+  user:
+    processed_successfully: "File has successfully been scheduled for upload, please check the upload tab after a while."
+  level_club_catalog:
+    error_adding_items: "No Items were added. Some items are already present in some %s catalog of the scheme - %s"
+    remove_item: "The Item %s has been removed from the %s %s catalog"
+    empty_scheme_catalog: "Add items to Scheme catalog to start adding to level-club catalog"
+    empty_catalog: "Please add some items to this level-club Catalog"
+    add_items: "%s items have been added to the %s %s catalog"
+    empty_selection: "Please select at least one Item"
+  scheme_catalog:
+    remove_item: "Successfully removed %s from the %s catalog and from the relevant level club catalogs"
+    adding_items: "%s Item(s) have been added to the %s Scheme Catalog"
+    empty_client_catalog: "Add items to the Client catalog and set client prices to start adding items to this Scheme catalog"
+    empty_catalog: "Please add some items to this Scheme Catalog"
+    empty_selection: "Please select at least one Item"
+  client_catalog:
+    empty_catalog: "Please add some items to this Client Catalog"
+    removed_client_item: "The Item %s has been removed from the %s Client Catalog and from the relevant scheme catalogs"
+    removed_from_level_club_catalogs_message: "Also it has been removed from the relevant level club catalog(s)"
+    adding_items: "%s Item(s) will be added to the %s Client Catalog"
+    error_adding_items: "No Items were added to the %s Client Catalog. Some Items do not have a Base Price assigned to them."
+    empty_selection: "Please select at least one Item"
+  admin_participants:
+    category_not_selected: "Please select the Category to Upload Participants (CSV)"
+    scheme_not_selected: "Please select the Scheme for to Upload Participants (CSV)"
+    file_not_provided: "Please choose a file"
+    invalid_file: "Please use a CSV file in the template provided to upload/update Participants"
+    no_users_selected_for_activation: "Please select at least one Participant to Send Activation Link"
+    successful_activation: "%i activation link(s) have been sent successfully"
+    no_users_selected_for_inactive: "Please select at least one Participant to Inactivate"
+    successful_inactive: "%i participant(s) have been Inactivated successfully"
+    no_users_selected_for_active: "Please select at least one Participant to Activate"
+    successful_active: "%i participant(s) have been Activated successfully"
+    duplicate_record: "Uploaded file contains duplicate rows for participant id(s) %s"
+  order_item:
+    valid_change_in_status: The status of %s in Order ID. %s was updated successfully
+    tracking_info_update: "The tracking info for %s in Order ID. %s was updated successfully"
+  to_order_item:
+    valid_change_in_status: The status of %s in Order ID. %s was updated successfully
+    tracking_info_update: "The tracking info for %s in Order ID. %s was updated successfully"
+  async_uploads:
+    duplicate_record: "Uploaded file contains duplicate rows for id(s) %s"
+    invalid_file: "Please use a CSV file in the template provided to upload/update"
+  unique_item_codes:
+    generating_codes: "%s Unique product code(s) will be generated to the %s Product Pack"
+  master_catalog:
+    successful_inactive: "%i item(s) have been Inactivated successfully"
+    no_items_selected: "Please select at least one Item to %s"
+    successful_active: "%i item(s) have been Activated successfully"
+    invalid_csv_file: "Please use a CSV file in the template provided to edit Catalog Items."
+    processed_successfully: "File has successfully been scheduled for upload, please check the upload tab after a while."
+    file_not_provided: "Please choose a file"
+  client_manager:
+    deleted: "The Client Manager %s has been deleted"
+  reseller:
+    deleted: "The Reseller %s has been deleted"
+  super_admin:
+    deleted: "The Admin User %s has been deleted"
+    cant_delete: "The Super Admin %s cannot be deleted"
+  client_invoice:
+    cancelled: "Pro Forma Invoice: %s has been cancelled"
+  regional_manager:
+    deleted: "The Regional Manager %s has been deleted"
+  representative:
+    deleted: "The Representative %s has been deleted"
+  client_admin:
+    client_not_selected: "Please select the Client to Upload %s (CSV)"
+    file_not_provided: "Please choose a file to Upload %s"
+    invalid_file: "Please use a CSV file in the template provided to upload %s"
+    processed_successfully: "File has successfully been scheduled for upload, please check the upload tab after a while."
+  participant:
+    registration_success: "Welcome! You are now registered Participant of %s"
+    web_enrollment_disabled: "%s does not provide Web enrollment."
+    wrong_url: "check URL again."
+    existing_user: "User already exists."
+    invalid_coupon_code: "Coupon Code entered is Invalid."
+    error_while_register: "Error while registering the participant."

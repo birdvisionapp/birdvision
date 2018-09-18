@@ -1,0 +1,94 @@
+%h1 Client Details
+
+- if resource.id == ENV['AL_CLIENT_ID'].to_i && (is_super_admin? || ((current_admin_user.msp_id == 21) && is_msp_admin?))
+  .pull-right
+    %h3.dl-header Customized Features
+    %dl.dl-horizontal.draft_item
+      %p
+      = link_to "Upload DMS", admin_al_transactions_path
+      %p
+      = link_to "Upload Reward Product/Points", al_reward_product_points_import_admin_al_transactions_path
+      %p
+      = link_to "Successful Uploads", successful_transaction_admin_al_transactions_path
+      %p
+      = link_to "Unsuccessful Uploads", failed_transaction_admin_al_transactions_path
+      %p
+      = link_to "AL channel Linkage CSV Upload", al_channel_linkage_admin_al_transactions_path
+      
+%h3.dl-header Contact Details
+%dl.dl-horizontal.draft_item
+  - if is_super_admin?
+    %dt MSP
+    %dd= resource.msp_name
+  %dt Client Name
+  %dd= resource.client_name
+  %dt Code
+  %dd= resource.code
+  %dt Email
+  %dd= resource.contact_email.presence || "-"
+  %dt Phone Number
+  %dd= resource.contact_phone_number.presence || "-"
+  %dt Address
+  %dd= resource.address || "-"
+  - if resource.logo.present?
+    %dt Logo
+    %dd= image_tag resource.logo.url(:medium), :size => "180x60"
+  = display_time_stamp_details(resource)
+
+= render 'user_roles'
+
+%h3.dl-header Payment Details
+%dl.dl-horizontal.draft_item
+  %dt Setup Charges(Rs.)
+  %dd= resource.ots_charges || "-"
+  - if resource.is_fixed_amount?
+    %dt Fixed Amount(Rs.)
+    %dd= resource.fixed_amount || "-"
+  - if resource.is_participant_rate?
+    %dt Participant Rate Basis(Rs.)
+    %dd= resource.participant_rate || "-"
+  %dt Point Upload Charges(%)
+  %dd= resource.puc_rate || "-"
+  %dt Is Locked
+  %dd= styling_boolean_label(resource.is_locked)
+
+%h3.dl-header Additional Information
+%dl.dl-horizontal.draft_item
+  %dt 1 Rupee =
+  %dd= "#{resource.points_to_rupee_ratio.presence || '-'} points"
+  %dt Description
+  %dd= resource.description.presence|| "-"
+  %dt Notes
+  %dd= resource.notes.presence || "-"
+  %dt Opening Balance
+  %dd= resource.opening_balance
+  %dt Live Client
+  %dd= styling_boolean_label(resource.is_live)
+  %dt Allow Total Points Deduction
+  %dd= styling_boolean_label(resource.allow_total_points_deduction)
+  %dt Custom Reset Password URL
+  %dd= styling_boolean_label(resource.settings[:custom_reset_password_url] && resource.settings[:custom_reset_password_url].to_bool)
+%h3.dl-header Send Auto Activation Link
+%dl.dl-horizontal.draft_item
+  - Client::SETTING_TYPES.drop(1).each do |field|
+    %dt= field.split("saal_")[1].titleize.upcase
+    %dd= styling_boolean_label(resource.settings[field] && resource.settings[field].to_bool)
+
+%h3.dl-header Value Added Services
+%dl.dl-horizontal.graft_items
+  %dt Target Offer Enable
+  %dd= styling_boolean_label(resource.is_targeted_offer_enabled)
+
+= render 'api_details'
+
+= render 'otp_details'
+
+= render 'sms_based_details'
+
+= render 'sign_up_customization_details'
+
+=link_to 'Back', admin_clients_path, :class=> "btn"
+= points_summary_link({:client_id_eq => resource.id}, true)
+-if can? :edit, Client
+  =link_to 'Edit Client', edit_admin_client_path(resource.id), :class=> "btn btn-info"
+

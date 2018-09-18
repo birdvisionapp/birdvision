@@ -1,0 +1,11 @@
+#widget-postion-1.col-sm-4
+  %span.remove-widget= link_to image_tag("remove_30-sign.jpg"), "#"
+  .widget-postion-inner
+    %span.delete-widget-button
+      - @widget_id = @client_manager_dashboard.find_widget(@wid, current_admin_user)
+      = link_to image_tag("remove_30-sign.jpg"), admin_client_managers_widget_path(@widget_id), :method => :delete, :class => "remove-widget-button", :confirm => "Are you sure. You want to remove #{@wid} widget?"
+    = link_to redemption_admin_client_managers_widgets_path, :id => "redemption-link", :class => "decoration-none" do
+      .widget-header= 'Redemption'
+      .widgets-number-data
+        %span.number.penetration-number= bvc_currency(@dashboard.all_schemes_redemption)
+        %span.sub-title{:style => "color: black;"}

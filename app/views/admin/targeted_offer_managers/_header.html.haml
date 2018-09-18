@@ -1,0 +1,31 @@
+.header-div
+  - if f==1
+    %a#enabled
+      %span.badge 1
+      Offer Manager
+    %a#disabled
+      %span.badge 2
+      Campaingn Manager
+    %a#disabled.current
+      %span.badge.badge-inverse 3
+      Communication manager
+  - if f==2
+    %a#disabled
+      %span.badge 1
+      Offer Manager
+    %a#enabled
+      %span.badge 2
+      Campaingn Manager
+    %a#disabled.current
+      %span.badge.badge-inverse 3
+      Communication manager
+  - if f==3
+    %a#disabled
+      %span.badge 1
+      Offer Manager
+    %a#disabled
+      %span.badge 2
+      Campaingn Manager
+    %a#enabled.current
+      %span.badge.badge-inverse 3
+      Communication manager

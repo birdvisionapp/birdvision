@@ -1,0 +1,35 @@
+%h1 Supplier Details
+
+
+%dl.dl-horizontal.supplier-details
+  %h3 Contact Details
+  - if is_super_admin?
+    %dt MSP
+    %dd= resource.msp_name
+  %dt Supplier Name
+  %dd= resource.name
+  %dt Address
+  %dd=resource.address.presence||"-"
+  %dt Phone Number
+  %dd=resource.phone_number.presence||"-"
+
+  %h3 Additional Information
+  %dt Categories Supplied
+  %dd=resource.supplied_categories.presence||"-"
+  %dt Payment Terms
+  %dd=resource.payment_terms.presence||"-"
+  %dt Delivery Time
+  %dd=resource.delivery_time.presence||"-"
+  %dt Geographic Reach
+  %dd=resource.geographic_reach.presence||"-"
+  %dt Description
+  %dd=resource.description.presence||"-"
+  %dt Additional Notes
+  %dd=resource.additional_notes.presence||"-"
+
+.actions
+  =link_to 'Back', admin_suppliers_path, :class=> "btn"
+  =link_to 'Edit Supplier', edit_admin_supplier_path(resource.id), :class=> "btn btn-info"
+
+
+

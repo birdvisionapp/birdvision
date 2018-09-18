@@ -1,0 +1,95 @@
+qa:
+  app: bvc-qa
+  config:
+    BUNDLE_WITHOUT: "development:test"
+    MAILER_HOST: 'bvc-qa.herokuapp.com'
+    AWS_BUCKET: "bvc-qa-images"
+    FOG_DIRECTORY: 'bvc-qa-assets'
+    FOG_PROVIDER: 'AWS'
+    FOG_REGION: 'ap-southeast-1'
+    ASSET_SYNC_EXISTING_REMOTE_FILES: 'delete'
+    ASSET_SYNC_GZIP_COMPRESSION: true
+    ENABLE_DELAYED_JOBS: 'true'
+    GA_PARTICIPANT_TRACKING_ID: 'UA-37466860-1'
+    GA_ADMIN_TRACKING_ID: 'UA-37495649-1'
+    WEBSOLR_URL: 'http://index.websolr.com/solr/2c5a4493c34' # need to add WEBSOLR_URL as we will not add websolr addon on QA.
+    MAINTENANCE_PAGE_URL: https://s3-ap-southeast-1.amazonaws.com/bvc-error-pages/maintenance.html
+    ERROR_PAGE_URL: https://s3-ap-southeast-1.amazonaws.com/bvc-error-pages/error.html
+    EXOTEL_SID: ''
+    EXOTEL_TOKEN: ''
+    SMS_SENDER: ''
+    ASYNC_UPLOAD_BUCKET: 'bvc-qa-uploads'
+    DOWNLOAD_REPORT_BUCKET: 'bvc-qa-reports'
+  addons:
+    - cleardb:ignite
+    - sendgrid:starter
+    - newrelic:standard
+#    - websolr  -- DONOT Enable this: QA uses staging's Solr
+    - papertrail:choklad
+    - scheduler:standard
+
+staging:
+  stack: cedar
+  app: bvc-staging
+  config:
+    URL_SCHEME: "https"
+    BUNDLE_WITHOUT: "development:test"
+    MAILER_HOST: 'bvc-staging.herokuapp.com'
+    AWS_BUCKET: "bvc-staging-images"
+    FOG_DIRECTORY: 'bvc-staging-assets'
+    FOG_PROVIDER: 'AWS'
+    FOG_REGION: 'ap-southeast-1'
+    ASSET_SYNC_EXISTING_REMOTE_FILES: 'delete'
+    ASSET_SYNC_GZIP_COMPRESSION: true
+    CDN_HOST: '//d2hhl49h2mzc69.cloudfront.net'
+    ENABLE_DELAYED_JOBS: 'true'
+    GA_PARTICIPANT_TRACKING_ID: 'UA-37532803-1'
+    GA_ADMIN_TRACKING_ID: 'UA-37513988-1'
+    MAINTENANCE_PAGE_URL: https://s3-ap-southeast-1.amazonaws.com/bvc-error-pages/maintenance.html
+    ERROR_PAGE_URL: https://s3-ap-southeast-1.amazonaws.com/bvc-error-pages/error.html
+    CONTACT_US_RECIPIENT: balaji.pdm@gmail.com
+    EXOTEL_SID: ''
+    EXOTEL_TOKEN: ''
+    SMS_SENDER: ''
+    WEBSOLR_URL: 'http://index.websolr.com/solr/311651478af' #uses websolr production add-on (second index)
+    ASYNC_UPLOAD_BUCKET: 'bvc-staging-uploads'
+    DOWNLOAD_REPORT_BUCKET: 'bvc-staging-reports'
+  addons:
+    - cleardb:punch
+    - sendgrid:starter
+    - newrelic:standard
+    - websolr
+    - papertrail:choklad
+    - scheduler:standard
+
+production:
+  stack: cedar
+  app: bvc-production
+  config:
+    URL_SCHEME: "https"
+    BUNDLE_WITHOUT: "development:test"
+    MAILER_HOST: 'live.bvcrewards.com'
+    AWS_BUCKET: "bvc-production-images"
+    FOG_DIRECTORY: 'bvc-production-assets'
+    FOG_PROVIDER: 'AWS'
+    FOG_REGION: 'ap-southeast-1'
+    ASSET_SYNC_EXISTING_REMOTE_FILES: 'delete'
+    ASSET_SYNC_GZIP_COMPRESSION: true
+    CDN_HOST: '//d3jdo99m4r1lkr.cloudfront.net'
+    ENABLE_DELAYED_JOBS: 'true'
+    GA_PARTICIPANT_TRACKING_ID: 'UA-38233876-1'
+    GA_ADMIN_TRACKING_ID: 'UA-38240391-1'
+    MAINTENANCE_PAGE_URL: https://s3-ap-southeast-1.amazonaws.com/bvc-error-pages/maintenance.html
+    ERROR_PAGE_URL: https://s3-ap-southeast-1.amazonaws.com/bvc-error-pages/error.html
+    CONTACT_US_RECIPIENT: customercare@birdvision.in
+    DOWNLOAD_REPORT_BUCKET: 'bvc-production-reports'
+#    EXOTEL_SID: ''
+#    EXOTEL_TOKEN: ''
+#    SMS_SENDER: ''
+  addons:
+    - cleardb:punch
+    - sendgrid:starter
+    - newrelic:standard
+    - websolr
+    - papertrail:fixa
+    - scheduler:standard

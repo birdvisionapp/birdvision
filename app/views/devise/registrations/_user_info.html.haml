@@ -1,0 +1,48 @@
+%table.table
+  %tbody
+    %tr
+      %td 
+        %strong Owner Name
+      %td= f.object.full_name
+    %tr
+      %td 
+        %strong Address
+      %td= f.object.address
+    %tr
+      %td 
+        %strong Mobile Number
+      %td= f.object.mobile_number
+=link_to 'Change Details', approve_al_user_details_path
+  
+= field_set_tag "Participant Details" do
+  .control-group
+    = f.label 'Email', :class => "control-label"
+    .controls
+      = f.email_field :email
+  .control-group
+    = f.label 'Profile Picture', :class => "control-label"
+    .controls
+      = image_tag f.object.avatar.url, :size => "200x200"
+      = f.file_field :avatar
+    .controls
+      .icon-info-sign
+      .help-inline please select file less than 1 MB.
+  .control-group
+    = f.label 'Shop Image', :class => "control-label"
+    .controls
+      = image_tag f.object.extra_pic.url, :size => "200x200"
+      = f.file_field :extra_pic
+    .controls
+      .icon-info-sign
+      .help-inline please select file less than 1 MB.
+  .control-group
+    = f.label 'Date of Birth', :class => "control-label"
+    .controls
+      = f.text_field :dob, :class => 'datepicker', :value => ldate(f.object.dob)
+  .control-group
+    = f.label 'Wedding Anniversary', :class => "control-label"
+    .controls
+      = f.text_field :anniversary, :class => 'datepicker', :value => ldate(f.object.anniversary)
+  .control-group
+    = f.label 'Enter Family Details', :class => "control-label"
+    .controls= f.text_area :extra_field, :rows => 5

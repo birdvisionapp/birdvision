@@ -1,0 +1,25 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @language_template.errors.full_messages}
+
+= nested_form_for [:admin, @language_template], :html => {:class => 'form-horizontal'} do |f|
+
+  .fields-group
+    %h3 Template Details
+
+    .control-group
+      = f.label :name, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :name
+    = f.fields_for :template do |t|
+      - LanguageTemplate::TEMPLATE_FIELDS.each do |field|
+        .control-group
+          = t.label field, "#{field.to_s.titleize} Template", :class => 'control-label'
+          .controls
+            = t.text_area field, :value => @language_template.template[field], :rows => 4
+    .control-group
+      = f.label :status, :class => 'control-label'
+      .controls
+        = f.select :status, LanguageTemplate::Status::ALL.collect {|status| [status.titleize, status]}, {}, {:class => 'input-s-medium'}
+  .control-group
+    .controls
+      =link_to 'Cancel', admin_language_templates_path, :class=> "btn"
+      = f.button @language_template.id.nil? ? "Create Template" : "Save Template", :class => 'btn btn-info'

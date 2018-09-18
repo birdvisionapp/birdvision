@@ -1,0 +1,17 @@
+
+= search_form_for @dashboard.product_statistic, :url => product_penetration_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/product_penetration_filter" }
+
+.content-container.widgets-container
+  .widgets-wrapper.row
+    - unless @product_stats.empty?
+      = link_to category_reward_items_admin_client_managers_widgets_path do 
+        - @product_stats.each do |stat|
+          #widget-postion-1.col-sm-4
+            .widget-postion-inner
+              %p.penetration-number= "#{stat["penetration"]}%"
+              %p.category-name= stat["category_name"]
+    - else
+      #widget-postion-1.col-sm-4
+        .widget-postion-inner
+          %h3 No Product Category Found

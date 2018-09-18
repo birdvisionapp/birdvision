@@ -1,0 +1,40 @@
+%h2 Successful Transaction
+
+= search_form_for @search, :url => successful_transaction_admin_al_transactions_path do |f|
+  = render :partial => "admin/share/filter_wrapper" , :locals => { :f => f, :filter => "successful_trans_filter" }
+.actions-right
+  = link_to successful_transaction_admin_al_transactions_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info", :id =>"downloadMasterCatalogCsv" do
+    %i.icon-arrow-down.icon-white
+    Download
+%table.table.table-striped.table-bordered.failed-transaction
+  %thead
+    %tr
+      %th.span4 Created At
+      %th.span4 Purchase Date
+      %th.span4 Sales Office Code
+      %th.span4 Sales Group Code
+      %th.span4 Dealer Hierarchy
+      %th.span4 Sap Code
+      %th.span4 Part Number
+      %th.span4 Quantity
+      %th.span4 Points Per Unit
+      %th.span4 Total Points
+
+  - @successful_transaction.each do |transaction|
+    %tr
+      %td= humanize_date(transaction.created_at)
+      %td= humanize_date(transaction.purchase_date)
+      %td= transaction.sales_office_code
+      %td= transaction.sales_group_code
+      %td= transaction.dealer_hierarchy
+      %td= transaction.sap_code
+      %td= transaction.part_number
+      %td= transaction.quantity
+      %td= transaction.part_points
+      %td= transaction.total_points
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @successful_transaction
+  .actions-right

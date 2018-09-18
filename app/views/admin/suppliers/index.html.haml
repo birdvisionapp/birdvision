@@ -1,0 +1,47 @@
+%h1 Suppliers
+
+= search_form_for @search, :url => admin_suppliers_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "suppliers_filter" }
+
+.actions
+  .actions-left
+    = link_to 'Add New Supplier', new_admin_supplier_path, :class => 'btn btn-info'
+  .grid-pager
+    = paginate @suppliers
+
+%table.table.table-striped.table-bordered.suppliers
+  %thead
+    %tr
+      - if is_super_admin?
+        %th.msp-name= sort_link(@search, :msp_name, "MSP")
+      %th.name-title
+        = sort_link(@search, :name)
+      %th.address-title
+        = sort_link(@search, :address)
+      %th.phone_number-title
+        = sort_link(@search, :phone_number,"Phone Number")
+      %th.supplied_categories-title
+        = sort_link(@search, :supplied_categories,"Supplied Categories")
+      %th.geographic_reach-title
+        = sort_link(@search, :geographic_reach,"Geographic Reach")
+      %th
+        %span Actions
+
+  - @suppliers.each do |supplier|
+    %tr[supplier]
+      - if is_super_admin?
+        %td.msp-name= supplier.msp_name
+      %td.name= supplier.name
+      %td.address= supplier.address
+      %td.phone_number= supplier.phone_number
+      %td.supplied_categories= supplier.supplied_categories
+      %td.geographic_reach= supplier.geographic_reach
+      %td
+        =link_to 'Edit', edit_admin_supplier_path(supplier.id)
+        %span /
+        =link_to 'View', admin_supplier_path(supplier.id)
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @suppliers

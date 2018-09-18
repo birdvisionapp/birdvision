@@ -1,0 +1,9 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :msp_id_eq, "MSP"
+        = f.collection_select :msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      = f.label :title_cont, "Category"
+      = f.text_field :title_cont, :class => 'input-medium'    

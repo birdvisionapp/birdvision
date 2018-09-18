@@ -1,0 +1,41 @@
+%h1 Points Statement
+.clearfix
+  = search_form_for @search, :url => admin_client_point_reports_path do |f|
+    = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"client_point_reports_filter"}
+= render 'opening_balance' if current_client.present?
+.actions
+  .actions-left
+  .grid-pager
+    = paginate @client_point_reports
+  .actions-right
+    = link_to admin_client_point_reports_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info pull-right", :id =>"downloadSchemeTransactionsCsv" do
+      %i.icon-arrow-down.icon-white
+      Download
+
+%table.table.table-striped.table-bordered.scheme-transactions
+  %thead
+    %tr
+      - if is_super_admin?
+        %th.span4= sort_link(@search, :client_msp_name, "MSP")
+      - unless is_client_manager?
+        %th.span4= sort_link(@search, :client_client_name, "Client")
+      %th.span4= sort_link(@search, :trans_date,"Date")
+      %th.span4 Credit
+      %th.span4 Debit
+      %th.span4 Balance
+
+  - @client_point_reports.each do |transaction|
+    %tr
+      - if is_super_admin?
+        %td= transaction.client.msp_name
+      - unless is_client_manager?
+        %td= link_to transaction.client.client_name, admin_client_path(transaction.client)
+      %td= humanize_date(transaction.trans_date)
+      %td= transaction.credit
+      %td= transaction.debit
+      %td= transaction.balance
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @client_point_reports
+  .actions-right

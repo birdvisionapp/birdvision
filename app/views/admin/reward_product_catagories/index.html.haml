@@ -1,0 +1,32 @@
+%h1 Reward Product Category
+
+.actions
+  .actions-left
+    -if can? :create, Scheme
+      = link_to 'Add New Category', new_admin_reward_product_catagory_path, :class => 'btn btn-info'
+      
+    - if @reward_product_catagories.empty?
+      %h3 There are no prodcut catagories yet.
+    - else
+      .grid-pager
+        /= paginate @product_catagories
+%table.table.table-striped.table-bordered.schemes
+  %thead
+    %tr
+      %th
+        %span Client Name
+      %th
+        %span Scheme Name
+      %th
+        %span Reward Category Name
+      %th
+        %span Reward Category Description
+    - @reward_product_catagories.each do |catagory|
+      %tr
+        %td= link_to catagory.client.client_name, admin_client_path(catagory.client)
+        %td= catagory.scheme.name
+        %td= catagory.category_name
+        %td= catagory.category_description
+        %td
+          -if can? :edit, RewardProductCatagory
+            = link_to 'Edit', edit_admin_reward_product_catagory_path(catagory.id)

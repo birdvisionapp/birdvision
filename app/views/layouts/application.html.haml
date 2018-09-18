@@ -1,0 +1,52 @@
+!!!
+%html
+
+  %head
+    %title Birdvision
+    - if asset_host.present?
+      %link{:rel=>"dns-prefetch", :href=>asset_host}
+    = stylesheet_link_tag "application", :media => "all"
+    = stylesheet_link_tag custom_theme_url, :media => "all" if custom_theme_present?
+    = favicon_link_tag image_path('favicon.ico')
+    = csrf_meta_tags
+
+  - if devise_controller? && !user_signed_in?
+    - classes = {"class"=>"login-page-body"}
+
+  - ie_body(classes || {}) do
+
+    #wrapper
+      - unless classes
+        #siteHeader
+          = render "layouts/header"
+
+      #siteContent.container.clearfix
+        /TODO update the styles so alert and notice have visible difference
+        .row
+          - if content_for? :left_nav
+            .span3.left-navigation-container
+              = yield :left_nav
+            .span9.clearfix
+              =yield
+          - else
+            = yield
+      /used to create sticky footer. DO NOT REMOVE
+      .push
+
+    = render "layouts/footer", :@container_class => "container"
+    = javascript_include_tag "application"
+    - haml_concat("<!--[if lte IE 9]>    #{ javascript_include_tag 'ie9' }<![endif]-->".html_safe)
+    - haml_concat("<!--[if lte IE 8]>    #{ javascript_include_tag 'ie8' }<![endif]-->".html_safe)
+    - haml_concat("<!--[if lte IE 7]>    #{ javascript_include_tag 'ie7' }<![endif]-->".html_safe)
+    - unless Rails.env.test? || Rails.env.development?
+      :javascript
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '#{App::Config.analytics[:participant][:account_id]}']);
+        _gaq.push(['_setDomainName', '#{request.domain}']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();

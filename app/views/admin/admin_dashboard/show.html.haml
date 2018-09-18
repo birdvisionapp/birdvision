@@ -1,0 +1,82 @@
+.participant_search
+  = render "header"
+
+%ul.infographics.clearfix
+  %li.container.schemes
+    - scheme_stats = @dashboard.scheme_stats
+    = link_to admin_schemes_path do
+      .header= 'Schemes'
+      .number-data
+        %span.number.right= bvc_currency(scheme_stats[:redeemable])
+        %span.sub-title Ready For Redemption
+      .description
+        %p= "Upcoming - #{scheme_stats[:upcoming]}"
+        %p= "Past - #{scheme_stats[:past]}"
+
+  - redeemable_scheme_budgets = SchemeBudget.for_schemes(@dashboard.top_redeemable_schemes)
+  %li.container.scheme-budget
+    = link_to admin_schemes_path do
+      .header= 'Uploaded Points Value'
+      .number-data
+        %span.number.right= bvc_currency(@dashboard.all_schemes_budget)
+        %span.sub-title Total Rs.
+      .description
+        %table
+          %thead
+            %tr
+              %th.span3 Name
+              %th.span3 Rupees
+              %th.span3 Points
+
+          %tbody
+            - redeemable_scheme_budgets.each do |scheme_budget|
+              - scheme = scheme_budget.scheme
+              %tr
+                %td.ellipsis= scheme.name
+                %td= bvc_currency(scheme_budget.total_rupees_uploaded)
+                %td= bvc_currency(scheme_budget.total_points_uploaded)
+      %p.view-all View all
+
+  %li.container.scheme-redemption
+    = link_to admin_order_items_path do
+      .header= 'Redemption Value'
+      .number-data
+        %span.number= bvc_currency(@dashboard.all_schemes_redemption)
+        %span.sub-title Total Rs.
+      .description
+        %table
+          %thead
+            %tr
+              %th.span3 Name
+              %th.span3 Rupees
+              %th.span3 Points
+          %tbody
+            - redeemable_scheme_budgets.each do |scheme_budget|
+              - scheme = scheme_budget.scheme
+              %tr[scheme]
+                %td.ellipsis= scheme.name
+                %td= bvc_currency(scheme_budget.total_rupees_redeemed)
+                %td= bvc_currency(scheme_budget.total_points_redeemed)
+
+  %li.container.participants
+    - users_stats = @dashboard.participant_stats
+    = link_to admin_users_path do
+      .header= 'Participants'
+      .number-data
+        %span.number= users_stats["active"] || 0
+        %span.sub-title Active
+      .description
+        %p= "Inactive - #{users_stats["inactive"] || 0}"
+        %p= "Pending - #{users_stats["pending"] || 0}"
+
+  %li.container.orders
+    - order_stats = @dashboard.order_stats
+    = link_to admin_order_items_path do
+      .header Orders
+      .number-data
+        - total_orders = order_stats.values.inject(:+)
+        %span.number= bvc_currency(total_orders)
+        %span.sub-title Order(s) placed
+      .description
+        - order_stats.each do |status, value|
+          %p= "#{status.to_s.humanize} - #{value}"

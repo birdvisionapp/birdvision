@@ -1,0 +1,23 @@
+= search_form_for @dashboard.used_codes, :url => penetration_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/penetration_filter" }
+
+.content-container.widgets-container
+  .widgets-wrapper
+    #widget-postion-1#redemption.col-sm-4
+      .hidden-values
+        %span.unused-codes
+          = @total_codes
+        %span.used-codes
+          = @used_codes
+      .widget-postion-inner
+        - @categoty_count = @dashboard.total_reward_categories
+        - if @categoty_count > 0
+          = link_to product_penetration_admin_client_managers_widgets_path, :id => "penetration-link", :class => "decoration-none" do
+            .widget-header= "Product Penetration"
+            #product-penetration-gauge
+        - else
+          = link_to reward_item_level_admin_client_managers_widgets_path, :class => "decoration-none" do
+            .widget-header= "Product Penetration"
+            #product-penetration-gauge
+    #widget-description
+      %span This widget shows the relationship between products shipped to product sold. This relation ship is established on the basis of the codes received from the buyers.

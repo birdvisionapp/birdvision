@@ -1,0 +1,80 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h4.pull-right="Average Base Margin: #{@average_bvc_margin} %"
+%h1 Master Catalog
+
+= search_form_for @search, :url => admin_master_catalog_index_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter => "admin/share/items_filter" }
+
+= render :partial => "share/messages", :locals => {:type => :alert, :message => ""}
+= form_tag toggle_status_admin_master_catalog_index_path(:q => params[:q]), :method => :post do
+  .actions
+    .actions-left
+      = submit_tag 'Activate Item(s)', :name => 'active', :class => 'btn btn-success ptc-action-bt'
+      = submit_tag 'Inactivate Item(s)', :name => 'inactive', :class => 'btn btn-danger ptc-action-bt confirm-in-pa', :rel => 'item'
+    .grid-pager
+      = paginate @items , :container => false,  :window => 2 , :left => 1, :right => 1
+    .actions-right
+      = link_to admin_master_catalog_index_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info", :id =>"downloadMasterCatalogCsv" do
+        %i.icon-arrow-down.icon-white
+        Download
+  %table.table.master_catalog.table-striped.table-bordered
+    %thead
+      %tr
+        %th
+          %input{:type=>"checkbox", :class => "select-all", :title => "Select"}
+        - if is_super_admin?
+          %th= sort_link(@search, :category_msp_name, "MSP")
+        %th
+          = sort_link(@search, :id, "Item Id")
+        %th
+          = sort_link(@search, :title ,"Item Name")
+        %th= sort_link(@search, :status, "Status")
+        %th
+          %span= "Category"
+        %th
+          =sort_link(@search, :category_title ,"Sub Category")
+        %th
+          %span= "All Suppliers"
+        %th
+          =sort_link(@search, :preferred_supplier_supplier_name, "Pref. Supplier")
+        %th
+          .align-right=sort_link(@search, :preferred_supplier_channel_price, "Channel Price(Rs.)")
+        %th
+          .align-right= sort_link(@search, :preferred_supplier_mrp, "MRP(Rs.)")
+        %th
+          .align-right=sort_link(@search, :bvc_price, "Base Price(Rs.)")
+        %th.align-right= sort_link(@search, :margin, "Base Margin(%)")
+        %th.align-right= sort_link(@search, :preferred_supplier_supplier_margin,"Supplier Margin(%)")
+        %th
+          %span= "Clients"
+        %th
+          %span= "Actions"
+
+    - @items.each do |item|
+      %tr[item]
+        %td= check_box_tag 'item_ids[]', item.id, false, :id => "batch_action_item_#{item.id}", :class => "user_checkbox selectable"
+        - if is_super_admin?
+          %td= item.category.msp_name
+        %td= item.id
+        %td= item.title.nil? ? '-' : item.title
+        %td.status= styling_status_label(item.status)
+        %td= item.category.parent.nil? ? '-' : item.category.parent.title
+        %td= item.category.nil? ? '-' : item.category.title
+        %td= item.supplier_names
+        %td= item.preferred_supplier.supplier.name
+        %td.align-right= bvc_currency(item.preferred_supplier.channel_price)
+        %td.align-right= bvc_currency(item.preferred_supplier.mrp)
+        %td.align-right= bvc_currency(item.bvc_price)
+        %td.align-right= item.margin.nil? ? '-' : item.margin
+        %td.align-right= item.preferred_supplier.supplier_margin if item.preferred_supplier.supplier_margin.present?
+        %td
+          = get_client_names_for item
+        %td
+          = link_to 'Edit', edit_admin_master_catalog_path(:id => item.id, :q => params[:q])
+  .actions-down
+    .actions-left
+    .grid-pager
+      = paginate @items , :container => false,  :window => 2 , :left => 1, :right => 1
+    .actions-right

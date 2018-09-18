@@ -1,0 +1,71 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @item.errors.full_messages}
+
+= form_for @item, :url => admin_master_catalog_path(:id => @item.id, :q => params[:q]), :html => {:class => 'edit-master-catalog-item form-horizontal'} do |f|
+
+  .fields-group
+    %h3 Taxonomy
+    = render "admin/share/select_msp", f: @item.category, enable_select: true
+    .control-group
+      = f.label :category, :class => 'control-label mandatory-field'
+      .controls
+        = f.collection_select :category_id, Category.accessible_by(current_ability).sub_categories, :id, :display_name, {}, {:class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:display_name', subset: true)}}
+
+  .fields-group
+    %h3 Item Summary
+    .control-group
+      = f.label :brand, :class => 'control-label'
+      .controls
+        = f.text_field :brand
+    .control-group
+      = f.label :title, "Item Name",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :title
+    .control-group
+      = f.label :model_no,"Model No.", :class => 'control-label'
+      .controls
+        = f.text_field :model_no
+    .control-group
+      = f.label :description, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_area :description , :rows => 3,:maxlength=> 300
+
+  .fields-group
+    %h3 Specification
+    .control-group
+      .controls
+      = f.cktext_area :specification, :input_html => {:class => 'specification', :cols => 60, :rows => 40}
+
+  .fields-group
+    %h3 Images
+    .control-group
+      .controls
+        = image_tag(@item.image.url)
+        = f.file_field :image
+      .controls
+        .icon-info-sign
+        %span.help-inline Allowed image types are jpg,jpeg,png,gif. Please ensure that the image is of 300x300 resolution to ensure best appearance
+
+  .fields-group
+    =f.fields_for :item_suppliers do |item_suppliers_form|
+      = render "supplier_fields", :f=>item_suppliers_form
+
+
+  .fields-group
+    %h3 Add Base Price
+    .control-group
+      = f.label :bvc_price,"Base Price(Rs.)", :class => 'control-label'
+      .controls
+        = f.text_field :bvc_price, :class=> 'bvc-price'
+    .control-group
+      = f.label :margin, "Base Margin(%)", :class => 'control-label'
+      .controls
+        = f.text_field :margin, :readonly => true, :class=> 'bvc-margin'
+    .control-group
+      = f.label :status, :class => 'control-label'
+      .controls
+        = f.select :status, Item::Status::ALL.collect {|status| [status.titleize, status]}, {}, {:class => 'input-s-medium'}
+
+    .control-group
+      .controls
+        =link_to 'Cancel', admin_master_catalog_index_path(:q => params[:q]), :class=> "btn"
+        = f.button "Save Item", :class => 'btn btn-info'

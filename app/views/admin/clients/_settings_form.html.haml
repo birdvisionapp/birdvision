@@ -1,0 +1,18 @@
+= f.fields_for :settings do |setting|
+  .control-group
+    = setting.label :custom_reset_password_url, "Custom Reset Password URL", :class => 'control-label'
+    .controls
+      = setting.check_box :custom_reset_password_url, :checked => @client.settings[:custom_reset_password_url] && @client.settings[:custom_reset_password_url].to_bool, :class => 'fm-check-input bg-ck-med'
+  .control-group
+    = label_tag :send_auto_activation_link, "Send Auto Activation Link", :class => 'control-label'
+    .controls
+      - Client::SETTING_TYPES.drop(1).each do |field|
+        .col-md-4.pull-left{:class => (field == 'saal_sms_based') ? 'sms-based-container' : ''}
+          = setting.check_box field.to_sym, :checked => @client.settings[field] && @client.settings[field].to_bool, :class => 'fm-check-input bg-ck-med'
+          = setting.label field.to_sym, field.split("saal_")[1].titleize.upcase, :class => 'control-label'
+      .clearfix
+  - if @client.schemes.size > 0
+    .control-group
+      = setting.label :scheme_catalog, "Scheme Catalog", :class => 'control-label'
+      .controls
+        = setting.collection_select :scheme_catalog, @client.schemes.select_options, :id, :name, {:include_blank => 'Default', :selected => @client.settings['scheme_catalog'] && @client.settings['scheme_catalog'].to_i}

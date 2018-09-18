@@ -1,0 +1,18 @@
+.item
+  .control-group.template.pull-left
+    = role.label :name, "Category", :class => 'control-label mandatory-field'
+    .controls
+      = role.text_field :name, :placeholder => 'Name', :class => 'input-medium'
+      = role.text_field :color_hex, :placeholder => 'Color', :class => 'input-mini clnt-usr-rl-colorpic'
+      = role.link_to_remove '', :class => 'remove icon-trash'
+  .ad-cl-sub-categories
+    = role.fields_for :sub_roles do |f|
+      .control-group.template.pull-left
+        = f.label :name, "Sub Category", :class => 'control-label mandatory-field'
+        .controls
+          = f.text_field :name, :placeholder => 'Name', :class => 'input-medium'
+          = f.link_to_remove '', :class => 'remove icon-trash'
+    = role.link_to_add 'Add Sub Category', :sub_roles, :class => 'btn btn-info btn-small add-sub-category-bt'
+  .clearfix
+:coffeescript
+  $('.clnt-usr-rl-colorpic').minicolors()

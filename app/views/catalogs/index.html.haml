@@ -1,0 +1,19 @@
+- content_for :left_nav do
+  = render :partial => "share/filters",:locals => {:show_point_filter => @user_scheme.show_points?}
+= render :partial => "share/carousel", :locals => { :user_items =>  @catalogs.featured }
+
+.span9.catalogs
+  = render :partial => "share/flash_messages"
+  - unless @user_scheme.redemption_active?
+    .alert.alert-info= "This scheme is not yet active!"
+  - unless @user_scheme.can_add_to_cart?
+    .alert.alert-info= "You have already redeemed from this scheme!"
+
+  - @catalogs.club_catalogs.each do |club_catalog|
+    .catalog
+      .header.clearfix{:class => "#{club_catalog.club_name}-catalog"}
+        %h2.club-name= club_catalog.club_name.titleize
+        =link_to 'View all' , catalog_path(@user_scheme.scheme.slug, club_catalog.level_club), :class=>"view-all"
+        - if club_catalog.ineligible?
+          %span.fyi= "You are not eligible for #{club_catalog.club_name} club rewards."
+      = render :partial => "share/item_listing", :locals => {:css_class => club_catalog.name.parameterize, :user_items => user_items(@user_scheme, club_catalog.featured_items) }

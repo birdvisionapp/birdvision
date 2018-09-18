@@ -1,0 +1,36 @@
+- if current_user.client_id == ENV['AL_CLIENT_ID'].to_i
+  =render :partial => "al_dashboard"
+- elsif @show_dashboard
+  =render :partial => "dashboard"
+.span12.schemes
+  - if @schemes.values.all?(&:empty?)
+    %h2 None of your schemes are currently active
+  - else
+    - if lnt_user(current_user)
+      .scheme-group#lt-specific
+        %strong For ORIS 1/8/15-31/10/15 campaign,
+        your baseline Sales figure is  #{bvc_currency(current_user.notes)}. You have to drive at least 20% growth above this figure to qualify for Rewards from ORIS Campaign.
+    - @schemes.each do |group, scheme_wrappers|
+      - unless scheme_wrappers.empty?
+        .scheme-group{:id=>"#{group.to_s}"}
+          %h3= "#{group.to_s.titleize} Schemes"
+          - scheme_wrappers.each do |scheme_wrapper|
+          - user_scheme_catalog_path = catalog_path_for(scheme_wrapper.user_scheme)
+            .scheme.clearfix[scheme_wrapper.scheme]
+              .hero_image
+                =link_to_if scheme_wrapper.can_proceed, image_tag(scheme_wrapper.scheme.hero_image.url, :id => "#{scheme_wrapper.scheme.id}_hero_image"), user_scheme_catalog_path do
+                  =image_tag(scheme_wrapper.scheme.hero_image.url, :id => "#{scheme_wrapper.scheme.id}_hero_image")
+                =link_to image_tag('download_poster.png'), scheme_wrapper.scheme.poster.url, :target => "_blank" , :class => "download_poster", :title => "Download Poster"
+                -unless scheme_wrapper.can_proceed
+                  .disabled-scheme
+
+
+              .details
+                .scheme-name
+                  =link_to_if scheme_wrapper.can_proceed, scheme_wrapper.scheme.name , user_scheme_catalog_path, :class => 'header' do
+                    %span.header= scheme_wrapper.scheme.name
+                %p= raw scheme_wrapper.date_range
+                - if scheme_wrapper.points_text.present?
+                  %p= scheme_wrapper.points_text
+                %p.message=scheme_wrapper.message
+                =link_to scheme_wrapper.button_text , user_scheme_catalog_path, :class => 'btn btn-info' if scheme_wrapper.can_proceed

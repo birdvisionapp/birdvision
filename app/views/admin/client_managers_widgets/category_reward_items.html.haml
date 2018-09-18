@@ -1,0 +1,26 @@
+= search_form_for @search, :url => category_reward_items_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/category_reward_items_filter" }
+  
+.content-container.widgets-container
+  .widgets-wrapper.row
+    .top_penetrations.row
+      %h3 Top 5 Penetrations
+      - @top_penetrations.each do |penetration|
+        = link_to sku_level_admin_client_managers_widgets_path(:id => penetration['id'])  do
+          .col-sm-3#reward-penetration
+            .reward-penetration-inner
+              .penetration-percentage= "#{penetration['penetration']}%"
+              .penetration-name= penetration['name']
+    .more-link
+      = link_to "View More", overall_product_penetration_admin_client_managers_widgets_path
+    %hr
+    .worst_penetrations.row
+      %h3 Worst 5 Penetrations
+      - @worst_penetrations.each do |penetration|
+        = link_to sku_level_admin_client_managers_widgets_path(:id => penetration['id'])  do
+          .col-sm-3#reward-penetration
+            .reward-penetration-inner
+              .penetration-percentage= "#{penetration['penetration']}%"
+              .penetration-name= penetration['name']
+    .more-link
+      = link_to "View More", overall_product_penetration_admin_client_managers_widgets_path

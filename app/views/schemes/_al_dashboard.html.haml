@@ -1,0 +1,52 @@
+%script{:type => "text/template", :id => "al_speedometer_template"}
+  %li.scheme-speedometer{:id=>"speedometer_{{id}}"}
+    .scheme-name.ellipsis="{{name}}"
+    %canvas.canvas{:id=>"canvas_for_{{id}}", :height=>150, :width=>380}
+    .achievement-container
+      .message="Your current achievements are"
+      - num = "{{total_points}}"
+      - num.gsub(/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/, "\\1,")
+      .achievements="#{num}"
+    %a.club-details{'data-placement' => 'bottom', 'data-toggle' => 'popover'}
+      %span.icon-info-sign
+      %span View club names
+
+%script{:type => "text/template", :id => "speedometer_legend_template"}
+  %table#club-details-table
+    {% _.each(clubs, function(club){ %}
+    %tr
+      %td{:style => "background-color: {{club.color}};width:20px;"}
+      %td="{{club.name}}"
+    {% }) %}
+
+%script{:type => "text/html", :id => "leaderboard_bar_template"}
+  %li
+    %span.user-name.ellipsis="{{self?'You':name}}"
+    .bar-container
+      .bar{:style =>"width: {{width}}px", :class => "{{(self)?'my':'others'}}"}
+    %span.achievements="{{achievements}}"
+
+%script{:type => "text/html", :id => "select_scheme_template"}
+  %option{:value=>"{{id}}"}="{{scheme_name}}"
+
+-# %script{:type => "text/html", :id => "avg_achievements_template"}
+  -# .avg
+    -# = "{{avg}}"
+    -# %span= "%"
+  -# .text Avg Achievements
+
+#dashboard.span12
+  %ul.tabs.span2
+    %li.active
+      %a.tab{:href=>"#speedometers","data-toggle"=>"tab"}
+        %span.title Speedometer
+        %span.speedometer-icon
+        .avg-achievements
+
+
+  .tab-content
+    .tab-pane.active#speedometers
+      %ul.speedometer-container.clearfix
+      .controls
+        =link_to '' ,"#speedometers" , :class => "carousel-control left prev"
+        =link_to '' ,"#speedometers" , :class => "carousel-control right next"

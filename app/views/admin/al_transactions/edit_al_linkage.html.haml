@@ -1,0 +1,19 @@
+%h1 Update Linkage
+%hr
+= form_for @acl, url: update_al_linkage_admin_al_transaction_path, :method => :put, :html => {:class => 'form-horizontal new_user'} do |f|
+  = render :partial => "share/messages", :locals => {:type => :alert, :message => @acl.errors.full_messages}
+  .control-group
+    = f.label :retailer_code, :class => 'control-label'
+    .controls
+      = f.text_field :retailer_code, :disabled => ""
+  .control-group
+    = f.label :ro_code, :class => 'control-label'
+    .controls
+      = f.text_field :ro_code
+  .control-group
+    = f.label :dealer_code, :class => 'control-label'
+    .controls
+      = f.text_field :dealer_code
+  .control-group
+    = link_to 'Cancel', al_channel_linkage_admin_al_transactions_path, :class=> "btn"
+    = f.button 'Save Changes', :class => 'btn btn-info'

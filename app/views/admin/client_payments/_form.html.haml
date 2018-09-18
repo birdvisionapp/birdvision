@@ -1,0 +1,38 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @client_payment.errors.full_messages}
+= form_for [:admin, @client_invoice, @client_payment], :html => {:class => 'form-horizontal client-payment-form'} do |f|
+  .fields-group
+    = render 'admin/client_invoices/details', :resource => f.object.client_invoice
+    %h3 Payment Details
+    - final_amount = (f.object.amount_paid) ? f.object.amount_paid : f.object.client_invoice.amount
+    - disable = (local_assigns.has_key?(:disable_payment) && disable_payment == true) ? true : false
+    .control-group
+      = f.label :amount_paid, 'Amount Paid (INR)', :class => 'control-label'
+      .controls
+        = f.hidden_field :amount_paid, :value => final_amount
+        = bvc_currency(final_amount)
+    .control-group
+      = f.label :paid_date, 'Paid Date', :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :paid_date, :value => ldate(f.object.paid_date), :disabled => disable, :maxlength => 12, :class=> 'input-medium datepicker'
+    - if disable
+      .control-group
+        = f.label :credited_at, 'Payment Credit Date', :class => 'control-label mandatory-field'
+        .controls
+          = f.text_field :credited_at, :maxlength => 12, :class=> 'input-medium datepicker'
+    .control-group
+      = f.label :bank_name, 'Bank Name', :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :bank_name, {:disabled => disable}
+    .control-group
+      = f.label :payment_mode, 'Payment Mode', :class => 'control-label mandatory-field'
+      .controls
+        = f.select :payment_mode,  ClientPayment::PaymentMode::ALL.collect {|mode| [mode.upcase, mode]}, {:include_blank => 'Please Select'}, :disabled => disable, :class => 'input-s-medium'
+    .control-group
+      = f.label :transaction_reference, 'Transaction Reference', :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :transaction_reference, {:disabled => disable}
+    
+  .control-group
+    .controls
+      = link_to 'Cancel', admin_client_invoices_path, :class=> "btn"
+      = f.button (disable) ? 'Confirm' : 'Update', :class => 'btn btn-info'

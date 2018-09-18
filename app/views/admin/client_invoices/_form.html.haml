@@ -1,0 +1,44 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @client_invoice.errors.full_messages}
+
+= form_for [:admin, @client_invoice], :html => {:class => 'form-horizontal clnt-invc-form-up'} do |f|
+  = f.hidden_field :invoice_type, :value => ClientInvoice::InvoiceType::POINTS_UPLOAD
+  .fields-group
+    %h3 Payment Details
+    - unless is_client_manager?
+      = render "admin/share/select_msp"
+      .control-group
+        = f.label :client_id, :class => 'control-label mandatory-field'
+        .controls
+          = f.select :client_id, Client.accessible_by(current_ability).select([:id, :client_name, :points_to_rupee_ratio, :puc_rate]).map{|c|[c.client_name, c.id, c.data_hash]}, {:include_blank => 'Please Select'}, :class => 'client-slcr-elmnt al-client-content-loader', :id => 'clnt-selector-for-invoice', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+    - if current_client.present?
+      = f.hidden_field :client_id, {:value => current_client.id, :class => 'client-slcr-elmnt'}.merge(current_client.data_hash)
+    .conversion-field-groups{style: 'display:none'}
+      .control-group
+        = f.label :points, :class => 'control-label mandatory-field'
+        .controls
+          = f.number_field :points, :maxlength => 20, :autocomplete => :off, :min => 1, :class => 'preventEdit input-small invoice-points'
+          %strong.pdng-lt-10#rp-conv-rate
+      .control-group
+        = label_tag :rupees, 'Rupees (INR)', :class => 'control-label'
+        .controls
+          .clnt-rupees-labl
+          .clearfix
+      .control-group
+        .control-label.clt-points-rate-head
+        .controls
+          .point-rate-labl
+          .clearfix
+      .control-group
+        .control-label.clt-service-tax-head
+        .controls
+          .service-tax-labl
+          .clearfix
+      .control-group
+        = label_tag :total_amount, 'Total Amount (INR)', :class => 'control-label'
+        .controls
+          .total-amount-labl
+          .clearfix
+    .control-group
+      .controls
+        = link_to 'Cancel', admin_client_invoices_path, :class=> "btn"
+        = f.button "Generate", :class => 'btn btn-info'

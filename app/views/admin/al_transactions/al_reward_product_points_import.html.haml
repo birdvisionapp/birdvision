@@ -1,0 +1,14 @@
+%h1 Ashok Leyland Reward Item/Points(CSV)
+= form_tag al_reward_product_points_upload_admin_al_transactions_path, :id=>"uploadForm", :multipart => true, :class=>"form-horizontal" do
+  .control-group
+    %label.control-label CSV:
+    .controls
+      = file_field_tag :csv
+    .alert.alert-info
+      %strong Note:
+      Make sure your CSV is formatted using this
+      =link_to al_reward_product_points_template_admin_al_transactions_path(format: "csv"), :class => 'template-link' do
+        %strong template
+  .control-group
+    .controls
+      = submit_tag "Start Upload", :disable_with => 'Uploading...', :class => "btn btn-info"

@@ -1,0 +1,19 @@
+.heading Community Heft
+
+= search_form_for @search, :url => community_heft_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/community_heft_filter" }
+
+
+.content-container.widgets-container
+  .widgets-wrapper
+    #widget-postion-1#redemption.col-sm-4
+      .widget-postion-inner
+        .widget-header= 'Community Heft'
+        .widgets-number-data
+          %span.number.penetration-number= @community_heft_total[0].to_i
+          - if @view_by != "2"
+            %span.sub-title{:style => "color: black;"} Rupees
+          - if @view_by == "2"
+            %span.community-widget-metrics{:style => "color: black;"}= @community_heft_total[1].first
+    #widget-description
+      %span This widget displays the Purchasing Power of the community. It is displayed in the form of the currency value or vloume of the purchases made by the members of the community.

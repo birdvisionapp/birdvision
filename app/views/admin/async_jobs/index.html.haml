@@ -1,0 +1,36 @@
+%h1
+  Upload Details
+- if @async_jobs.present?
+  %p= "Click on failed job(s) to see more details"
+  .actions
+    .actions-left
+    .grid-pager= paginate @async_jobs
+
+  #accordion2.accordion
+    - @async_jobs.each do |async_job|
+      .accordion-group
+        .accordion-heading{:id => "accordion_heading_#{async_job.id}"}
+          %div.accordion-toggle{"data-parent" => "#accordion2", "data-toggle" => "collapse", :href => "#collapse#{async_job.id}", :class => "#{async_job.status}"}
+            = "#{t(async_job.job_owner.downcase, :scope => [:activerecord, :job_names])} - #{async_job.csv_file_name} - at #{async_job.created_at.strftime("%d/%m/%Y  %H:%M")} #{report_generated_by(async_job)}"
+            = link_to "Delete", admin_delete_upload_path(async_job), :method => :delete, :class => 'pull-right action'
+            %span.pull-right= async_job.status.titleize
+        - if async_job.status == "failed"
+          .accordion-body.collapse{:id => "collapse#{async_job.id}"}
+            .accordion-inner
+              - errors = async_job.csv_errors
+              - if errors.present?
+                - if errors.has_key?(:message)
+                  = errors[:message]
+                - else
+                  - errors.each do |row_number, error_messages|
+                    %p.row-number
+                      ="Row Number #{row_number + 2} has the following errors"
+                    %ul.row-errors
+                      - error_messages.each do |error|
+                        %li=error
+  .actions
+    .actions-left
+    .grid-pager= paginate @async_jobs
+- else
+  %p.alert.alert-info
+    No uploaded files.

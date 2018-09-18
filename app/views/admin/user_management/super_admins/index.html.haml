@@ -1,0 +1,40 @@
+%h1= "#{@msp && "#{@msp.name} - "}Admin Users"
+.actions
+  .actions-left
+    = link_to 'Back', [:admin, :user_management, (@msp) ? :msps : :dashboard], :class=> 'btn'
+    = link_to 'New Admin User', [:new, :admin, :user_management, @msp, :super_admin], :class => 'btn btn-info' if can_manage_roles? || @msp.present?
+  .grid-pager
+    = paginate @admin_users
+
+%table.table.table-striped.table-bordered.super-admins
+  %thead
+    %tr
+      %th= sort_link(@search, :username,  "Username")
+      %th
+        %span= "Email"
+      %th
+        %span Is Locked
+      %th
+        %span Action
+  - @admin_users.each do |admin_user|
+    %tr[admin_user]
+      %td
+        = admin_user.username
+        - if admin_user.manage_roles?
+          %span{:class => 'badge badge-success pull-right'}= "Super Admin"
+      %td= admin_user.email
+      %td= styling_boolean_label(admin_user.is_locked)
+      %td
+        =link_to "View", (@msp) ? admin_user_management_msp_super_admin_path(@msp, admin_user) : admin_user_management_super_admin_path(admin_user)
+        - if can? :edit, admin_user
+          = "/"
+          = link_to "Edit", (@msp) ? edit_admin_user_management_msp_super_admin_path(@msp, admin_user) : edit_admin_user_management_super_admin_path(admin_user)
+          - unless admin_user.manage_roles?
+            = "/"
+            = link_to "Delete", (@msp) ? admin_user_management_msp_super_admin_path(@msp, admin_user) : admin_user_management_super_admin_path(admin_user), :confirm => "Are you sure, you want to delete Admin User: #{admin_user.username} ?", :method => :delete
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @admin_users
+  .actions-right

@@ -1,0 +1,267 @@
+.ie6_7
+  margin:  0 auto
+  background: #ff471b
+  font-size: 1.3em
+  line-height: 1.5em
+  padding:  10px
+  text-align: center
+  color: white
+
+.ie8, .ie7
+  .input-append .btn
+    height: 24px
+  .category-list
+    border: 1px solid #ccc
+    li
+      &.nav-header
+        border-bottom: 1px solid #ccc
+      ul
+        border: 1px solid #ccc
+  #clientItemCarousel
+    border: 1px solid #C9C9C9
+
+  &.login-page-body
+    .authentication-form
+      .input-medium
+        background: url(image_path("login-textbox.png")) repeat 0 0
+      .btn:hover
+        background: red
+    #footer
+      background: url(image_path("footer.png")) repeat 0 0
+
+.ie8
+  .breadcrumb span:after
+    content: ''
+  #speedometers
+    .canvas > div
+      height: 150px !important
+      width: 350px !important
+
+.ie6, .ie7, .ie8, .ie9
+  .barometer
+    .redeemed
+      +ie-gradient-linear(image_path('redeemed-gradient.png'))
+    .remaining
+      +ie-gradient-linear(image_path('remaining-gradient.png'))
+
+  .checkout-steps
+    li
+      label, &:first-child
+        background: url($checkout_steps_inactive_bg) repeat-x 0 0 transparent
+      &.active
+        label,&:first-child
+          background: url($checkout_steps_active_bg) repeat-x 0 0 transparent
+      &.completed
+        label,&:first-child
+          background: url($checkout_steps_completed_bg) repeat-x 0 0 transparent
+  &.login-page-body
+    .authentication-form
+      -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)"
+      filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)"
+
+.ie7
+  .global-category-header
+    > span
+      border: 1px solid #BED7DA
+
+  /* Header */
+  #siteHeader
+    position: relative
+    z-index: 1
+  #subHeader
+    position: static
+    #myAccount, #mySchemes
+      min-width: 75px
+      padding-right: 25px
+      .user-name, .scheme-name
+        padding-right: 0px
+    #mySchemes
+      max-width: 175px
+    #myAccount
+      max-width: 155px
+      width: 154px
+    .header-icon.shopping-cart-icon span .items-count
+      .items-count-after
+        top: 0px
+  .barometer
+    .point-based, .barometer-with-coal
+      white-space: nowrap
+      overflow: hidden
+      .reading
+        float: left
+      .remaining
+        margin-left: -1px
+
+  .barometer-attributes
+    .redeemed, .attr
+      float: left
+
+  #clientItemCarousel
+    .item-details
+      padding-left: 20px
+
+  /* Site Container */
+  #siteContent
+    position: relative
+    z-index: 0
+
+  .alert
+    padding-left: 10px
+    ul
+      padding-left: 10px
+
+  .mandatory-field
+    position: relative
+    .mandatory-field-star
+      +size(0.8em, 0.7em)
+      color: red
+      font-weight: bold
+      left: 99%
+      position: absolute
+      top:  5px
+
+  /* Authentication Form */
+  .authentication-form .controls
+    margin-left: -10px
+  .form-horizontal .controls:first-child
+    padding-left: 90px
+
+  /* Pagination */
+  .grid-pager
+    text-align: center
+    .pagination
+      +ie7-inline-block()
+      margin-top: 10px
+      span
+        float: left
+    .page
+      margin-top: -2px
+
+  /* Items grid */
+
+  .thumbnails
+    li
+      margin-left: 15px
+  .item-content
+    .item-title, .actions, .not-eligible
+      float: left
+      display: block
+      height: 100%
+    .item-title
+      border: 1px solid $listing-item-title-bg-color
+      width: 59%
+    .actions, .not-eligible
+      width: 34%
+
+  .catalogs
+    .header
+      padding-bottom: 5px
+      .club-name, .view-all, .view-all-after
+        float: left
+      .view-all
+        padding-top: 4px
+        display: block
+      .view-all-after
+        +size(20px, 10px)
+        top: 6px
+        background: url("/assets/icons.png") 0px 27px
+  .client-item.thumbnail
+    .item-image-container
+      a
+        height: 265px
+
+  /* Orders Page */
+  #participantOrders .continue-shopping
+    padding-bottom: 10px
+
+  /* Shooping Cart */
+  .cart-items tr.footer
+    background-color: #eaebeb
+
+  /* checkout steps */
+  .checkout-step-content
+    .action-items .controls
+      .btn-confirm
+        margin: 0 50px 25px 0
+    .mobile-number label
+      left: 25px
+
+  /* static pages */
+  .contact-us .contact-form
+    width: 460px
+    .btn-info
+      margin-right: 15px
+
+  #filters .category-list .btn
+    text-overflow: ellipsis
+    overflow: hidden
+
+  .input-append .add-on
+    margin-top: 1px
+    border-left-width: 0px
+
+  .point-filter input[type='submit'].btn
+    height: 30px
+    border: 1px solid #CCC
+  .popover-title
+    display: none
+  #dashboard #speedometers
+    overflow: hidden
+    margin: 0 5px
+    border-left: none
+    .speedometer-container
+      white-space: nowrap
+      width:  500%
+      margin: 0px
+    .scheme-speedometer
+      width: 401px
+      float: left
+      border-right: none
+      border-left: 1px solid #ccc
+      &:first-child
+        border-left: none
+  #dashboard
+    .tabs li
+      height: 49%
+      .tab
+        height: 87%
+    .tab-content .tab-pane
+      height: 88%
+  #leaderboard
+    .bars-container
+      .user-name
+        width: 22%
+      .bar-container
+        width: 52%
+      .achievements
+        width: 12%
+  &.login-page-body
+    .authentication-form
+      margin-top: 50px
+      &.password-reset .control-group
+        margin-left: 20px
+        .controls:first-child
+          padding-left: 170px
+
+    .field_with_errors
+      float: left
+
+    .control-group
+      margin-left: 60px
+      text-align: left
+      &.last
+        text-align: left
+      .controls, .control-label
+        display: inline-block
+        vertical-align: top
+      .control-label
+        float: left
+      .controls
+        margin-left: 0px
+
+  .zoomPad
+    .zoomPad-after
+      background: url(image_path("footer.png")) repeat 0 0
+  .zoomPreload
+    width: 100px
+    height: 49px

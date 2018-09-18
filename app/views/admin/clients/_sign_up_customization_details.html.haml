@@ -1,0 +1,15 @@
+- if resource.client_customization.present?
+  %h3.dl-header Sign Up Customization - #{styling_boolean_label(resource.client_customization.sign_up_enabled)}
+  - if resource.client_customization.sign_up_enabled?
+    %dl.dl-horizontal.draft_item
+      %dt Coupon Code Required
+      %dd= styling_boolean_label(resource.client_customization.coupen_code_enabled)
+      - unless resource.client_customization.user_role.nil?
+        %dt Linkage Category  
+        %dd= "#{resource.client_customization.user_role.name}"
+        %br
+      - if resource.client_customization.additional_info_enabled
+        %dt Additional Field
+        %dd= "#{resource.client_customization.field_title}"
+      %dt Image
+      %dd= image_tag resource.client_customization.image.url(:medium)

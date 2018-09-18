@@ -1,0 +1,42 @@
+%h1 Telecom Circles
+
+= search_form_for @search, :url => admin_telecom_circles_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "filter" }
+
+.actions
+  -if can? :create, TelecomCircle
+    .actions-left
+      = link_to 'Add New Telecom Circle', new_admin_telecom_circle_path, :class => 'btn btn-info'
+
+  - if @telecom_circles.empty?
+    %p.text-danger There are no telecom circles yet
+  - else
+    .grid-pager
+      = paginate @telecom_circles
+
+%table.table.table-striped.table-bordered.telecom-circles
+  %thead
+    %tr
+      %th.span4= sort_link(@search, :code)
+      %th Description
+      %th= sort_link(@search, :created_at, "Created At")
+      %th.span4
+        %span Action
+
+  - @telecom_circles.each do |telecom_circle|
+    %tr[telecom_circle]
+      %td= telecom_circle.code
+      %td= telecom_circle.description
+      %td= l telecom_circle.created_at, :format => :long_date_time rescue ''
+      %td
+        - if can? :edit, TelecomCircle
+          = link_to 'Edit', edit_admin_telecom_circle_path(telecom_circle)
+        - if can? :destroy, TelecomCircle
+          = "/"
+          = link_to "Delete", admin_telecom_circle_path(telecom_circle), :confirm => "Are you sure, you want to delete Telecom Circle: #{telecom_circle.code} ?", :method => :delete
+
+- unless @telecom_circles.empty?
+  .actions-down
+    .actions-left
+    .grid-pager
+      = paginate @telecom_circles

@@ -1,0 +1,99 @@
+body
+  background: white
+
+.container
+  +box-sizing(content-box)
+
+ul,ol
+  list-style: none
+  margin: 0
+  padding: 0
+
+[class*='span']
+  +box-sizing(border-box)
+
+.secondary-content-text
+  color: #777
+
+.push
+  height: 75px
+
+.bordered-box
+  border: 1px solid #E8E8E8
+  border-bottom: 2px solid #333
+
+.btn-gray
+  +gradient-vertical(#6d95a2,#294e5d)
+  color: #fff
+  @extend .drop-shadow-top
+  &:hover,&:active
+    background-color: #294e5d
+    background-position: 0 -3px
+    color: #fcfcfc
+  &:focus
+    outline: none
+
+.input-mini.mini
+  width: 48px
+
+h2.title-text
+  color: #8e8e8e
+
+.drop-shadow-top
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.55)
+
+.app-icons
+  background: url(image_path('icons.png')) no-repeat 0 0 transparent
+
+.btn-continue-shopping
+  border-width: 1px
+  border-style: solid
+  display: inline-block
+  padding: 7px 15px 7px 10px
+  +transition((background 0s linear 0s))
+  &:hover, &:active, &:focus
+    text-decoration: none
+    &:before, .btn-continue-shopping-cart
+      background-position: -11px -335px
+  &:before, .btn-continue-shopping-cart
+    +size(16px, 25px)
+    background-image: url(image_path("icons.png"))
+    background-position: -56px -335px
+    background-repeat: no-repeat
+    content: ""
+    display: inline-block
+  .btn-continue-shopping-cart
+    float: left
+
+.mandatory-field:after
+  content: "*"
+  color: red
+  font-weight: bold
+  margin-left: 5px
+
+.dl-horizontal
+  dt
+    clear: none
+  .image
+    img
+      +size(261px, 217px)
+
+#footer
+  border-top: 1px solid #ccc
+  color: #ccc
+  font-size: 14px
+  height: 41px
+  padding-top: 10px
+
+.ellipsis
+  overflow: hidden
+  -o-text-overflow: ellipsis
+  -ms-text-overflow: ellipsis
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.align-right
+  text-align: right
+
+.pdng-lt-10
+  padding-left: 10px

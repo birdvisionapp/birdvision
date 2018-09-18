@@ -1,0 +1,11 @@
+%fieldset#id-set-product
+  %h3 Select Product
+  %input#id_product.check1{:name => "name_product", :onchange => "select_all_product(this);", :type => "checkbox"}
+    %label All Product
+    #product-group
+      .control-scroll
+        - unless @products.nil?
+          - @products.each do |product|
+            = check_box_tag "select_product[]", product.id, false ,:class => 'check1'
+            = product.name
+            %br/

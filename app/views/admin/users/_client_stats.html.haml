@@ -1,0 +1,12 @@
+%h6.lb-red== Are you sure? You want to select the following Participants?
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th
+        %span Client
+      %th
+        %span Number of Participants
+  - @client_stats.each do |att, stat|
+    %tr
+      %td= att
+      %td= stat

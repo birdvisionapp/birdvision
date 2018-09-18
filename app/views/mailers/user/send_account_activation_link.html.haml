@@ -1,0 +1,29 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@user.full_name},"
+  %div{:style=>"padding-left:20px"}
+    %p= "We are pleased to inform you that #{@user.client.client_name} has registered you as a participant of their Rewards Program."
+    %p
+      = "Your user name is: "
+      %strong= "#{@user.username}"
+    %p
+      = "Click this "
+      = link_to "activation link", edit_password_path_for(@user)
+      = "to set up your account."
+      %br
+      %br
+      %em{:style=>"font-size: 0.8em;"}
+        = "If you are unable to click the activation link please copy the following and paste it in the address bar of your browser:"
+        %br
+        =link_to "#{edit_password_path_for(@user)}", edit_password_path_for(@user)
+      %br
+
+    %p
+      Please activate your account within
+      %strong 30 days
+      of receiving this email.
+
+    %p
+      Please save your username for all future reference and communication. If you have any problems accessing or activating your account feel free to reach out to the
+      = link_to "Rewards Team", "mailto:customercare@birdvision.in"
+
+  = render :partial => "mailers/user/email_footer", :locals => {:user=>@user}

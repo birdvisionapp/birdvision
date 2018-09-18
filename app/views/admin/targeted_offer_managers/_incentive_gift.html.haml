@@ -1,0 +1,55 @@
+- to = Offer.new(current_admin_user , params[:client_id] )
+- template = get_rendered_incentive(params[:template_id])
+= form_for(:offer_manager, :url => create_and_store_offer_admin_targeted_offer_managers_path, :method => :get, :html => {:id => 'purchase_freq_form'}) do |f|
+  #incentive_type
+    %fieldset#id-set-incentive-type
+      %h3 Incentive Type
+      - if template == 'gift'
+        #gift_div.control-group
+          .inline
+            = f.radio_button :incentive_type_gift, "client-gift", :checked => 'checked'
+            = f.label :incentive_type_gift, "Gift Name"
+            #enter_gift_name.controls
+              = f.text_field :gift_name, :placeholder => 'Enter Gift Name'
+        #gift_div1.control-group
+          .inline
+            = f.radio_button :incentive_type_gift, 'catlog-gift'
+            = f.label :incentive_type_gift, "Gift from Catlog"
+            #select_gift_name.controls
+              = f.select :gift_catlog_id,  to.client_catlog_items.collect {|r| [r.slug] }, {:include_blank => 'Please select'}, :disabled => "disabled"
+      - elsif template == 'points'
+        .control-by
+          = f.radio_button :incentive_type, "percentage", :checked => 'checked'
+          .group-by
+            = f.label :incentive_type, 'Extra Points'
+        #points_div.control-group
+          = f.label :incentive_percentage,'Enter the percentage of extra points'
+          .controls
+            = f.text_field :incentive_percentage, :placeholder => 'Extra Points'
+            \%
+      - else 
+        .control-seasonal
+          .inline
+            = f.radio_button :incentive_type, "percentage", :checked => 'checked'
+            = f.label :incentive_type, 'Extra Points'
+        #points_div.control-group-seasonal
+          = f.label :incentive_percentage,'Enter the percentage of extra points'
+          .controls-seasonal
+            = f.text_field :incentive_percentage, :placeholder => 'Extra Points'
+            \%
+        .control-seasonal
+          = f.radio_button :incentive_type , "gift"
+          .group-seasonal
+            = f.label :incentive_type, 'Gift' 
+        #gift_div.control-group-seasonal
+          .inline
+            = f.radio_button :incentive_type_gift, "client-gift", :disabled => 'disabled'
+            = f.label :incentive_type_gift, "Gift Name"
+            #enter_gift_name.controls-seasonal
+              = f.text_field :gift_name, :placeholder => 'Enter Gift Name', :disabled => "disabled"
+        #gift_div1.control-group-seasonal
+          .inline
+            = f.radio_button :incentive_type_gift, 'catlog-gift', :disabled => 'disabled'
+            = f.label :incentive_type_gift, "Gift from Catlog"
+            #select_gift_name.controls-seasonal
+              = f.select :gift_catlog_id,  to.client_catlog_items.collect {|r| [r.slug] }, {:include_blank => 'Please select'}, :disabled => "disabled"

@@ -1,0 +1,15 @@
+.breadcrumb
+  padding: 2px 15px
+  @extend .ellipsis
+  button,a,.active-breadcrumb
+    padding: 2px 8px
+    margin: 1px
+  .active-breadcrumb
+    font-weight: bold
+
+.breadcrumb span
+  vertical-align: middle
+  &:after
+    content: '\BB'
+  &:last-child:after
+    content: ""

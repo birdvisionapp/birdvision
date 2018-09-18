@@ -1,0 +1,20 @@
+#widget-postion-1.col-sm-4
+  %span.remove-widget
+    = link_to image_tag("remove_30-sign.jpg"), "#"
+  .widget-postion-inner
+    %span.delete-widget-button
+      - @widget_id = @client_manager_dashboard.find_widget(@wid, current_admin_user)
+      = link_to image_tag("remove_30-sign.jpg"), admin_client_managers_widget_path(@widget_id), :method => :delete, :class => "remove-widget-button", :confirm => "Are you sure. You want to remove #{@wid} widget?"
+    = link_to stockout_risklevel_admin_client_managers_widgets_path, :id => "stock-link", :class => "decoration-none" do
+      .widget-header
+        = 'Stockout Risk'
+      - stock_out_risk = @client_manager_dashboard.stockout_risklevel
+      %table.table.stockout-risk
+        %thead
+          %tr
+            %th{:style => "width: 80%;"}= "SKU Name"
+            %th= "StockOut Rate"
+        - stock_out_risk.each do |test|
+          %tr
+            %td{:style => "width: 80%;"}= test['unique_item']
+            %td= test['hit_count'].round(2)

@@ -1,0 +1,49 @@
+%h1 Resellers
+.actions
+  = link_to 'Back', admin_user_management_dashboard_path, :class=> 'btn'
+  = link_to 'Add New Reseller', new_admin_user_management_reseller_path, :class => 'btn btn-info' if can? :create, Reseller
+.resellers-list
+  - if @resellers.empty?
+    %p There are no resellers yet
+  - else
+    .grid-pager
+      = paginate @resellers
+    %table.table.table-striped.table-bordered.resellers
+      %thead
+        %tr
+          %th= sort_link(@search, :name)
+          %th= sort_link(@search, :admin_user_username,  "Username")
+          %th
+            %span Clients
+          %th
+            %span Total Sales(Rs.)
+          %th
+            %span Total Payout(Rs.)
+          %th
+            %span Is Locked
+          %th
+            %span Action
+      - @resellers.each do |reseller|
+        %tr[reseller]
+          %td= reseller.name
+          %td= reseller.admin_user.username
+          %td= reseller.assigned_client_resellers.collect {|client_reseller| client_reseller.client.client_name}.join(", ")
+          %td= bvc_currency(reseller.sales_total)
+          %td= bvc_currency(reseller.payout_total)
+          %td= styling_boolean_label(reseller.admin_user.is_locked)
+          %td
+            = link_to "View", admin_user_management_reseller_path(reseller)
+            - if can? :edit, Reseller
+              = "/"
+              = link_to 'Edit', edit_admin_user_management_reseller_path(reseller)
+              = "/"
+              = link_to "Associate a client", admin_user_management_reseller_add_client_for_reseller_path(reseller)
+              = "/"
+              = link_to "Delete", admin_user_management_reseller_path(reseller), :confirm => "Are you sure, you want to delete Reseller: #{reseller.name} ?", :method => :delete
+
+
+- unless @resellers.empty?
+  .actions-down
+    .actions-left
+    .grid-pager
+      = paginate @resellers

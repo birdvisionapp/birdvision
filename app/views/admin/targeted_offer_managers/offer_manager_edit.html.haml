@@ -1,0 +1,294 @@
+.header-div
+  - toc = OfferManagers.new(@targeted_offer_config.id)
+  - offer = Offer.new(current_admin_user , @targeted_offer_config.client.id)
+  - incentive_info = find_incentive_info(@targeted_offer_config.id)
+  = render(:partial => 'header' , :locals => {:f => 1})
+.main-div
+  .form-div
+    = form_for :offer_manager, :url => {:action => 'store_offer'}, :method => :post, :html => {:id => 'purchase_freq_form'} do |f|
+      = f.hidden_field :config_id, :value => @targeted_offer_config.id, :id => "hidden_config_id"
+      = f.hidden_field :edit
+      .targeted_offer_type
+        %fieldset#id-set-TO
+          %h3
+            = get_basis(@targeted_offer_config.template)
+      %table.table.table-bordered
+        %tr
+          %td Template Name
+          %td Template Content
+          %td Select Template
+        %tr
+          %td= @targeted_offer_config.template.name
+          %td= @targeted_offer_config.template.template_content
+          %td
+            .place-error-msg
+              = f.radio_button(:template, @targeted_offer_config.template.id ,:checked => 'checked')
+      #scheme1
+        %table.table.table-bordered.table-style
+          %tr
+            %td
+              %fieldset#id-set-scheme
+                %h3 Schemes
+                .control-by
+                  <input name="all_scheme" type="checkbox" class="check" id ="id_scheme">
+                  .group-by
+                    = f.label 'All Scheme'
+                .scheme-group
+                  .control-scroll
+                    - if @targeted_offer_config.template.targeted_offer_type.offer_type_name == "Purchase Frequency" || @targeted_offer_config.template.targeted_offer_type.offer_type_name == "Seasonal Festival"
+                      - toc.get_schemes.each do |client_scheme|
+                        - if toc.get_offer_schemes.include?(client_scheme)
+                          = check_box_tag "schemes[]", client_scheme, true, :id => 'id_scheme', :class => 'check'
+                          #{check_scheme_name(client_scheme)}
+                          %br
+                        - else
+                          = check_box_tag "schemes[]", client_scheme, false, :id => 'id_scheme', :class => 'check'
+                          #{check_scheme_name(client_scheme)}
+                          %br
+                    - if get_basis(@targeted_offer_config.template) == "Relationship Matrix" || get_basis(@targeted_offer_config.template) == "Major Life Event"
+                      - offer.get_client_schemes.each do |client_scheme|
+                        - if toc.get_offer_schemes.include?(client_scheme.id)
+                          = check_box_tag "schemes[]", client_scheme.id, true, :id => 'id_scheme', :class => 'check'
+                          #{check_scheme_name(client_scheme)}
+                          %br
+                        - else
+                          = check_box_tag "schemes[]", client_scheme.id, false, :id => 'id_scheme', :class => 'check'
+                          #{check_scheme_name(client_scheme)}
+                          %br
+            - if @targeted_offer_config.template.targeted_offer_type.offer_type_name == "Purchase Frequency" || @targeted_offer_config.template.targeted_offer_type.offer_type_name == "Seasonal Festival"                         
+              %td
+                #product-edit
+                  %fieldset#id-set-product
+                    %h3 Products
+                    .control-by
+                      %input#id_product.check1{:name => "name_product", :onchange => "select_all_product(this);", :type => "checkbox"}
+                      .group-by
+                        = f.label 'All Products'
+                    #product-group
+                      .control-scroll
+                        -toc.get_client_products.each do |product|
+                          -if toc.offer_products.include?(product.id)
+                            = check_box_tag "select_product[]", product.id, true, :class => 'check1'
+                            #{product.name}
+                            %br
+                          -else
+                            = check_box_tag "select_product[]", product.id, false, :class => 'check1'
+                            #{product.name}
+                            %br
+            - if get_basis(@targeted_offer_config.template) == "Relationship Matrix" || get_basis(@targeted_offer_config.template) == "Major Life Event"
+              %td
+                .render-incentive      
+                  %fieldset#id-set-incentive-type
+                    %h3 Incentive Type
+                    - if incentive_info.incentive_type == "client-gift"
+                      #gift_div.control-group
+                        .inline
+                          = f.radio_button :incentive_type_gift, "client-gift", :checked => 'checked'
+                          = f.label :incentive_type_gift, "Client's Gift"
+                          #enter_gift_name.controls
+                            = f.text_field :gift_name, :placeholder => 'Enter Gift Name', :value => incentive_info.incentive_detail
+                      #gift_div1.control-group
+                        .inline
+                          = f.radio_button :incentive_type_gift, 'catlog-gift'
+                          = f.label :incentive_type_gift, "Gift from Catlog"
+                          #select_gift_name.controls
+                            = f.select :gift_catlog_id,  toc.get_client_catlog.collect {|r| [r.slug] }, {:include_blank => 'Please select'}, :disabled => 'disabled'
+                    - if incentive_info.incentive_type == "catlog-gift"
+                      #gift_div.control-group
+                        .inline
+                          = f.radio_button :incentive_type_gift, "client-gift"
+                          = f.label :incentive_type_gift, "Client's Gift"
+                          #enter_gift_name.controls
+                            = f.text_field :gift_name, :placeholder => 'Enter Gift Name', :disabled => 'disabled'
+                      #gift_div1.control-group
+                        .inline
+                          = f.radio_button :incentive_type_gift, 'catlog-gift', :checked => 'checked'
+                          = f.label :incentive_type_gift, "Gift from Catlog"
+                          #select_gift_name.controls
+                            = f.select :gift_catlog_id,  toc.get_client_catlog.collect {|r| [r.slug] }, {:selected => incentive_info.incentive_detail}        
+      - if get_basis(@targeted_offer_config.template) == "Purchase Frequency" || get_basis(@targeted_offer_config.template) == "Seasonal Festival"
+        .incent
+          %table.table.table-bordered.table-style
+            %tr
+              %td
+                .incentive_for
+                  - if incentive_info.incentive_for == "first_action" 
+                    %fieldset#id-set-incentive-for
+                      %h3 Incentive For
+                      .control
+                        = f.radio_button(:first_action, 'first_action', :checked => 'checked')
+                        = f.label  'First action in given window period'
+                        %br/
+                        = f.radio_button(:first_action, 'all_action')
+                        = f.label 'For all action in given window period'
+                  - elsif incentive_info.incentive_for == "all_action"
+                    %fieldset#id-set-incentive-for
+                      %h3 Incentive For
+                      .control
+                        = f.radio_button(:first_action, 'first_action')
+                        = f.label  'First action in given window period'
+                        %br/
+                        = f.radio_button(:first_action, 'all_action', :checked => 'checked')
+                        = f.label 'For all action in given window period'
+                
+              %td              
+                .incentive_type
+                  - if  incentive_info.incentive_type == "percentage"
+                    %fieldset#id-set-incentive-type
+                      %h3 Incentive Type
+                      .control-by
+                        = f.radio_button :incentive_type, "percentage", :checked => 'checked'
+                        .group-by
+                          = f.label :incentive_type, 'Extra Points'
+                      #points_div.control-group
+                        = f.label :incentive_percentage,'Enter the percentage of extra points'
+                        .controls
+                          = f.text_field :incentive_percentage, :placeholder => 'Extra Points', :value => incentive_info.incentive_detail
+                          \%
+                  - else
+                    - if incentive_info.incentive_type == "client-gift"
+                      %fieldset#id-set-incentive-type
+                        %h3 Incentive Type
+                        #gift_div.control-group
+                          .inline
+                            = f.radio_button :incentive_type_gift, "client-gift", :checked => 'checked'
+                            = f.label :incentive_type_gift, "Client's Gift"
+                            #enter_gift_name.controls
+                              = f.text_field :gift_name, :placeholder => 'Enter Gift Name', :value => incentive_info.incentive_detail
+                        #gift_div1.control-group
+                          .inline
+                            = f.radio_button :incentive_type_gift, 'catlog-gift'
+                            = f.label :incentive_type_gift, "Gift from Catlog"
+                            #select_gift_name.controls
+                              = f.select :gift_catlog_id,  toc.get_client_catlog.collect {|r| [r.slug] }, {:include_blank => 'Please select'}, :disabled => 'disabled'
+                    - elsif incentive_info.incentive_type == "catlog-gift"
+                      %fieldset#id-set-incentive-type
+                        %h3 Incentive Type
+                        #gift_div.control-group
+                          .inline
+                            = f.radio_button :incentive_type_gift, "client-gift"
+                            = f.label :incentive_type_gift, "Client's Gift"
+                            #enter_gift_name.controls
+                              = f.text_field :gift_name, :placeholder => 'Enter Gift Name', :disabled => 'disabled'
+                        #gift_div1.control-group
+                          .inline
+                            = f.radio_button :incentive_type_gift, 'catlog-gift', :checked => 'checked'
+                            = f.label :incentive_type_gift, "Gift from Catlog"
+                            #select_gift_name.controls
+                              = f.select :gift_catlog_id,  toc.get_client_catlog.collect {|r| [r.slug] }, {:selected => incentive_info.incentive_detail}
+                      
+                        
+      - if get_basis(@targeted_offer_config.template) == "Purchase Frequency"
+        .purchase_frequency_info
+          %fieldset#id-set-purchase
+            %h3 Purchase Frequency Info
+            .control-by
+              = f.label "Participant Purchase Frequency"
+              %br
+              .group-by
+                = f.text_field :client_purchase_frequency, :value => @targeted_offer_config.client_purchase_frequency
+                (In day's)      
+      - if get_basis(@targeted_offer_config.template) == "Seasonal Festival"  
+        .festival-type
+          %fieldset#id-set-festival
+            %h3 Festival Details
+            .control-by
+              = f.label "Festival Type" 
+              .group-by
+                = f.text_field :festival_type, :value => @targeted_offer_config.festival_type 
+      - if get_basis(@targeted_offer_config.template) == "Relationship Matrix" || get_basis(@targeted_offer_config.template) == "Major Life Event"      
+        - if Scheme.find(@targeted_offer_config.to_schemes.first.to_i).start_date == @targeted_offer_config.performance_from && @targeted_offer_config.performance_to == nil 
+          .performance-count-div
+            %table.table.table-bordered.table-style
+              %tr
+                %td
+                  %fieldset#id-set-performance
+                    %h3 Participant Performance To Be Counted From
+                    .incentive
+                      .control-group
+                        = f.radio_button :performace_count, 'to_start'
+                        = f.label 'This Offers Configuration'
+                      .control-group
+                        = f.radio_button(:performace_count, 'scheme_start',:checked => 'checked')
+                        = f.label 'Start of the Scheme'
+                      .control-group
+                        = f.radio_button(:performace_count, 'custom_date')
+                        = f.label 'Custom Date'
+                      #date_valid.control-group
+                        Start Date
+                        = f.text_field :performance_from, :class => "datepicker", :disabled => 'disabled' ,:value => @targeted_offer_config.performance_from 
+                        End Date
+                        = f.text_field :performance_to, :class => "datepicker", :disabled => 'disabled',:value => @targeted_offer_config.performance_to
+                %td  
+                  #threshold
+                    %fieldset#id-set-threshold
+                      %h3 Relationship Threshold Setting
+                      .control-group
+                        = f.label 'Total points earned by participant'
+                        = f.text_field :client_purchase_frequency, :value => @targeted_offer_config.client_purchase_frequency
+                        %br
+        - elsif @targeted_offer_config.performance_from == @targeted_offer_config.created_at.to_date && @targeted_offer_config.performance_to == nil
+          .performance-count-div
+            %table.table.table-bordered.table-style
+              %tr
+                %td
+                  %fieldset#id-set-performance
+                    %h3 Participant Performance To Be Counted From
+                    .incentive
+                      .control-group
+                        = f.radio_button :performace_count, 'to_start',:checked => 'checked'
+                        = f.label 'This Offers Configuration'
+                      .control-group
+                        = f.radio_button(:performace_count, 'scheme_start')
+                        = f.label 'Start of the Scheme'
+                      .control-group
+                        = f.radio_button(:performace_count, 'custom_date')
+                        = f.label 'Custom Date'
+                      #date_valid.control-group
+                        Start Date
+                        = f.text_field :performance_from, :class => "datepicker", :disabled => 'disabled' ,:value => @targeted_offer_config.performance_from 
+                        End Date
+                        = f.text_field :performance_to, :class => "datepicker", :disabled => 'disabled',:value => @targeted_offer_config.performance_to
+                %td  
+                  #threshold
+                    %fieldset#id-set-threshold
+                      %h3 Relationship Threshold Setting
+                      .control-group
+                        = f.label 'Total points earned by participant'
+                        = f.text_field :client_purchase_frequency, :value => @targeted_offer_config.client_purchase_frequency
+                        %br
+        - else
+          .performance-count-div
+            %table.table.table-bordered.table-style
+              %tr
+                %td
+                  %fieldset#id-set-performance
+                    %h3 Participant Performance To Be Counted From
+                    .incentive
+                      .control-group
+                        = f.radio_button :performace_count, 'to_start'
+                        = f.label 'This Offers Configuration'
+                      .control-group
+                        = f.radio_button(:performace_count, 'scheme_start')
+                        = f.label 'Start of the Scheme'
+                      .control-group
+                        = f.radio_button(:performace_count, 'custom_date',:checked => 'checked')
+                        = f.label 'Custom Date'
+                      #date_valid.control-group
+                        Start Date
+                        = f.text_field :performance_from, :class => "datepicker",:value => @targeted_offer_config.performance_from.strftime("%d-%m-%Y") 
+                        End Date
+                        = f.text_field :performance_to, :class => "datepicker", :value => @targeted_offer_config.performance_to.strftime("%d-%m-%Y")
+                %td  
+                  #threshold
+                    %fieldset#id-set-threshold
+                      %h3 Relationship Threshold Setting
+                      .control-group
+                        = f.label 'Total points earned by participant'
+                        = f.text_field :client_purchase_frequency, :value => @targeted_offer_config.client_purchase_frequency
+                        %br
+                          
+      .space
+      #alignsubmit
+        = link_to "Back" , targeted_offer_list_admin_targeted_offer_managers_path , :class => 'btn btn-info'
+        = f.submit 'Save & Next', :class => 'btn btn-info'

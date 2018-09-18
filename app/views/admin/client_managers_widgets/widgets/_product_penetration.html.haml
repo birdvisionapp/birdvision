@@ -1,0 +1,10 @@
+#widget-postion-1.col-sm-4
+  %span.remove-widget= link_to image_tag("remove_30-sign.jpg"), "#"
+  .widget-postion-inner
+    %span.delete-widget-button
+      - @widget_id = @client_manager_dashboard.find_widget(@wid, current_admin_user)
+      - @categoty_count = @client_manager_dashboard.total_reward_categories
+      = link_to image_tag("remove_30-sign.jpg"), admin_client_managers_widget_path(@widget_id), :method => :delete, :class => "remove-widget-button", :confirm => "Are you sure. You want to remove #{@wid} widget?"
+    = link_to penetration_admin_client_managers_widgets_path, :id => "penetration-link", :class => "decoration-none" do
+      .widget-header= "Product Penetration"
+      #product-penetration-gauge

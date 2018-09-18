@@ -1,0 +1,9 @@
+%table.filters
+  %tr
+    - if current_admin_user.role==AdminUser::Roles::SUPER_ADMIN
+      %td
+        = f.label :msp_id_eq, "MSP Name"
+        = f.collection_select :msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      = f.label :client_name_cont, "Client Name"
+      = f.text_field :client_name_cont, :class => 'input-medium'

@@ -1,0 +1,101 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h1= @draft_item.title
+
+=form_for [:admin, @draft_item], :html => {:class => 'edit-draft-item form-horizontal'} do |f|
+  = render :partial => "share/messages", :locals => {:type => :alert, :message => resource.errors.full_messages}
+
+  .fields-group
+    %h3 Taxonomy
+    = render "admin/share/select_msp", f: @draft_item.supplier, enable_select: true
+    .control-group
+      = f.label :category, :class => 'control-label mandatory-field'
+      .controls
+        = f.collection_select :category_id, Category.accessible_by(current_ability).sub_categories, :id, :display_name, {:include_blank => 'Please Select'}, {:class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:display_name', subset: true)}}
+
+  .fields-group
+    %h3 Item Summary
+    .control-group
+      = f.label :brand, :class => 'control-label'
+      .controls
+        = f.text_field :brand
+    .control-group
+      = f.label :title, "Item Name",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :title
+    .control-group
+      = f.label :model_no,"Model No.", :class => 'control-label'
+      .controls
+        = f.text_field :model_no
+    .control-group
+      = f.label :description, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_area :description , :rows => 3,:maxlength=>300
+
+  .fields-group
+    %h3 Specification
+    .control-group
+      .controls
+      = f.cktext_area :specification, :input_html => {:class => 'specification', :cols => 60, :rows => 40}
+
+  .fields-group
+    %h3 Images
+    .control-group
+      .controls
+        = image_tag(@draft_item.image.url)
+        = f.file_field :image
+      .controls
+        .icon-info-sign
+        %span.help-inline Allowed image types are jpg,jpeg,png,gif. Please ensure that the image is of 300x300 resolution to ensure best appearance
+
+  .fields-group.supplier
+    %h3 Supplier
+    .control-group
+      = f.label :supplier, :class => 'control-label'
+      .controls
+        = f.text_field :supplier_name, {:disabled=>true}
+    .control-group
+      = f.label :listing_id, "Listing ID", :class => 'control-label'
+      .controls
+        = f.text_field :listing_id
+
+    .control-group
+      = f.label :delivery_time,"Delivery Time", :class => 'control-label'
+      .controls
+        = f.text_field :delivery_time, :class=>"input-small"
+        .icon-info-sign
+        %span.help-inline eg. 1-2 days
+
+    .control-group
+      = f.label :geographic_reach,"Geographic Reach", :class => 'control-label'
+      .controls
+        = f.text_field :geographic_reach
+    .control-group
+      = f.label :available_quantity,"Available Quantity", :class => 'control-label'
+      .controls
+        = f.text_field :available_quantity, :class=>"input-small"
+    .control-group
+      = f.label :available_till_date,"Available Till Date", :class => 'control-label'
+      .controls
+        = f.text_field :available_till_date, :value => f.object.available_till_date.present? ? f.object.available_till_date.presence.strftime("%d-%m-%Y") : "", :class=>"input-small datepicker"
+        .icon-info-sign
+        %span.help-inline eg. 01-12-2013
+
+    .control-group
+      = f.label :channel_price,"Channel Price(Rs.)", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :channel_price, :class => 'channel-price'
+    .control-group
+      = f.label :mrp, "MRP(Rs.)", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :mrp, :class => 'mrp'
+    .control-group
+      = f.label :supplier_margin, "Supplier Margin(%)", :class => 'control-label'
+      .controls
+        = f.text_field :supplier_margin, :readonly => true,:class => 'supplier-margin'
+
+    .control-group
+      .controls
+        =link_to 'Cancel', admin_draft_items_path, :class=> "btn"
+        = f.button "Save Draft item", :class => 'btn btn-info'

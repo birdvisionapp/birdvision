@@ -1,0 +1,11 @@
+%table.filters
+  %tr
+    %td
+      = f.label :full_name_cont, "Full Name"
+      = f.text_field :full_name_cont, :class => 'input-medium'
+    %td
+      = f.label :mobile_number_cont, "Mobile Number"
+      = f.text_field :mobile_number_cont, :class => 'input-medium'
+    %td
+      = f.label :user_role_id_eq, "Category"
+      = f.select :user_role_id_eq, @user_roles, {:include_blank => t(:all)}

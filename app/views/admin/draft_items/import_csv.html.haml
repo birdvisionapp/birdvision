@@ -1,0 +1,24 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h1 Upload a Catalog (CSV)
+= form_tag 'upload_csv',:id=>"uploadForm", :multipart =>true, :class=>"form-horizontal" do
+  = render "admin/share/select_msp"
+  #selectSupplier.control-group
+    %label.control-label Supplier:
+    .controls
+      = select_tag "supplier", options_from_collection_for_select(Supplier.accessible_by(current_ability), "id", "name"), {:prompt => "---",:class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Supplier:name')}}
+
+  .uploadCsv.control-group
+    %label.control-label CSV:
+    .controls
+      = file_field_tag :csv
+    .alert.alert-info
+      %strong Note:
+      Make sure your CSV is formatted using this
+      =link_to "/formats/upload_items_template.csv" do
+        %strong template
+
+  #submit.control-group
+    .controls
+      = submit_tag "Start Upload", :disable_with => 'Uploading...', :class => "btn btn-info"

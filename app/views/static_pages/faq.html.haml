@@ -1,0 +1,91 @@
+- unless current_admin_user.nil?
+  - user = current_admin_user
+- else
+  - user = current_user
+.span12.faq
+  %h1= "Frequently Asked Questions"
+  %dl.container
+    %dt I want to start redeeming but where do I register myself?
+    %dd Currently you need to be registered by your parent organization before you can start redeeming. You will receive an Account Activation email with further instructions once you have been registered.
+
+    %dt Why can't I login?
+    %dd To login you need to activate your account first. You will receive an email with Account Activation Details. Please follow the instruction given in email and set a password, then  you can begin using your account.
+
+    %dt I've forgotten my password - what do I do?
+    %dd
+      Please go to the
+      = link_to "Sign In", root_path
+      page and click the Forgot Password link next to the sign in button. Enter your username and you will receive an email with further instructions. You can also use this link to
+      = link_to "change your password", new_user_password_path
+
+    %dt I've forgotten my username - what do I do?
+    %dd Please check your Account Activation or Account Detail emails which will contain your username. If you cannot find these emails or you have deleted them, please contact your parent organization.
+
+    %dt What does “Ready for Redemption Schemes”, “Past Schemes”, “Upcoming Schemes” mean?
+    %dd
+      %strong Ready for Redemption Schemes -
+      These are Schemes which are in their redemption period- you can redeem the rewards from these Schemes till their redemption period ends.
+      %br
+      %strong Upcoming Schemes -
+      These are Schemes whose redemption has not yet started. You can view the rewards for these Schemes and redeem them once the Scheme's redemption begins
+      %br
+      %strong Past Schemes -
+      These are Schemes whose redemption is over. You can no longer view or redeem rewards from these Schemes
+
+    %dt Where do I download my Scheme poster?
+    %dd Click on the icon in the right corner of that Scheme's image on your Schemes page
+
+    %dt Why can't I redeem my cart?
+    %dd
+      This could be to due to multiple reasons -
+      %ul
+        %li You don't have enough points - You will see a message telling you that you are short of points
+        %li The redemption has not started for that Scheme - The scheme has not entered its redemption period. You can add items to that Scheme's cart but you can redeem them only once the scheme's redemption begins
+
+    %dt I've placed an Order - where do I track it?
+    %dd Log in to your account, click on your name on the top right hand page and click on My Orders. You will see all the Orders that you have placed.
+
+    %dt How do I know how many points I have?
+    %dd
+      After you have signed in you will see a bar on the top of your page.
+      The bar shows -
+      %ul
+        %li Redeemed: How many points you have redeemed so far
+        %li Remaining: How many redeemable points you have remaining
+      You can also see points total with the heading "Total Points Earned" in the top right corner.
+
+    %dt What is Total Points earned?
+    %dd This shows all the points you have earned so far except for schemes whose redemption has not begun.
+
+    %dt How do I view all my schemes or how can I navigate to another scheme?
+    %dd
+      Click on the drop-down below the logo on the left side of your page. You can choose to go to another scheme or go to your All Schemes page.
+      You can also click on the logo on the upper left corner of your page which will take you to your Schemes page.
+
+    %dt How do I track my targets?
+    %dd When you click on a particular scheme you will see a bar on the top of your page showing your targets and a pointer indicating your current achievement.
+
+    %dt My pointer is showing an incorrect value - what do I do?
+    %dd Please wait for your current achievement information to be updated. If the pointer is still showing incorrectly please contact your parent organization.
+
+    %dt I can't redeem rewards from a Scheme - what do I do?
+    %dd
+      This could be to due to multiple reasons -
+      %ul
+        %li The redemption has not started for that Scheme
+        %li You have not yet achieved a club for that Scheme - please wait for your Club information to be updated
+        %li You have already redeemed your reward for that Scheme - please check your My Orders page for further details
+
+    %dt I can't redeem rewards from a particular Club - what do I do?
+    %dd You have been assigned a different club for that Scheme
+
+    %dt I have a question/problem that is not in this FAQ - what do I do?
+    %dd
+      Please use the
+      = link_to "Contact Us", contact_us_path
+      page or email us at
+      - if bandhan_user(user)
+        = link_to "CustCareBandhan@gmail.com", "mailto:CustCareBandhan@gmail.com"
+      - else
+        = link_to "customercare@birdvision.in", "mailto:customercare@birdvision.in"
+

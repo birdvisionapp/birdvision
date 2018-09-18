@@ -1,0 +1,14 @@
+- content_for :left_nav do
+  = render :partial => "share/filters", :locals => {:show_point_filter => @show_point_filter}
+= render :partial => "share/flash_messages"
+= render :partial => "breadcrumb"
+
+.clearfix
+  %h5= page_entries_info_message(@results) if @results.size > 0
+
+.span9
+  %ul.thumbnails#searchResults
+    = render :partial => "share/item_listing", :locals => { :user_items =>  user_items(@user_scheme, @results) }
+
+.grid-pager
+  = paginate @results, :container => false,  :window => 2 , :left => 1, :right => 1

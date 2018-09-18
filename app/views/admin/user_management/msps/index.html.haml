@@ -1,0 +1,54 @@
+%h1 Manage - MSPs
+.actions
+  .actions-left
+    = link_to 'Back', admin_user_management_dashboard_path, :class=> 'btn'
+    = link_to 'New MSP', new_admin_user_management_msp_path, :class => 'btn btn-info' if can? :create, Msp
+  .grid-pager
+    = paginate @msps
+
+%table.table.table-striped.table-bordered.msps
+  %thead
+    %tr
+      %th=sort_link(@search, :name, "MSP Name")
+      %th=sort_link(@search, :contact_name, "Contact Name")
+      %th=sort_link(@search, :email)
+      %th=sort_link(@search, :phone_number, "Phone Number")
+      %th= "Address"
+      %th=sort_link(@search, :opening_balance, "Opening Balance")
+      %th=sort_link(@search, :setup_charge, "Setup Charge")
+      %th=sort_link(@search, :fixed_amount, "Fixed Amount")
+      %th= sort_link(@search, :status)
+      %th= sort_link(@search, :is_targeted_offer_enabled, "Value Added Services")
+      %th
+        %span Action
+  - @msps.each do |msp|
+    %tr[msp]
+      %td= msp.name
+      %td= msp.contact_name
+      %td= msp.email
+      %td= msp.phone_number
+      %td= msp.address
+      %td= msp.opening_balance
+      %td= msp.setup_charge
+      %td= msp.fixed_amount
+      %td.status= styling_status_label(msp.status)
+      %td
+        %table
+          %tr
+            -if msp.is_targeted_offer_enabled
+              %td Target Offer
+          %tr
+            -if !msp.is_targeted_offer_enabled
+              %td -
+      %td
+        = link_to "View", admin_user_management_msp_path(msp)
+        - if can? :edit, Msp
+          = "/"
+          = link_to "Edit", edit_admin_user_management_msp_path(msp)
+        = "/"
+        = link_to "Admin Users", admin_user_management_msp_super_admins_path(msp)
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @msps
+  .actions-right

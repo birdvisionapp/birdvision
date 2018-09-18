@@ -1,0 +1,15 @@
+.span12
+  = render "share/messages", :type => :alert, :message => devise_error_messages!
+.span6.offset3
+  = form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :class => "forgot-password authentication-form form-horizontal theme-auth-form" }) do |f|
+    %h2 Forgot your password?
+    %p
+      Please fill in your username, we'll send instructions on how to create a new password
+    .control-group
+      = f.label :username ,:class => "control-label"
+      .controls
+        = f.text_field :username, :maxlength =>'100', :class => "input-medium"
+    .control-group
+      .controls
+        = button_tag(:type => 'submit',:class => 'btn btn-info') do
+          Reset Password

@@ -1,0 +1,135 @@
+.checkout-steps
+  overflow: hidden
+
+  li
+    background: url($checkout_steps_i2i) no-repeat left 0 transparent
+    float: left
+    line-height: 51px
+    width: 33%
+
+    label, &:first-child
+      +gradient-linear($checkout_steps_inactive_start, $checkout_steps_inactive_end)
+      height: 51px
+      line-height: 51px
+
+    &:first-child
+      width: 34%
+      label
+        margin-left: 30px
+
+    label
+      color: #fff
+      display: block
+      font-size: 16px
+      margin-left: 56px
+      margin-bottom: 0
+      text-align: center
+      span
+        font-size: 26px
+        margin-right: 3px
+        position: relative
+        top: -2px
+        vertical-align: middle
+
+    &.last-child label
+      padding-right: 20px
+
+    &.active
+      background-image: url($checkout_steps_a2i)
+
+      label,&:first-child
+        +gradient-linear($checkout_steps_active_start, $checkout_steps_active_end)
+
+      + li
+        background-image: url($checkout_steps_a2i)
+      span
+        color: #fead19
+
+
+    &.completed
+      background-image: url($checkout_steps_c2c)
+
+      label,&:first-child
+        +gradient-linear($checkout_steps_completed_start, $checkout_steps_completed_end)
+
+      + .active
+        background-image: url($checkout_steps_c2a)
+      + .completed
+        background-image: url($checkout_steps_c2c)
+
+.checkout-step-content
+  border: 1px solid #949494
+  border-top: none
+  overflow: hidden
+  &#shippingAddress
+    .alert
+      margin: 0 30px 25px
+  h1
+    margin-bottom: 0px
+    padding: 20px 20px 0px
+  h4
+    margin: 20px 30px
+  h5
+    padding: 0px 21px
+    font-weight: normal
+  .cart-items
+    .total-points
+      padding-right: 15px
+
+  .action-items
+    margin: 25px 0 25px
+    overflow: hidden
+    padding: 0 25px
+    form
+      margin-bottom: 0
+    .btn-confirm
+      border-style: solid
+      border-width: 1px
+      font-weight: bold
+      padding: 7px 20px
+#orderInfo
+  padding: 25px 25px 0
+
+#orderDetails
+  .well
+    background: #fff
+    border: 1px solid #ddd
+    padding: 0
+    +border-radius(0)
+    width: 100%
+    h5
+      +gradient-vertical(#e5e5e5,#eff0f0)
+      color:  #474646
+      font-weight: normal
+      margin-top: 0
+      padding: 5px 8px
+    .details
+      padding: 10px 15px
+
+      word-wrap: break-word
+
+      ul
+        margin-bottom: 5px
+
+      .order-total
+        border-top: 1px solid #DDD
+        color: #999
+        margin-bottom: 0
+        padding-top: 7px
+        text-align: right
+        strong
+          color: #333
+          font-size: 16px
+    .order-total
+      padding: 0 15px
+
+.mobile-number
+  position: relative
+  label
+    position: absolute
+    left: 6px
+    top: 5px
+  input[type="text"]
+    padding-left: 33px
+    width: 180px
+

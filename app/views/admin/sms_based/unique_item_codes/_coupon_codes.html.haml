@@ -1,0 +1,6 @@
+.print-product-codes-lst
+  - coupon_codes.each do |product_code|
+    .clnt-product-code.pull-left{:style => (product_code.pack_tier_config) ? "background-color: #{product_code.pack_tier_config.user_role.color_hex}" : ""}
+      - @templates.each_with_index do |template, indx|
+        %span{:class => (indx==0) ? 'first-lng' : 'last-lng'}= Liquid::Template.parse(template).render('code' => product_code.code, 'points' => product_code.reward_item_point.points, 'sms_number' => product_code.reward_item_point.reward_item.client.sms_number)
+  .clearfix

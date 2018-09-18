@@ -1,0 +1,28 @@
+.alert
+  font-size: 14px
+  &:before
+    +size(33px, 23px)
+    background: url(image_path('message-icons.png')) no-repeat 0 0 transparent
+    content: ""
+    float: left
+    margin-right: 10px
+  ul
+    padding-left: 35px
+    li
+      font-size: 14px
+      line-height: 22px
+      list-style: none
+
+  &.alert-success
+    text-shadow: 1px 1px 0 rgba($successTextShadow, 0.55)
+    &:before
+      background-position: 0 0
+
+  &.alert-error
+    text-shadow: 0 1px 0 rgba($errorTextShadow, 0.71)
+    &:before
+      background-position: 0 -41px
+
+  &.alert-info
+    &:before
+      background-position: 0 -79px

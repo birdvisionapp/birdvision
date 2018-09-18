@@ -1,0 +1,47 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@order.user.full_name},"
+  %div{:style=>"padding-left:20px"}
+    %p= "Thank you for your Order #{@order.order_id} which has been successfully confirmed."
+    %p
+      = "This email contains your Order Summary. When the Item(s) in your Order are shipped, you will receive an email with a Tracking ID with which you can track your order."
+      = "You can also check the status of your order on your "
+      = link_to "My Orders", orders_link_for(@order.user)
+      = " page."
+    %p
+      = "Please find below the summary of your Order: #{@order.order_id}"
+      %table{:style=>"margin:5px 0 20px 20px;border-collapse:collapse"}
+        %thead
+          %tr{:style=>"background-color:#EEEFEF;color:#787777;font-size:14px;font-weight:bold;line-height:25px;"}
+            %td{:style=>"padding-right:20px;padding-left:5px"}
+              = "Title"
+            - if @scheme.show_points?
+              %td{:style=>"border-left: 1px solid #EEEFEF;width:100px;padding-left:5px"}
+                = "Points"
+            %td{:style=>"border-left: 1px solid #EEEFEF;width:100px;text-align:center"}
+              = "Quantity"
+            - if @scheme.show_points?
+              %td{:style=>"border-left: 1px solid #EEEFEF;width:100px;text-align:right;padding-right:5px"}
+                = "Sub Total"
+        %tbody
+          - @order_items.each do |order_item|
+            - item = order_item.client_item.item
+            %tr{:style=>"border-bottom: 1px solid #EDEEEE;font-size:12px;line-height:22px"}
+              %td{:style=>"padding-right:20px;padding-left:5px"}
+                = item.title
+                %div{:style => 'color: #8B0000;'}= order_item.extra_charges.display
+              - if @scheme.show_points?
+                %td{:style=>"border-left: 1px solid #EDEEEE;padding-left:5px"}
+                  = (order_item.total_points_claimed / order_item.quantity)
+              %td{:style=>"text-align:center;border-left: 1px solid #EDEEEE"}
+                = order_item.quantity
+              - if @scheme.show_points?
+                %td{:style=>"text-align:right;border-left: 1px solid #EDEEEE;padding-right:5px"}
+                  = order_item.points_claimed
+          - if @scheme.show_points?
+            %tr{:style=>"background-color:#F7F8F8"}
+              %td{:colspan=>"4",:style=>"text-align:right;padding-right:15px;font-size:20px;color:#676868;line-height:24px"}
+                = "Grand Total: #{@total_points} pts"
+    - unless @order.user.client_id == 301
+      %p Your order will be delivered in approximately 15 working days
+  = render :partial => "mailers/user/email_footer", :locals => {:user=>@order.user}
+

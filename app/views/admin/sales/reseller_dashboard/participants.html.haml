@@ -1,0 +1,38 @@
+%h1
+  ="#{@client.client_name} - Participants"
+.actions
+  .actions-left
+    = link_to admin_sales_client_participants_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info", :id =>"download_participants_csv" do
+      %i.icon-arrow-down.icon-white
+      Participants report
+  .grid-pager
+    = paginate @user_schemes
+%table.table.table-striped.table-bordered.user_schemes
+  %thead
+    %tr
+      %th= sort_link(@search, :scheme_name, "Scheme")
+      %th= sort_link(@search, :user_participant_id, "Participant ID")
+      %th= sort_link(@search, :user_username, "Username")
+      %th= sort_link(@search, :user_full_name)
+      %th= sort_link(@search, :total_points, "Points Uploaded")
+      %th= sort_link(@search, :redeemed_points, "Points Redeemed")
+      %th= sort_link(@search, :current_achievements, "Current Achievements")
+      %th
+        %span= "Rewards Redeemed"
+
+  - @user_schemes.each do |user_scheme|
+    %tr[user_scheme]
+      -user = user_scheme.user
+      -scheme = user_scheme.scheme
+      %td= scheme.name
+      %td= user.participant_id
+      %td= user.username
+      %td= user.full_name
+      %td= user_scheme.total_points
+      %td= user_scheme.redeemed_points
+      %td= user_scheme.current_achievements.present? ? bvc_currency(user_scheme.current_achievements) : "-"
+      %td= bvc_currency(user_scheme.orders_total) || "-"
+.actions
+  .actions-left
+  .grid-pager
+    = paginate @user_schemes

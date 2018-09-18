@@ -1,0 +1,22 @@
+%ul.thumbnails.items-grid{:class => local_assigns.fetch(:css_class, '')}
+  - user_items.each do |user_item|
+    - item = user_item.item
+    %li.client-item.span3.thumbnail{:id =>  "item_id_#{item.id}" }
+      .large-grid{:style => 'display: none;'}
+        .caption
+          %h4= link_to item.title, client_item_path(@user_scheme.scheme.slug, user_item),:title => item.title
+          %p= item.description
+          %p
+          %p
+            = render :partial => 'share/add_to_cart', :locals => {:user_item => user_item}
+      .item-image-container
+        = link_to image_tag(item.image.url, :id => "#{item.id}_image"), client_item_path(user_item.scheme_slug, user_item)
+      .item-content
+        = link_to item.title, client_item_path(user_item.scheme_slug, user_item) ,:title => item.title, :class=>"item-title"
+        = render :partial => 'share/add_to_cart', :locals => {:user_item => user_item, :show_add_to_cart => true}
+      .do-nothing{:style => 'display: none;'}
+        .item-details
+          %h1.item-title= link_to item.title, client_item_path(@user_scheme.scheme.slug, user_item),:title => item.title
+          %p.description.ellipsis= item.description
+          = render :partial => 'share/add_to_cart', :locals => {:user_item => user_item}
+        

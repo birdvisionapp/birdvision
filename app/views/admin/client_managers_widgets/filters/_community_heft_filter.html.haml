@@ -1,0 +1,17 @@
+%table.filters
+  %tr
+    %td
+      = f.label :user_telecom_circle_id_eq, "View By"
+      = f.select :user_telecom_circle_id_eq, { "Value" => 1, "Volume" => 2 }, {:prompt => 'Please Select Filter'}
+    %td
+      = f.label :used_at_gteq, "Select Period"
+      = f.select :used_at_gteq, { "Start Till Date" => "", "This Year" => Date.today.beginning_of_day.beginning_of_year, "Since Last Month" => 1.month.ago.beginning_of_month, "This Month" => Date.today.beginning_of_day.beginning_of_month }, {:prompt => 'Select Time Period'}, {:class => 'created-at-gteq'}
+    %td
+      = f.label :user_telecom_circle_regional_managers_id_eq, "Region"
+      = f.collection_select :user_telecom_circle_regional_managers_id_eq, @telecom_regions.select_options, :id, :region, {:include_blank => t(:all)}, :class => 'telecom_circle_regional_managers_id_eq'
+  %tr
+    %td
+      = f.label :used_at_date_gteq,"Select Custom Time"
+      = f.text_field :used_at_date_gteq, :class => 'datepicker input-small created-at-date-gteq'
+      = f.label "-", :class=>"to"
+      = f.text_field :used_at_date_lteq, :class => 'datepicker input-small created-at-date-lteq'

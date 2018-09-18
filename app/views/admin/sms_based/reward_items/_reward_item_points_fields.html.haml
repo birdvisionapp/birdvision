@@ -1,0 +1,12 @@
+= f.link_to_add 'Add Pack Size', :reward_item_points, :data => {:target => '.items'}, :class => 'btn btn-info btn-small'
+.items
+  = f.fields_for :reward_item_points do |ri|
+    .item
+      .control-group.template.pull-left
+        .controls
+          = ri.text_field :pack_size, :placeholder => 'Pack Size', :class => 'input-mini'
+          = ri.select :metric,  RewardItemPoint::Metric::ALL.collect {|metric| [metric.upcase, metric]}, {:include_blank => 'Metric'}, :class => 'input-s-small'
+          = ri.text_field :points, :placeholder => 'Points', :class => 'input-mini'
+          = ri.select :status,  RewardItemPoint::Status::ALL.collect {|status| [status.titleize, status]}, {}, :class => 'input-s-medium'
+          = ri.link_to_remove '', :class => 'remove icon-trash'
+.clearfix

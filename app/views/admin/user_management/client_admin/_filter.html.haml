@@ -1,0 +1,28 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :client_msp_id_eq, "MSP"
+        = f.collection_select :client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    - unless is_client_manager?
+      %td
+        = f.label :client_id_eq, "Client"
+        = f.collection_select :client_id_eq, Client.accessible_by(current_ability).select_options, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+    - if @resource_name == :regional_manager
+      %td
+        = f.label :region_cont, "Region"
+        = f.text_field :region_cont, :class => 'input-medium'
+    - if @resource_name
+      %td
+        = f.label :id_eq, "ID"
+        = f.text_field :id_eq, :class => 'input-medium'
+  %tr
+    %td
+      = f.label :name_cont, "Name"
+      = f.text_field :name_cont, :class => 'input-medium'
+    %td
+      = f.label :admin_user_username_cont, "Username"
+      = f.text_field :admin_user_username_cont, :class => 'input-medium'
+    %td
+      = f.label :mobile_number_cont, "Mobile Number"
+      = f.text_field :mobile_number_cont, :class => 'input-medium'

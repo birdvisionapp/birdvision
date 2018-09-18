@@ -1,0 +1,8 @@
+= form_for [:admin, current_admin_user], :url => transfer_rights_admin_user_management_super_admin_path(current_admin_user), :html => {:class => 'form-horizontal'} do |f|
+  .fields-group
+    %h3 Transfer Rights To
+    .control-group
+      = f.label :id, 'Super Admin', :class => 'control-label mandatory-field'
+      .controls
+        = f.select :id,  @admin_users.collect {|r| [ r.username, r.id ] }, {:include_blank => 'Please Select'}
+        = f.button "Save", :class => 'btn btn-info'

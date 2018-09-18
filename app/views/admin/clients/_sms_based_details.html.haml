@@ -1,0 +1,5 @@
+%h3.dl-header SMS Based - #{styling_boolean_label(resource.sms_based)}
+- if resource.sms_based?
+  %dl.dl-horizontal.draft_item
+    %dt Incoming Number
+    %dd= resource.sms_number || "-"

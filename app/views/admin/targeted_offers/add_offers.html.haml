@@ -1,0 +1,18 @@
+%h1 Add Templates
+= link_to "View Added Templates", admin_targeted_offer_path(:id=>@client.id),:class => 'btn btn-info'
+.div
+  &nbsp;
+%center
+  %table.table.table-bordered
+    %tr
+      %th Template Basis
+      %th Template Name
+      %th Template Content
+      %th Action
+    - @not_added_offer.each do |offer|
+      %tr
+        %td= get_basis(offer)
+        %td= offer.name
+        %td= offer.template_content
+        %td 
+          = link_to "Add", admin_targeted_offers_path(:template_id => offer.id,:client_id => @client.id), :method => :post, :class => 'action add'

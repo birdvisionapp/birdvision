@@ -1,0 +1,21 @@
+.span12= render :partial => "share/flash_messages"
+= render :partial => "summary", :locals => {:show_shipping_info => true }
+.span9
+  %ul.checkout-steps
+    %li.completed
+      %label
+        %span 1
+        Shipping Address
+    %li.active
+      %label
+        %span 2
+        Order Summary
+    %li.last-child
+      %label
+        %span 3
+        Confirmation
+  .checkout-step-content
+    %h1 Order Summary
+    %h5 Please review your Order before you confirm it.
+    #orderItems
+      = render :partial => "order", :locals => { :order =>  @order }

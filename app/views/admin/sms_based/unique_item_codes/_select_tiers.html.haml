@@ -1,0 +1,19 @@
+.select-nu-of-tiers
+  .control-group
+    = label_tag :tiers, 'Please select the Number of Tiers:', :class => 'control-label'
+    .controls
+      - if @tiers_count.present?
+        .mt-tier-listing.pull-left
+          - @tiers_count.each do |tier|
+            %label
+              - attrs = {id: "range-#{tier}", class: 'rvl-widget'}
+              - attrs.merge!(data: {template: multi_tier_conf_admin_sms_based_unique_item_codes_path(:tiers => tier, :source_id => @product_pack.id), target: '#load-mt-configuration'})
+              = radio_button_tag 'unique_item_code[tiers]', (tier == 1) ? '' : tier, (@product_pack.pack_tier_configs.select(:id).count == tier || tier == 1) ? true : false, attrs
+              = tier
+        .mt-tier-tips.pull-left.span10
+          %h4 *Tip:
+          %p.help-inline No. of Tiers = No. of Packaging Layers.
+          %p.help-inline
+            %strong Example:
+            If you have 3 layered packaging - (Master Box -> Middle Box[boxes] -> Individual Products/Boxes), then select Number of Tiers = 3
+      .clearfix

@@ -1,0 +1,54 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @resource.errors.full_messages}
+= form_for [:admin, :user_management, @resource], :html => {:class => "form-horizontal #{(@resource_name == :representative) ? 'pull-left' : ''}"} do |f|
+  .fields-group.pull-left
+    = render "admin/share/select_msp", f: @resource.client
+    - unless is_client_manager?
+      .control-group
+        = f.label :client_id, "Client", :class => 'control-label mandatory-field'
+        .controls
+          = f.collection_select :client_id, Client.accessible_by(current_ability), :id, :client_name, {:include_blank => 'Please Select'}, {:disabled => local_assigns.has_key?(:disable_client), :class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}}
+    - if @resource_name == :regional_manager
+      .control-group
+        = f.label :region, "Region",:class => 'control-label mandatory-field'
+        .controls
+          = f.text_field :region
+
+    .control-group
+      = f.label :name, "Name",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :name
+
+    .control-group
+      = f.label :email, "Email",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :email
+
+    .control-group
+      = f.label :mobile_number, "Mobile Number",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :mobile_number
+    .control-group
+      = f.label :address, :class => 'control-label'
+      .controls
+        = f.text_area :address , :rows => 4
+    .control-group
+      = f.label :pincode, "Pincode", :class => 'control-label'
+      .controls
+        = f.text_field :pincode
+    - if @resource.id.present?
+      .control-group
+        = f.label :username, "Username", :class => 'control-label'
+        .controls
+          = @resource.admin_user.username
+      = f.fields_for :admin_user do |admin_user|
+        = render :partial => "admin/share/admin_security", :locals => {:f => admin_user}
+  - if @resource_name == :regional_manager
+    .control-group.pull-left= render "regional_manager_fields"
+  .clearfix
+  .control-group
+    .controls
+      =link_to 'Cancel', [:admin, :user_management, @resource_name.to_s.pluralize.to_sym], :class=> "btn"
+      = f.button @resource.id.nil? ? "Create" : "Save", :class => 'btn btn-info'
+- if @resource_name == :representative && controller.action_name == 'edit'
+  .clnt-mn-right-pn.pull-left= render "representative_fields"
+  .clearfix

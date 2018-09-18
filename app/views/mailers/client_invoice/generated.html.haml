@@ -1,0 +1,9 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{(!@accounts_dept) ? @client_invoice.client.client_name : 'Accounts' } Team,"
+  %div{:style=>"padding-left:20px"}
+    %p= "#{@client_invoice.invoice_label} has been generated for #{@client_invoice.description}."
+    = render "mailers/client_invoice/details", :resource => @client_invoice
+    %p{:style=>"margin-top: 10px;"}
+      - cm_label = (@client_invoice.invoice_type == 'monthly_retainer') ? "Kindly pay before #{@pay_date} for continued usage of services." : "Kindly update payment details."
+      = "Please find the attached #{@client_invoice.invoice_label}. #{(!@accounts_dept) ? "#{cm_label} Your Invoice would be automatically generated on credit of payment." : ''}"
+  = render "mailers/admin_user/email_footer" unless @accounts_dept

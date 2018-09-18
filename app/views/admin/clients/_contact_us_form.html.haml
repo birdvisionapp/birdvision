@@ -1,0 +1,14 @@
+%h3 Contact Us Details
+#allow-otp-container
+  .control-group
+    = f.label :cu_email, "Email", :class => 'control-label mandatory-field'
+    .controls
+      = f.text_field :cu_email
+  .control-group
+    = f.label :cu_cc_email, "Customer Care Email", :class => 'control-label mandatory-field'
+    .controls
+      = f.text_field :cu_cc_email
+  .control-group
+    = f.label :cu_phone_number, "Phone Number", :class => 'control-label mandatory-field'
+    .controls
+      = f.text_field :cu_phone_number

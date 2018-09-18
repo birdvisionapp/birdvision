@@ -1,0 +1,45 @@
+.fields-group h3
+  color: gray
+  border-bottom: 1px solid lightgrey
+  width: 387px
+
+.dl-header, dl > h3
+  color: gray
+  border-bottom: 1px solid lightgrey
+  width: 387px
+.categories
+  width: 400px
+
+.actions, .actions-down
+  margin-bottom: 5px
+  overflow: hidden
+  .actions-left, .actions-right
+    width: 130px
+    height: 100%
+  .actions-right
+    @extend .pull-right
+  .grid-pager
+    width: 70%
+  .actions-left, .actions-right, .grid-pager
+    display: inline-block
+    vertical-align: middle
+    white-space: nowrap
+    margin-bottom: 5px
+  &.participants
+    .actions-left
+      width: 350px
+    .grid-pager
+      width: 60%
+
+.help-text
+  font-style: italic
+
+.prepend-wrapper
+  display: inline-block
+  vertical-align: middle
+
+.lb-red
+  color: $red
+
+.lb-green
+  color: $green

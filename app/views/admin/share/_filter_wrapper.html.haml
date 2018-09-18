@@ -1,0 +1,15 @@
+- default_display ||= default_display
+- display_filters = params[:q].present? && !(params[:q].keys == ["s"]) || default_display
+#filters-container{:class => ("whole" if display_filters)}
+  %h4#filters-title
+    Filter By
+    = link_to "", "#", :id=>"filters-opener", :class=> ("opened" if display_filters)
+
+  #filters-content{:class => ("hide" unless display_filters)}
+    = render :partial=>filter, :locals => { :f => f}
+    = f.button "Filter", :class=>"btn btn-info"
+    - if current_admin_user.present?
+      - unless (current_admin_user.role == AdminUser::Roles::REPRESENTATIVE && controller.controller_name == "scheme_transactions") || (current_admin_user.role == AdminUser::Roles::REGIONAL_MANAGER && controller.controller_name == "scheme_transactions")
+        = link_to "Reset", url_for(:controller => controller_name, :action => action_name), :class=>"btn"
+    - else
+      = link_to "Reset", url_for(:controller => controller_name, :action => action_name), :class=>"btn"

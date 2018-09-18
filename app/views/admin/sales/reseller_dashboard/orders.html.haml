@@ -1,0 +1,40 @@
+%h1
+  ="#{@client.client_name} - Orders"
+%div.sales-total= "Redemption Total: #{bvc_currency(@total_sale_price)}"
+%div.payout= "Payout Total: #{bvc_currency(@payout)}"
+.actions
+  .actions-left
+    = link_to admin_sales_client_orders_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info", :id =>"download_orders_csv" do
+      %i.icon-arrow-down.icon-white
+      Orders report
+  .grid-pager
+    = paginate @order_items
+%table.table.table-striped.table-bordered.orders
+  %thead
+    %tr
+      %th= sort_link(@search, :id, "Order ID")
+      %th= sort_link(@search, :client_item_item_title, "Item Name")
+      %th= sort_link(@search, :quantity)
+      %th= sort_link(@search, :order_user_full_name, "Participant")
+      %th= sort_link(@search, :order_scheme_name, "Scheme")
+      %th= sort_link(@search, :status, "Status")
+      %th= sort_link(@search, :price_in_rupees, "Redemption(Rs.)")
+      %th= sort_link(@search, :points_claimed, "Points")
+
+  - @order_items.each do |order_item|
+    - order = order_item.order
+    - item = order_item.client_item.item
+    %tr[order_item]
+      %td= order.order_id
+      %td= item.title
+      %td= order_item.quantity
+      %td= order.user.nil? ? '' : order.user.full_name
+      %td= order_item.scheme.name
+      %td= order_item.status.humanize
+      %td= order_item.price_in_rupees
+      %td= order_item.points_claimed
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @order_items

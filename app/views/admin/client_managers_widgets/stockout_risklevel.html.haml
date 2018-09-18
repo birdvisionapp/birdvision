@@ -1,0 +1,22 @@
+.heading SKU Stock Out Risk
+
+= search_form_for @search, :url => stockout_risklevel_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/stockout_risk_filter" }
+
+
+.content-container.widgets-container
+  .widgets-wrapper
+    .top-users-info
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th= "SKU Name"
+            %th= "StockOut Rate"
+          
+          - @stock_out_risk.each do |test|
+            %tr
+              %td= test['unique_item']
+              %td= test['hit_count'].round(2)
+              
+    #widget-description
+      %span The rate at which the SKUs are sold is derived on per day basis. This widget helps to understand the rate at which the SKUs are depleting of the shelf. 

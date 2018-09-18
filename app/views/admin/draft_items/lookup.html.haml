@@ -1,0 +1,58 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h1= "Link '#{@draft_item.title}' to"
+
+=form_tag admin_draft_item_lookup_path(@draft_item.id), :method=>:get, :class=>"form-search"  do
+  = text_field_tag "query", params[:query].presence || @draft_item.title
+  %button{:class => "btn btn-info"}= "Search"
+  = link_to "Back", admin_draft_items_path, :class => "btn"
+  %p.help-block.muted.help-text Refine your search
+
+#search-result
+  - if @items.present?
+    %table.table.table-striped.table-bordered
+      %thead
+        %tr
+          - if is_super_admin?
+            %th
+              %span MSP
+          %th
+            %span Item ID
+          %th
+            %span Item Name
+          %th
+            %span Category
+          %th
+            %span Sub Category
+          %th
+            %span All Suppliers
+          %th
+            %span.align-right Channel Price(Rs.)
+          %th
+            %span.align-right MRP(Rs.)
+          %th
+            %span.align-right Supplier Margin(%)
+          %th
+            %span Action
+
+      - @items.each do |item|
+        %tr[item]
+          - if is_super_admin?
+            %td= item.category.msp_name
+          %td= item.id
+          %td= item.title.nil? ? '-' : item.title
+          %td= item.category.parent.nil? ? '-' : item.category.parent.title
+          %td= item.category.nil? ? '-' : item.category.title
+          %td= item.supplier_names
+          %td.align-right= bvc_currency(item.preferred_supplier.channel_price)
+          %td.align-right= bvc_currency(item.preferred_supplier.mrp)
+          %td.align-right= item.preferred_supplier.supplier_margin if item.preferred_supplier.supplier_margin.present?
+          %td=link_to "Link", admin_draft_item_link_path(@draft_item.id, :item_id=>item.id), {:method => :post, :class=>"btn btn-info btn-small", :confirm=>"This action will associate item with new supplier & delete it from draft.\n\rPlease ensure this item is correct."}
+
+  - else
+    = render :partial => "share/messages", :locals => {:type => :info, :message => 'No Matching Item found in Master Catalog'}
+
+%hr
+  = link_to 'Create New Item', edit_admin_draft_item_path(@draft_item), :class=> "btn btn-info btn-small"
+  %p.help-text If you cannot find your item, create it as a new item in the Master catalog.

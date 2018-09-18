@@ -1,0 +1,8 @@
+- if is_super_admin?
+  .control-group
+    = label_tag :msp_id, 'MSP', :class => 'control-label'
+    .controls
+      - if (defined?(f) && f.present? && (params[:action] == "edit") && !defined?(enable_select))
+        %b= f.msp_name
+      - else
+        = select_tag :msp_id, options_for_select(Msp.accessible_by(current_ability).select_options.map{|s|[s.name, s.id]}, params[:msp_id] || (defined?(f) && f && f.msp_id)), prompt: 'Please Select', :class => 'msp-selector-init', :disabled => local_assigns.has_key?(:disabled) && disabled

@@ -1,0 +1,25 @@
+table.table
+  margin-bottom: 5px
+  max-width: none
+  th
+    //Overriding twitter bootstrap border
+    border-color: #ebebeb #d1cfcf #d6d6d6 !important
+    border-style: solid !important
+    border-width: 1px !important
+    padding: 0
+    white-space: nowrap
+    +gradient-vertical(#f2f2f2, #e6e8e9)
+    a,span
+      display: block
+      border: 1px solid #ededed
+    a.asc, a.desc
+      +gradient-vertical(#e7e7e7, #dcdddf)
+    span
+      color: gray
+  th,td
+    max-width: 150px
+    overflow: hidden
+    padding: 8px
+    text-overflow: ellipsis
+    &.align-right
+      text-align: right

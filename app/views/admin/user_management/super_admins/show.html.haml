@@ -1,0 +1,17 @@
+%h1= "#{@msp && "#{@msp.name} - "}Admin User Details"
+%dl.dl-horizontal
+  %h3 Account Details
+
+  %dt Username
+  %dd=@admin_user.username
+
+  %dt Email
+  %dd=@admin_user.email
+
+  %dt Is Locked
+  %dd= styling_boolean_label(@admin_user.is_locked)
+
+  = display_time_stamp_details(@admin_user)
+
+  =link_to 'Back', [:admin, :user_management, @msp, :super_admins], :class=> "btn"
+  =link_to "Edit", (@msp) ? edit_admin_user_management_msp_super_admin_path(@msp, @admin_user) : edit_admin_user_management_super_admin_path(@admin_user), :class => 'btn btn-info' if can? :edit, @admin_user

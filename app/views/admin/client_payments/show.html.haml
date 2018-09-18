@@ -1,0 +1,17 @@
+%h1 Payment Details
+= render 'admin/client_invoices/details', :resource => resource.client_invoice
+%h3.dl-header Payment Details
+%dl.dl-horizontal
+  %dt Bank Name
+  %dd= resource.bank_name
+  %dt Payment Mode
+  %dd= resource.payment_mode.upcase
+  %dt Transaction Reference
+  %dd= resource.transaction_reference
+  %dt Paid Date
+  %dd= humanize_date(resource.paid_date)
+  %dt Amount Paid
+  %dd= bvc_currency(resource.amount_paid)
+  %dt Payment Credit Date
+  %dd= resource.client_invoice.credit_status
+= link_to 'Back', admin_client_invoices_path, :class=> "btn"

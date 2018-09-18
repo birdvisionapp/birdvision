@@ -1,0 +1,29 @@
+.pull-left.span6
+  %h3.dl-header= "#{resource.invoice_label} Details"
+  %dl.dl-horizontal
+    - if is_super_admin?
+      %dt MSP
+      %dd= resource.client.msp_name
+    - unless is_client_manager?
+      %dt Client
+      %dd= link_to resource.client.client_name, admin_client_path(resource.client)
+    %dt= "#{resource.invoice_label} Number"
+    %dd= resource.invoice_number
+    %dt Date
+    %dd= humanize_date(resource.invoice_date)
+    %dt= "#{resource.invoice_label} Type"
+    %dd= resource.invoice_type.titleize
+    %dt Description
+    %dd= resource.description
+    %dt Status
+    %dd= styling_status_label(resource.status)
+
+.pull-left.span6
+  %h3.dl-header= "#{resource.invoice_label} Breakup"
+  %dl.dl-horizontal
+    - if resource.breakup.present?
+      - resource.breakup.each do |record|
+        %dt= record[0]
+        %dd= record[1].present? ? record[1] : '-'
+    %dt Total Amount (INR)
+    %dd= bvc_currency(resource.amount)

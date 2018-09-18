@@ -1,0 +1,25 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @reward_product_catagory.errors.full_messages}
+
+= form_for [:admin, @reward_product_catagory], :html => {:class => 'form-horizontal'} do |f|
+  .fields-group
+    = render "admin/share/select_msp", f: @reward_product_catagory.client
+    .control-group
+      = f.label :client_id, :class => 'control-label mandatory-field'
+      .controls
+        = f.collection_select :client_id, Client.accessible_by(current_ability).select_options.is_sms_based, :id, :client_name, {:include_blank => 'Please Select'}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name', sms_based: true)}, :disabled => local_assigns.has_key?(:disable_client)
+    .control-group
+      = f.label :scheme_id, :class => 'control-label mandatory-field'
+      .controls
+        = f.select :scheme_id,  Scheme.accessible_by(current_ability).select_options .map(&:option_format), {:include_blank => 'Please Select'}, :class => 'al-content-loader', :disabled => local_assigns.has_key?(:disable_scheme), :data => {:url => list_for_client_admin_schemes_url}
+    .control-group
+      = f.label :category_name, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :category_name
+    .control-group
+      = f.label :category_description, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :category_description
+    .control-group
+      .controls
+        =link_to 'Cancel', admin_reward_product_catagories_path, :class=> "btn"
+        = f.button @reward_product_catagory.id.nil? ? "Create Category" : "Save Category", :class => 'btn btn-info'

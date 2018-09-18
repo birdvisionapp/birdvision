@@ -1,0 +1,22 @@
+%h1 Edit Tracking Info
+
+/ = render :partial => "share/messages", :locals => {:type => :alert, :message => resource.errors.full_messages}
+
+= form_for [:admin, @to_order_item], :url => admin_to_transaction_to_update_tracking_info_path(:q => params[:q]), :method=>:put, :html => {:class => 'form-horizontal'} do |f|
+
+  .fields-group
+    %h3 Tracking Info
+    .control-group
+      = f.label :shipping_agent, :class => 'control-label'
+      .controls
+        = f.text_field :shipping_agent
+
+    .control-group
+      = f.label :shipping_code, :class => 'control-label'
+      .controls
+        = f.text_field :shipping_code
+
+    .control-group
+      .controls
+        =link_to 'Cancel', admin_to_transactions_path(:q => params[:q]), :class=> "btn"
+        = f.button "Save", :class => 'btn btn-info'

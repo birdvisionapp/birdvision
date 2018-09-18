@@ -1,0 +1,19 @@
+%h1 Targeted Offer Enabled Clients
+= search_form_for @search, :url => admin_targeted_offers_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/targeted_offers/targeted_offer_filter" }
+%center
+  \&nbsp;
+  %table.table.table-bordered
+    %tr.table.header
+      - if current_admin_user.super_admin? && !current_admin_user.msp_id.present?
+        %th MSP Name
+      %th Client Name
+      %th Action
+    - @clients.each do |client|
+      %tr
+        - if current_admin_user.super_admin? && !current_admin_user.msp_id.present?
+          %td
+            - unless client.msp_id.nil? 
+              = client.msp.name  
+        %td= client.client_name
+        %td= link_to "View", admin_targeted_offer_path(:id => client.id)

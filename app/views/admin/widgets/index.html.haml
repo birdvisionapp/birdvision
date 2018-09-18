@@ -1,0 +1,13 @@
+.content-container.widgets-container
+  %h1 Widgets List
+  .widgets-wrapper.row
+    - @widgets.each do |widget|
+      #widget-1.col-sm-4
+        .widget-inner
+          %span.add-widget-button
+            = link_to image_tag("add_sign.png"), admin_client_managers_widgets_path(:widget_id => widget.id), :method => :post
+          %span.widget-name
+            %h2
+              = widget.name
+          %span.widget-description
+            = widget.description

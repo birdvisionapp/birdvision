@@ -1,0 +1,17 @@
+.heading Community Size
+
+= search_form_for @search, :url => community_size_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/widget_filter" }
+
+.content-container.widgets-container
+  .widgets-wrapper
+    #widget-postion-1#redemption.col-sm-4
+      .widget-postion-inner
+        .widget-header= 'Community Size'
+        .widgets-number-data
+          %span.number.penetration-number= @users_count
+          %span.sub-title{:style => "color: black;"} Members
+        / .community-widget-count= @users_count
+        
+    #widget-description
+      %span This widget shows the size of the community that has been enrolled into the program and is a part of one or more programs being run.

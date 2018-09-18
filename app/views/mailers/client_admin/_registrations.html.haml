@@ -1,0 +1,22 @@
+%div
+  %table{:style=>"margin:10px 0 20px 20px;border-collapse:collapse"}
+    %thead
+      %tr{:style=>"background-color:#EEEFEF;color:#787777;font-size:12px;font-weight:bold;line-height:25px;"}
+        %td{:style=>"border-left: 1px solid #EEEFEF;padding:2px 8px"}= "Mobile Number"
+        %td{:style=>"border-left: 1px solid #EEEFEF;padding:2px 8px"}= "Name"
+        %td{:style=>"border-left: 1px solid #EEEFEF;padding:2px 8px"}= "Status"
+        %td{:style=>"border-left: 1px solid #EEEFEF;padding:2px 8px"}= "Date of Message"
+        %td{:style=>"border-left: 1px solid #EEEFEF;padding:2px 8px"}= "Distributor"
+    %tbody
+      - @new_registrations.slice(0,10).each do |used_code|
+        %tr{:style=>"border-bottom: 1px solid #EDEEEE;font-size:12px;line-height:22px"}
+          %td{:style=>"border-left: 1px solid #EDEEEE;padding:2px 5px"}
+            = used_code.user.mobile_number
+          %td{:style=>"text-align:left;border-left: 1px solid #EDEEEE;padding:2px 5px"}
+            = used_code.user.full_name
+          %td{:style=>"text-align:left;border-left: 1px solid #EDEEEE;padding:2px 5px"}
+            = used_code.user.sms_status
+          %td{:style=>"text-align:left;border-left: 1px solid #EDEEEE;padding:2px 5px"}
+            = humanize_date(used_code.used_at)
+          %td{:style=>"text-align:left;border-left: 1px solid #EDEEEE;border-right: 1px solid #EDEEEE;padding:2px 5px"}
+            = used_code.product_code_link.linkable.full_name

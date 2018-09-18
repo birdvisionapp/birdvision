@@ -1,0 +1,90 @@
+/*
+    Site customization template.
+
+    Important: Axis Theme
+*/
+
+/*
+    customize the logo here by changing the value of url
+    size of the logo must be 180 X 60 px otherwise it will be truncated
+*/
+#siteHeader .logo, .login-page-body .logo  {
+    background-image: url("logo.png");
+}
+a, a:hover, a:active, a:focus, .theme-primary-text-color, .theme-primary-text-color:hover, .theme-primary-text-color:focus {
+    color: #b61a41;
+}
+.theme-primary-gradient, .btn-info {
+    background-color: #b30035;
+    background-image: -moz-linear-gradient(top, #c10042, #a00022);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#c10042), to(#a00022));
+    background-image: -webkit-linear-gradient(top, #c10042, #a00022);
+    background-image: -o-linear-gradient(top, #c10042, #a00022);
+    background-image: linear-gradient(to bottom, #c10042, #a00022);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC10042', endColorstr='#FFA00022', GradientType=0);
+}
+.btn-info:hover, .btn-info:focus {
+    background-color: #a00022;
+}
+.theme-auth-form {
+    border-color: #830208;
+    color: #b61a41;
+}
+.theme-header-component {
+    border-color: #e0aebc;
+}
+.theme-header-component:hover {
+    background-color: #c9677b;
+}
+.theme-header-component ul a:hover {
+    background-color: #e099a8;
+}
+.theme-btn-search, .theme-btn-search:hover, .theme-btn-search:focus {
+    background-color: #830208;
+}
+.theme-category-header {
+    background-color: #e099a8;
+}
+.theme-actions {
+    border-color: #c1104e;
+    color: #c1104e;
+}
+.theme-actions .actions, .theme-actions .add-to-cart-icon {
+    background-color: #c1104e;
+}
+.theme-actions:hover, .theme-actions:focus {
+    color: #c1104e;
+}
+.theme-actions:hover.actions, .theme-actions:hover .actions, .theme-actions:focus.actions, .theme-actions:focus .actions {
+    background-color: #c1104e;
+    color: white;
+}
+.theme-btn-cko {
+    background-color: #a00022;
+    color: white;
+}
+.theme-btn-cko:hover {
+    background-color: #c10042;
+}
+.btn-continue-shopping {
+    background-color: #e8e6e4;
+    border-color: #a00022;
+    color: #a00022;
+}
+.btn-continue-shopping:hover, .btn-continue-shopping:focus {
+    background-color: white;
+}
+.btn-continue-shopping:before, .btn-continue-shopping .btn-continue-shopping-cart  {
+    background-color: #a00022;
+}
+#points_slider {
+    border-color: #e0aebc;
+}
+#points_slider div {
+    background-color: #e099a8;
+}
+#points_slider a {
+    background-color: #e0aebc;
+    border-color: #c10042;
+}

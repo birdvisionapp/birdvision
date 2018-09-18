@@ -1,0 +1,36 @@
+%h3 Thresholds
+
+= form_for [:admin, @threshold], :html => {:class => 'form-horizontal'} do |f|
+  %table.table.table-striped.table-bordered.thresholds-table
+    %thead
+      %tr
+        %th
+          %span Threshold Level
+        %th
+          %span Color
+        %th
+          %span Lower Limit
+        %th
+          %span Upper Limit
+        
+    %tbody
+      %tr
+        %td Low
+        %td= @thre.low_color
+        %td= 0
+        %td= f.text_field :low
+      %tr
+        %td Medium
+        %td= @thre.medium_color
+        %td Value will be poplullated on the basis of the upper limit of LOW 
+        %td= f.text_field :medium
+      %tr
+        %td High
+        %td= @thre.high_color
+        %td Value will be poplullated on the basis of the upper limit of MEDIUM
+        %td= 100
+        
+  .control-group
+    .controls
+      =link_to 'Cancel', admin_thresholds_path, :class=> "btn"
+      = f.button @threshold.id.nil? ? "Save Threshold Value" : "Update Threshold Value", :class => 'btn btn-info'

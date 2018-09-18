@@ -1,0 +1,5 @@
+%table.filters
+  %tr
+    %td
+      = f.label :targeted_offer_type_name_cont, "Targeted Offer Basis"
+      = f.select :id_eq, options_from_collection_for_select(TargetedOfferType.all, "id", "targeted_offer_type_name"), {:include_blank => t(:all)}

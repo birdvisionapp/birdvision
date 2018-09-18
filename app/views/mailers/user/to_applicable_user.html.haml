@@ -1,0 +1,18 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@user.full_name},"
+  %div{:style=>"padding-left:20px"}
+    %p= "We have a special offer only for you..!!! #{@user.client.client_name} Rewards Team."
+    -if @template[:incentive_type] == "percentage" && @template[:basis_name] == "Purchase Frequency"
+      %p= "Hi #{@user.full_name rescue ''}, long time no see. Purchase #{check_product_count(@template[:product_name])} by #{@template[:end_date]} and win #{@template[:incentive_details]} percent extra points. #{@user.client.client_name} Rewards team."
+    -if @template[:incentive_type] != "percentage" && @template[:basis_name] == "Purchase Frequency"
+      %p= "Hi #{@user.full_name rescue ''}, long time no see. On your next purchase of #{check_product_count(@template[:product_name])} by #{@template[:end_date]} and we will send you free #{@template[:incentive_details]}. #{@user.client.client_name} Rewards team."
+    -if @template[:basis_name] == "Relationship Matrix"
+      %p= "Hi #{@user.full_name rescue ''} thanks for your association. As a token of our gratitude, please accept gift #{@template[:incentive_details]} we will send you shortly. #{@user.client.client_name} Rewards team."
+    -if @template[:basis_name] == "Major Life Event"
+      %p= "Hi #{@user.full_name rescue ''}, Happy Birthday. Please accept #{@template[:incentive_details]} which we will send you shortly. #{@user.client.client_name} Rewards team."
+    -if @template[:incentive_type] == "percentage" && @template[:basis_name] == "Seasonal Festival"
+      %p= "Hi #{@user.full_name rescue ''}, this #{@template[:festival_type]} purchase #{check_product_count(@template[:product_name])} by #{@template[:end_date]} and win #{@template[:incentive_details]} percent extra points. #{@user.client.client_name} Rewards team."
+    -if @template[:incentive_type] != "percentage" && @template[:basis_name] == "Seasonal Festival"
+      %p= "Hi #{@user.full_name rescue ''}, this #{@template[:festival_type]} purchase #{check_product_count(@template[:product_name])} by #{@template[:end_date]} and we will send you free #{@template[:incentive_details]}. #{@user.client.client_name} Rewards team."
+
+  = render :partial => "mailers/user/email_footer", :locals => {:user=>@user}

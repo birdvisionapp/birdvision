@@ -1,0 +1,39 @@
+$orders-border: 1px solid #DFDFDF
+#participantOrders, .points-summary
+  .order-pagination-info
+    margin-top: 10px
+    color: #666666
+  .continue-shopping
+    text-align: right
+    margin-bottom: 10px
+
+  .orders
+    @include box-sizing(content-box)
+    border: $orders-border
+    width: 100%
+  .header
+    @include gradient-vertical(#f2f2f2,#e6e8e9)
+    line-height: 30px
+    font-weight: bold
+    color: #787777
+    td
+      padding: 0 5px
+
+  .order
+    border-top: $orders-border
+    border-left: $orders-border
+    td
+      border-left: $orders-border
+      padding: 0 6px
+      line-height: 35px
+      &.order-id
+        border-left: none
+        padding-left: 20px
+
+.otp-block
+  .otp-helptext
+    font-size: 13px
+
+.pt-points-sum-info
+  padding-top: 30px
+  padding-right: 60px

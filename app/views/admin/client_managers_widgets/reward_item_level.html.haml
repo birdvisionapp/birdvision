@@ -1,0 +1,32 @@
+- if !@top_penetrations.empty?
+  = search_form_for @search, :url => reward_item_level_admin_client_managers_widgets_path do |f|
+    = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/reward_item_level_filter" }
+
+
+.content-container.widgets-container
+- if !@top_penetrations.empty?
+  .widgets-wrapper.row
+    .top_penetrations.row
+      %h3 Top 5 Penetrating Product
+      - @top_penetrations.each do |penetration|
+        = link_to sku_level_admin_client_managers_widgets_path(:id => penetration['id'])  do
+          .col-sm-3#reward-penetration
+            .reward-penetration-inner
+              .penetration-percentage= "#{penetration['penetration']}%"
+              .penetration-name= penetration['name']
+    .more-link
+      = link_to "View More", overall_product_penetration_admin_client_managers_widgets_path
+    %hr
+    .worst_penetrations.row
+      %h3 Bottom 5 Penetrating Product
+      - @worst_penetrations.each do |penetration|
+        = link_to sku_level_admin_client_managers_widgets_path(:id => penetration['id'])  do
+          .col-sm-3#reward-penetration
+            .reward-penetration-inner
+              .penetration-percentage= "#{penetration['penetration']}%"
+              .penetration-name= penetration['name']
+    .more-link
+      = link_to "View More", overall_product_penetration_admin_client_managers_widgets_path
+
+- if @top_penetrations.empty?
+  %h1 No Reward Item to display

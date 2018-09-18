@@ -1,0 +1,65 @@
+%h1 Payments
+
+.payment-filter-stat
+  .pull-left
+    = search_form_for @search, :url => admin_client_invoices_path do |f|
+      = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"client_invoices_filter"}
+  .clearfix
+.payment-grid-view
+  .pull-right
+    .pull-left= render 'admin/client_invoices/status_info'
+    .pull-left= render 'admin/clients/points_stat'
+  .clearfix
+.actions
+  .actions-left= link_to 'Generate Pro Forma Invoice for Points Upload', new_admin_client_invoice_path, :class => 'btn btn-info' if can?(:create, ClientInvoice)
+  .grid-pager= paginate @client_invoices
+
+%table.table.table-striped.table-bordered.client-invoices
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :client_msp_name, "MSP")
+      - unless is_client_manager?
+        %th= sort_link(@search, :client_client_name, "Client")
+      %th.span2= sort_link(@search, :id, "Invoice Number")
+      %th.span2-5= sort_link(@search, :invoice_date, "Date")
+      %th.span2= sort_link(@search, :invoice_type, "Invoice Type")
+      %th Amount
+      %th Description
+      %th Payment Credit Date
+      %th= sort_link(@search, :status, "Status")
+      %th.status-actions Actions
+
+  - @client_invoices.each do |client_invoice|
+    %tr
+      - if is_super_admin?
+        %td= client_invoice.client.msp_name          
+      - unless is_client_manager?
+        %td= link_to client_invoice.client.client_name, admin_client_path(client_invoice.client)
+      %td= client_invoice.invoice_number
+      %td= humanize_date(client_invoice.invoice_date)
+      %td= client_invoice.invoice_type.titleize
+      %td= bvc_currency(client_invoice.amount)
+      %td= client_invoice.description
+      %td= client_invoice.credit_status
+      %td= styling_status_label(client_invoice.status)
+      %td.status-actions
+        = link_to "Printable #{client_invoice.invoice_label}", admin_client_invoice_path(client_invoice, :format => 'pdf'), :target => :blank
+        - if client_invoice.status != ClientInvoice::Status::PENDING
+          %span /
+          = link_to "Payment Details", admin_client_invoice_client_payment_path(client_invoice, client_invoice.client_payment)
+        - if client_invoice.status == ClientInvoice::Status::PROCESSING && can?(:update, ClientPayment)
+          %span /
+          = link_to "Confirm", edit_admin_client_invoice_client_payment_path(client_invoice, client_invoice.client_payment)
+        - if client_invoice.status == ClientInvoice::Status::PENDING && can?(:create, ClientPayment)
+          %span /
+          = link_to 'Update', new_admin_client_invoice_client_payment_path(client_invoice)
+        - if !client_invoice.confirmed? && can?(:edit, ClientInvoice)
+          %span /
+          = link_to 'Cancel', admin_client_invoice_path(client_invoice), :confirm => "Are you sure, you want to delete Pro Forma Invoice: #{client_invoice.invoice_number} ?", :method => :delete, :class => 'text-error'
+          
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @client_invoices
+  .actions-right

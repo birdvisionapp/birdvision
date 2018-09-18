@@ -1,0 +1,33 @@
+%p{:style=>"margin-bottom:0px"}
+  %strong= "#{resource.invoice_label} Details"
+%ul{:style=>"margin:5px; padding-left: 10px;list-style:none;"}
+  %li
+    = "Client: "
+    %strong= resource.client.client_name
+  %li
+    = "#{resource.invoice_label} Number: "
+    %strong= resource.invoice_number
+  %li
+    = "Date: "
+    %strong= humanize_date(resource.invoice_date)
+  %li
+    = "#{resource.invoice_label} Type: "
+    %strong= resource.invoice_type.titleize
+  %li
+    = "Description: "
+    %strong= resource.description
+  %li
+    = "Status: "
+    %strong= resource.status.titleize
+
+%p{:style=>"margin-top: 20px; margin-bottom:0px"}
+  %strong= "#{resource.invoice_label} Breakup"
+%ul{:style=>"margin:5px; padding-left: 10px;list-style:none;"}
+  - if resource.breakup.present?
+    - resource.breakup.each do |record|
+      %li
+        = "#{record[0]}: "
+        %strong= record[1]
+  %li
+    = "Total Amount (INR): "
+    %strong= bvc_currency(resource.amount)

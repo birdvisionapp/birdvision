@@ -1,0 +1,10 @@
+=gradient-linear($gradients...)
+  background-image: -moz-linear-gradient($gradients)      // FF 3.6+
+  background-image: -webkit-gradient($gradients)          // Safari 4+, Chrome 2+
+  background-image: -webkit-linear-gradient($gradients)   // Safari 5.1+, Chrome 10+
+  background-image: -o-linear-gradient($gradients)        // Opera 11.10
+  background-image: linear-gradient($gradients)           // Standard, IE10
+  background-repeat: repeat-x
+
+=ie-gradient-linear($image)
+  background: url($image) repeat-x 0 0

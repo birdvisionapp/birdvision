@@ -1,0 +1,2 @@
+module Admin::TargetedOffersHelper
+end

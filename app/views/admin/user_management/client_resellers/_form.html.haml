@@ -1,0 +1,33 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @client_reseller.errors.full_messages}
+= form_for [:admin,:user_management, @client_reseller], :url => @client_reseller.id.nil? ? admin_user_management_reseller_associate_client_to_reseller_path(@reseller_id): admin_user_management_reseller_update_client_for_reseller_path, :html => {:class => 'form-horizontal'} do |f|
+  .fields-group
+    .client-info
+      %h3 Client Information
+      - if @client_reseller.id.nil?
+        .control-group
+          = f.label "Client", :class => 'control-label'
+          .controls
+            = f.collection_select :client_id, Client.accessible_by(current_ability), :id, :client_name, :include_blank => "Please Select"
+      .control-group
+        = f.label :finders_fee, "Finders fee(Rs.)", :class => 'control-label mandatory-field'
+        .controls
+          = f.text_field :finders_fee
+      .control-group
+        = f.label :payout_start_date,"Payout Start Date", :class => 'control-label mandatory-field'
+        .controls
+          = f.text_field :payout_start_date, :class => 'datepicker', :value => ldate(f.object.payout_start_date)
+    %h3 Slabs
+    =f.fields_for :slabs, :as => :slab_attributes do |slab|
+      .control-group
+        = slab.label :lower_limit,"Sales above(Rs.):", :class => 'control-label mandatory-field'
+        .controls
+          = slab.text_field :lower_limit, :class => 'slab-width'
+          .payout-percent
+            %span.payout-label.mandatory-field
+              = "Payout :"
+            = slab.text_field :payout_percentage, :class => 'slab-width'
+            = " %"
+    .control-group
+      .controls
+        =link_to 'Cancel', admin_user_management_resellers_path, :class=> "btn"
+        = f.button @client_reseller.id.nil? ? "Associate client" : "Update", :class => 'btn btn-info'

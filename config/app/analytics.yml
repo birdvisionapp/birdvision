@@ -1,0 +1,5 @@
+analytics:
+  participant:
+    account_id: <%= ENV['GA_PARTICIPANT_TRACKING_ID'] %>
+  admin:
+    account_id: <%= ENV['GA_ADMIN_TRACKING_ID'] %>

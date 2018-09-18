@@ -1,0 +1,50 @@
+%h1 New Registrations
+.clearfix
+  = search_form_for @search, :url => admin_sms_based_users_path do |f|
+    = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "user_filter" }
+
+.actions.participants
+  .grid-pager
+    = paginate @users
+
+  %table.table.table-striped.table-bordered.users
+    %thead
+      %tr
+        - if is_super_admin?
+          %th= sort_link(@search, :client_msp_name, "MSP")
+        - if is_admin_user?
+          %th= sort_link(@search, :client_client_name, "Client")
+        %th= sort_link(@search, :mobile_number,"Mobile Number")
+        %th= sort_link(@search, :full_name,"Full Name")
+        %th Region
+        %th Telecom Circle
+        %th= sort_link(@search, :status, "Status")
+        %th Product(s)
+        %th= sort_link(@search, :created_at, "Created At")
+        %th
+          %span Actions
+
+    - @users.each do |user|
+      %tr[user]
+        - if is_super_admin?
+          %td= user.client.msp_name
+        - if is_admin_user?
+          %td= link_to user.client_name, admin_client_path(user.client)
+        %td= user.mobile_number
+        %td= user.full_name
+        %td= user.region
+        %td= user.circle_name
+        %td= styling_status_label(user.status)
+        %td
+          - if user.unique_item_codes.present?
+            - user.unique_item_codes.each do |unique_item_code|
+              = "#{unique_item_code.reward_item_point.product_detail} (#{unique_item_code.reward_item_point.points} Points) <br /> ".html_safe
+        %td= l user.created_at, :format => :long_date_time rescue ''
+        %td
+          - if can? :edit, User
+            = link_to 'Register', edit_admin_user_path(user, :sms_based_registration => true)
+  .actions-down.participants
+    .actions-left
+    .grid-pager
+      = paginate @users
+    .actions-right

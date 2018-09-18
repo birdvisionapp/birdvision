@@ -1,0 +1,31 @@
+%table.filters
+  %tr
+    %td
+      = f.label :id_eq, "Redemption ID"
+      .input-prepend.prepend-wrapper
+        %span.add-on RID
+        = f.text_field :id_eq, :class => 'input-mini'
+    %td
+      = f.label :participant_id_eq, "Participant ID"
+      = f.text_field :participant_id_eq, :class => 'input-medium'
+    %td
+      = f.label :user_client_id_eq, "Client"
+      = f.collection_select :user_client_id_eq, Client.accessible_by(current_ability).select_options, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+    %td
+      = f.label :incentive_type_eq, "Incentive"
+      = f.select :incentive_type_eq, { "Auto Fullfillment" => "Auto Fullfillment", "Manual" => "Manual" }, {:prompt => 'All'}, {:class => 'incentive_type_eq'}  
+  %tr
+    %td
+      = f.label :targeted_offer_config_msp_id_eq, "MSP"
+      = f.collection_select :targeted_offer_config_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      = f.label :status_eq, "Status"
+      = f.select :status_eq, ToTransaction.accessible_by(current_ability).state_machines[:status].states.collect{|state| [state.name.to_s.humanize, state.name]}, :include_blank => t(:all)
+    %td
+      = f.label :targeted_offer_basis_eq, "Targeted Offer Basis"
+      = f.collection_select :targeted_offer_basis_eq, TargetedOfferType.accessible_by(current_ability), :id, :offer_type_name, {:include_blank => t(:all)}, :class => 'targeted_offer_basis_eq'
+    %td
+      = f.label :created_at_date_gteq,"Placed On"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small'

@@ -1,0 +1,39 @@
+%h1 Targeted Offer Listing
+
+.to_config
+  - if current_admin_user.role == AdminUser::Roles::CLIENT_MANAGER
+    = link_to 'Configure New Targeted Offer', offer_manager_admin_targeted_offer_managers_path, :class => 'btn btn-info' , :method => :get
+  - else
+    %a#to_config_btn.btn.btn-info{:href => "#", :onClick => "toConfig();"} Configure Targeted Offer
+  .space
+  .to_config_div
+  .to_config_table
+    %table.table.table-bordered
+      %tr
+        - if current_admin_user.super_admin? && !current_admin_user.msp_id.present?
+          %th Msp
+        - unless current_admin_user.role == AdminUser::Roles::CLIENT_MANAGER
+          %th Client
+        %th Targeted Offer
+        %th Template Basis
+        %th Status
+        %th Actions  
+      - @targeted_offer_configs.each do |targeted_offer_config|
+        %tr
+          - if current_admin_user.super_admin? && !current_admin_user.msp_id.present?
+            %td
+              = targeted_offer_config.msp.name unless targeted_offer_config.msp.nil? 
+          - unless current_admin_user.role == AdminUser::Roles::CLIENT_MANAGER
+            %td 
+              = targeted_offer_config.client.client_name 
+          %td
+            = targeted_offer_config.template.template_content unless targeted_offer_config.template.nil?
+          %td
+            = targeted_offer_config.template.targeted_offer_type.offer_type_name unless targeted_offer_config.template.nil?
+          %td
+            = styling_status_label(targeted_offer_config.status)
+          %td
+            = link_to "Edit /" , {:action => "offer_manager_edit" , :id => targeted_offer_config.id} \
+            = link_to "Show /" , {:action => "show" , :id => targeted_offer_config.id} \
+            = link_to "Remove" , {:action => "destroy" , :id => targeted_offer_config.id} , :method => :delete , :confirm => "Are you sure ?"
+             

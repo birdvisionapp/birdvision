@@ -1,0 +1,18 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h1 Edit Catalog Items (CSV)
+= form_tag 'upload_csv',:id=>"uploadForm", :multipart =>true, :class=>"form-horizontal" do
+  .uploadCsv.control-group
+    %label.control-label CSV:
+    .controls
+      = file_field_tag :csv
+    .alert.alert-info
+      %strong Note:
+      Make sure your CSV is formatted using this
+      =link_to "/formats/update_items_template.csv" do
+        %strong template
+
+  #submit.control-group
+    .controls
+      = submit_tag "Start Upload", :disable_with => 'Uploading...', :class => "btn btn-info"

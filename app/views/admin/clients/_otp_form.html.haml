@@ -1,0 +1,15 @@
+%h3 Allow OTP (One Time Password) #{f.check_box :allow_otp, :class => 'tc-widget fm-check-input bg-ck-med', 'data-target' => '#allow-otp-container'}
+#allow-otp-container
+  .control-group
+    = f.label :allow_otp_email, "Email", :class => 'control-label'
+    .controls
+      = f.check_box :allow_otp_email
+  .control-group
+    = f.label :allow_otp_mobile, "Mobile (SMS)", :class => 'control-label'
+    .controls
+      = f.check_box :allow_otp_mobile
+  .control-group
+    = f.label :otp_code_expiration, "Expiration Time", :class => 'control-label mandatory-field'
+    .controls
+      = f.text_field :otp_code_expiration, :maxlength => 14, :class=> 'input-mini'
+      .help-inline seconds

@@ -1,0 +1,45 @@
+
+#template_table.template_div
+  - offer = Offer.new(current_admin_user , client_id)
+  %table.table.table-bordered
+    %tr
+      %td Template Name
+      %td Template Content
+      %td Select Template
+    - offer.get_client_templates(tot_id).each do |template|
+      %tr
+        %td
+          = template.name
+        %td
+          = template.template_content
+        %td
+          %div
+            %input#template{:name => "select_template", :type => "radio", :value => template.id }
+%table.table.table-bordered.table-style
+  %tr
+    %td
+      #scheme1
+        %fieldset#id-set-scheme
+          %h3 Select Scheme
+          %input#id_scheme.check{:name => "all_scheme", :type => "checkbox"}
+            = f.label 'All Scheme'
+            %br/
+            .scheme-group
+              .control-scroll
+                .control-error
+                  - if offer.get_noproduct_scheme(tot_id).offer_type_name =="Relationship Matrix" || offer.get_noproduct_scheme(tot_id).offer_type_name =="Major Life Event"
+                    - scheme_info = offer.get_client_schemes
+                  - else
+                    - scheme_info = offer.get_schemes
+                  
+                  - scheme_info.each do |scheme|
+                    = check_box_tag "schemes[]", scheme.id, false, :class => 'check', :id => 'id_scheme'
+                    #{check_scheme_name(scheme)}
+                    %br
+    %td
+      - name = TargetedOfferType.find(tot_id).offer_type_name
+      - unless name == "Relationship Matrix" || name == "Major Life Event"
+        #product
+      - else
+        .incentive_type_gift
+           

@@ -1,0 +1,72 @@
+.privacy-policy, .tac
+  h1
+    border-bottom: 1px dotted #36644f
+  h4
+    margin-bottom: 5px
+    margin-top: 20px
+  p
+    margin-bottom: 0px
+    text-align: justify
+    text-indent: 1.5em
+    & + p
+      margin-bottom: 10px
+
+.tac
+  .welcome
+    display: block
+    font-size: 14px
+    margin: 10px 0px
+  strong
+    display: block
+    margin-top: 10px
+
+.contact-us
+  span
+    display: block
+  h1
+    border-bottom: 1px dotted #36644f
+    margin-bottom: 20px
+  .contact-form
+    padding: 5px 5%
+    input[type=text], input[type=email], textarea, input[type=password],
+      margin-bottom: 10px
+      width: 90%
+    p
+      margin-bottom: 20px
+    .btn-info
+      margin-right: 20px
+
+  .office
+    background: $office-address-bg-color
+    border: 1px solid $office-address-border-color
+    border-radius: 6px
+    display: inline-block
+    margin-bottom: 15px
+    padding: 5px 10px
+    width: 98%
+    strong
+      display: block
+
+.error-page
+  +size(500px, 60%)
+  margin: 10px auto
+  h1
+    color: #3A3939
+    font-size: 48px
+    line-height: 50px
+    text-shadow: 1px 1px rgba(255,255,255,0.5), 2px 1px rgba(0,0,0,0.5)
+  p
+    font-size: 14px
+    margin: 10px 0px
+    letter-spacing: 1px
+    &.message
+      font-size: 18px
+.faq
+  text-align: justify
+  h1
+    border-bottom: 1px dotted #36644f
+  dd
+    margin-bottom: 20px
+  ul
+    margin-left: 20px
+    list-style: disc

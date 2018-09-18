@@ -1,0 +1,33 @@
+%h1 MSP Details
+%dl.dl-horizontal
+  %h3.dl-header Account Details
+  %dt Name
+  %dd= @msp.name
+  %dt Contact Name
+  %dd= @msp.contact_name
+  %dt Phone Number
+  %dd= @msp.phone_number
+  %dt Email
+  %dd= resource.email
+  %dt Address
+  %dd= resource.address
+  %dt Opening Balance
+  %dd= resource.opening_balance
+  %dt Setup Charge
+  %dd= resource.setup_charge
+  %dt Fixed Amount
+  %dd= resource.fixed_amount
+  %dt Plan Details
+  %dd= resource.plan_details
+  %dt Notes
+  %dd= resource.notes
+  %dt Status
+  %dd= styling_status_label(resource.status.titleize)
+  %dt Target Offer Enable
+  %dd= styling_boolean_label(resource.is_targeted_offer_enabled)
+  = display_time_stamp_details(resource)
+
+  %br
+  = link_to 'Back', admin_user_management_msps_path, :class=> "btn"
+  = link_to "Edit", edit_admin_user_management_msp_path(resource), :class => 'btn btn-info' if can? :edit, Msp
+  = link_to "Manage Users", admin_user_management_msp_super_admins_path(resource), :class => 'btn btn-info'

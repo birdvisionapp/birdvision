@@ -1,0 +1,40 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :client_msp_id_eq, "MSP"
+        = f.collection_select :client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+
+    - unless is_client_manager?
+      %td
+        = f.label :client_id_eq, "Client"
+        = f.collection_select :client_id_eq, Client.accessible_by(current_ability).select_options, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+    %td
+      = f.label :inv_sequence_eq, "Invoice Number"
+      .input-prepend.prepend-wrapper
+        %span.add-on BVCR
+        = f.text_field :inv_sequence_eq, :class => 'input-mini'
+    %td
+      = f.label :id_eq, "Pro Forma Invoice Number"
+      .input-prepend.prepend-wrapper
+        %span.add-on BVCPI
+        = f.text_field :id_eq, :class => 'input-mini'
+
+  %tr
+    %td
+      = f.label :invoice_type_eq, "Type"
+      = f.select :invoice_type_eq, ClientInvoice::InvoiceType::ALL.collect {|type| [type.titleize, type]}, :include_blank => t(:all)
+    %td
+      = f.label :invoice_date_date_gteq,"Invoice Date"
+      = f.text_field :invoice_date_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :invoice_date_date_lteq, :class => 'datepicker input-small'
+    %td
+      = f.label :client_payment_credited_at_gteq,"Credit Date"
+      = f.text_field :client_payment_credited_at_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :client_payment_credited_at_lteq, :class => 'datepicker input-small'
+  %tr
+    %td
+      = f.label :status_eq, "Status"
+      = f.select :status_eq, ClientInvoice::Status::ALL.collect {|status| [status.titleize, status]}, :include_blank => t(:all)

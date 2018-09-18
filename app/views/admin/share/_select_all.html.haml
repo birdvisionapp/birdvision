@@ -1,0 +1,5 @@
+- if @search.result.size > 0
+  .select-all-records
+    = check_box_tag :select_all, true, false, {:class => 'bg-ck-med', :title => "Select All"}
+    = label_tag :select_all, "Select All (#{@search.result.size} Items)"
+    .clearfix

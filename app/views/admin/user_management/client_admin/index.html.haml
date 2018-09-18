@@ -1,0 +1,63 @@
+%h1= "Manage - #{@resource_name.to_s.pluralize.titleize}"
+
+= search_form_for @search, :url => [:admin, :user_management, @resource_name.to_s.pluralize.to_sym] do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"filter"}
+= link_to 'Back', [:admin, :user_management, :dashboard], :class=> 'btn'
+= link_to  import_csv_admin_user_management_client_admin_path(resource: @resource_name), :class => 'btn btn-info', :id=> "uploadCsv" do
+  %i.icon-arrow-up.icon-white
+  = "Upload #{@resource_name.to_s.pluralize.titleize}"
+= link_to "New #{@resource_name.to_s.titleize}", [:new, :admin, :user_management, @resource_name], :class => 'btn btn-info' if can? :create, @resource_name.to_s.classify.constantize
+
+.actions
+  .actions-left
+  .grid-pager
+    = paginate @resources
+
+%table.table.table-striped.table-bordered.client-managers
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :client_msp_name, "MSP")          
+      - unless is_client_manager?
+        %th=sort_link(@search, :client_client_name,  "Client")
+      - if @resource_name == :regional_manager
+        %th=sort_link(@search, :region,  "Region")
+      %th=sort_link(@search, :id,  "ID")
+      %th=sort_link(@search, :name,  "Name")
+      %th=sort_link(@search, :admin_user_username,  "Username")
+      %th Mobile Number
+      - if @resource_name == :regional_manager
+        %th Circles
+      %th
+        %span Is Locked
+      %th
+        %span Action
+  - @resources.each do |resource|
+    %tr
+      - if is_super_admin?
+        %td= resource.client.msp_name          
+      - unless is_client_manager?
+        %td= link_to resource.client.client_name, admin_client_path(resource.client)
+      - if @resource_name == :regional_manager
+        %td= resource.region
+      %td= resource.id
+      %td= resource.name
+      %td= resource.admin_user.username
+      %td= resource.mobile_number
+      - if @resource_name == :regional_manager
+        %td= resource.telecom_circles.map(&:name).join(', ')
+      %td= styling_boolean_label(resource.admin_user.is_locked)
+      %td
+        = link_to "View", [:admin, :user_management, resource]
+        - if can? :edit, @resource_name.to_s.classify.constantize
+          = "/"
+          = link_to "Edit", [:edit, :admin, :user_management, resource]
+        - if can? :destroy, @resource_name.to_s.classify.constantize
+          = "/"
+          = link_to "Delete", [:admin, :user_management, resource], :confirm => "Are you sure, you want to delete #{@resource_name.to_s.titleize}: #{resource.name} ?", :method => :delete
+
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @resources
+  .actions-right

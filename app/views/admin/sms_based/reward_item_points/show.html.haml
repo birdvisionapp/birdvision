@@ -1,0 +1,29 @@
+%h1 Product Pack Details
+%dl.dl-horizontal.draft_item
+  %h3.dl-header Product Details
+  - if is_super_admin?
+    %dt MSP
+    %dd= resource.reward_item.client.msp_name
+  - unless is_client_manager?
+    %dt Client
+    %dd= link_to resource.reward_item.client.client_name, admin_client_path(resource.reward_item.client)
+  %dt Scheme
+  %dd= resource.reward_item.scheme.name
+  %dt Product Name
+  %dd= resource.reward_item.name
+  %dt Pack Size
+  %dd= resource.pack_size_metric
+  %dt Points
+  %dd= resource.points
+  %dt Status
+  %dd= resource.status.titleize
+  = display_time_stamp_details(resource)
+  %br
+  %br
+  %h3 Product Codes
+  = resource.product_code_detail.join("<br />").html_safe
+  = render_code_links(resource)
+
+= link_to 'Back', admin_sms_based_reward_item_points_path, :class=> "btn"
+= link_to 'Edit Product Pack', edit_admin_sms_based_reward_item_point_path(resource.id), :class=> "btn btn-info" if can? :edit, RewardItemPoint
+

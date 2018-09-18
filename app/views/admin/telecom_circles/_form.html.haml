@@ -1,0 +1,19 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @telecom_circle.errors.full_messages}
+
+= nested_form_for [:admin, @telecom_circle], :html => {:class => 'form-horizontal'} do |f|
+
+  .fields-group
+    %h3 Telecom Circle Details
+
+    .control-group
+      = f.label :code, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :code
+    .control-group
+      = f.label :description, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_area :description, :rows => 4
+  .control-group
+    .controls
+      = link_to 'Cancel', admin_telecom_circles_path, :class=> "btn"
+      = f.button @telecom_circle.id.nil? ? "Create" : "Save", :class => 'btn btn-info'

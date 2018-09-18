@@ -1,0 +1,89 @@
+.reg-header
+  = render :partial => "share/messages", :locals => {:type => :alert, :message => @user.errors.full_messages}
+  %p#hidden-bg-img{"data-url" => get_bg_image_for_client(@user)}
+  = form_for @user, url: user_registrations_path, :method => :post, :html => {:class => 'form-horizontal new_user'} do |f|
+    .panel
+      .registeration-heading
+        REGISTRATION FORM
+      .panel-info
+        .panel-heading
+          %h3 Participant Details
+          .control-group
+            %strong
+              = f.label :full_name, :class => 'control-label mandatory-field', :id => 'globalsearchstr'
+            .controls
+              = f.text_field :full_name, :placeholder => "Full Name", :class => "custom-text-size"
+          .control-group
+            = f.label :email, :class => 'control-label mandatory-field'
+            .controls
+              = f.email_field :email, :placeholder => "Email", :class => "custom-text-size emailCheck"
+          .control-group
+            = f.label :mobile_number, :class => 'control-label mandatory-field'
+            .controls
+              = select_tag :country_code, options_for_select(IsoCountryCodes.all.collect{|c| [c.calling]}, IsoCountryCodes.search_by_name('india').first.calling), :class => "country-code-select"
+              = f.text_field :mobile_number, :placeholder => "Mobile Number", :class => "custom-text-size mobileCheck"
+            .controls
+              .icon-info-sign
+              .help-inline Mobile number is used for generating username. It should be unique.  
+          .control-group
+            = f.label :account_password, :class => 'control-label mandatory-field'
+            .controls
+              = f.password_field :password, :autocomplete => "off", :placeholder => "Password", :class => "custom-text-size"
+          .control-group
+            = f.label :password_confirmation, :class => 'control-label mandatory-field'
+            .controls
+              = f.password_field :password_confirmation, :placeholder => "Password Confirmation", :class => "custom-text-size passwordCheck"
+          - if !@this_client_customization.user_role_id.nil?
+            .control-group
+              = f.label :dealer, "#{UserRole.find(@this_client_customization.user_role_id).name}", :class => 'control-label'
+              .controls
+                = f.select :parent_id,  @linkages.collect {|r| [r.name_mobile, r.id ] }, {:include_blank => 'Please Select'}, :id => 'ancestry_id', :class => 'custom-text-size'
+              .controls
+                .icon-info-sign
+                .help-inline select '#{UserRole.find(@this_client_customization.user_role_id).name}' from whom product was purchased.
+        %br
+        .panel-heading
+          %h3 Additional Information
+          .control-group
+            = f.label :landline_number, :class => 'control-label'
+            .controls
+              = f.text_field :landline_number, :placeholder => "Landline Number", :class => "custom-text-size"
+          .control-group
+            = f.label :address, :class => 'control-label'
+            .controls
+              = f.text_area :address, :rows => 5, :placeholder => "Address", :class => "custom-text-size"
+          .control-group
+            = f.label :pincode, :class => 'control-label'
+            .controls
+              = f.text_field :pincode, :placeholder => "Pincode", :class => "custom-text-size"
+        
+        - if @this_client_customization.additional_info_enabled  
+          %br      
+          .panel-heading
+            %h3= "#{@this_client_customization.field_title}"
+            .control-group
+              = f.label :slogan, "#{@this_client_customization.field_subtitle}", :class => 'control-label'
+              .controls
+                = f.text_area :slogan, :rows => 5, :class => "custom-text-size"
+              
+        %br 
+        - if @is_code_allowed   
+          .panel-heading
+            %h3 Authentication
+            .control-group
+              = f.label :coupen_code, 'Coupon Code', :class => 'control-label mandatory-field'
+              .controls
+                = f.text_field :coupen_code, :placeholder => "Coupon Code", :class => "custom-text-size"
+        -else
+          .panel-heading
+            %h3 Scheme
+            .control-group
+              = f.label :scheme, :class => 'control-label mandatory-field'
+              .controls
+                = f.select :schemes,  @this_client.schemes.collect {|r| [r.name, r.id ] }, {:include_blank => 'Please Select'}, :class => "custom-text-size"
+        %br      
+        .panel-heading
+          .control-group
+            .register-button-position
+              = link_to 'Cancel', new_user_session_path, :class=> "btn"
+              = f.button 'Register', :class => 'btn btn-info'

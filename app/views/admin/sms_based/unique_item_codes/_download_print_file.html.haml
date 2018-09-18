@@ -1,0 +1,16 @@
+.dnl-prnt-frm
+  = form_tag download_admin_sms_based_unique_item_codes_path(:q => params[:q]), {:class => 'form-horizontal'} do
+    = hidden_field_tag :languages, @languages
+    .control-group
+      = label_tag :total_codes, 'Total Codes', :class => 'control-label'
+      .controls
+        = @total_codes
+    .control-group
+      = label_tag :print_format, 'Print Format', :class => 'control-label'
+      .controls
+        = select_tag 'print_format', options_for_select(UniqueItemCode::PrintFormat::ALL.collect {|format| [format.upcase, format]}), :class => 'input-small'
+    .control-group
+      = link_to 'Cancel', admin_sms_based_unique_item_codes_path(:q => params[:q]), :class=> "btn"
+      %button{type: 'submit', class: 'btn btn-primary'}
+        %i.icon-print.icon-white
+        Download Print Coupon File

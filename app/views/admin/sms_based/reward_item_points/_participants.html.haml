@@ -1,0 +1,31 @@
+.lnk-pts-container{:style => 'width: 80%;'}
+  = hidden_field_tag :total_codes, @unused_single_tier_codes, :id => 'total-unlinked-codes'
+  %dl.dl-horizontal.pull-right
+    %dt Total Codes:
+    %dd= @unused_single_tier_codes
+    %dt Remaining Codes:
+    %dd#unq-itm-cds-remaining-codes= @unused_single_tier_codes
+  .clearfix
+  = form_for [:store_links, :admin, :sms_based, @reward_item_point], :html => {:method => :put} do
+    .lnk-pts-participants-list
+      %table.table.table-striped.table-bordered.header-fixed
+        %thead
+          %tr
+            %th Username
+            %th Full Name
+            %th Mobile Number
+            %th Region
+            %th Circle
+            %th Number of Codes
+        - @users.each do |user|
+          %tr
+            %td= user.username
+            %td= user.full_name
+            %td= user.mobile_number
+            %td= user.region
+            %td= user.circle_name
+            %td
+              = number_field_tag "user[link_codes][#{user.id}]", nil, :maxlength => 20, :min => 1, :class => 'input-small rip-small-inpt noc-in'
+    .controls.pull-right
+      = link_to 'Cancel', admin_sms_based_reward_item_points_path, :class=> "btn"
+      = submit_tag "Save Code Linkages", :class => 'btn btn-info', :id => 'save-code-linkages-ac'

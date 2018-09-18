@@ -1,0 +1,41 @@
+= form_for(:offer_manager, :url => create_and_store_offer_admin_targeted_offer_managers_path, :method => :post, :html => {:id => 'major_life_event_form'}) do |f|
+  = f.hidden_field :client_id , :value => @client_id
+  - if @offer.get_client_templates(@tot.id).empty?
+    %h3 You have no templates for #{@tot.offer_type_name}
+  -else
+    #template-scheme-div
+      = render :partial => "template_scheme", :locals => {:f => f, :client_id => @client_id , :tot_id => @tot.id}
+    
+    .performance-count-div
+      %table.table.table-bordered.table-style
+        %tr
+          %td
+            %fieldset#id-set-performance
+              %h3 Participant Performance To Be Counted From
+              .control-group
+                = f.radio_button :performace_count, 'to_start',:checked => 'checked'
+                = f.label 'This Offers Configuration'
+              .control-group
+                = f.radio_button(:performace_count, 'scheme_start')
+                = f.label 'Start of the Scheme'
+              .control-group
+                = f.radio_button(:performace_count, 'custom_date')
+                = f.label 'Custom Date'
+              #date_valid.control-group
+                Start Date
+                = f.text_field :performance_from, :id => 'start', :disabled => 'disabled'
+                End Date
+                = f.text_field :performance_to, :id => 'end', :disabled => 'disabled'
+                %br
+          %td
+            #threshold
+              %fieldset#id-set-threshold
+                %h3 Relationship Threshold Setting
+                .control-group
+                  = f.label 'Total Points Earned by Participant'
+                  = f.text_field :client_purchase_frequency
+                  %br
+    .space
+    #alignsubmit 
+      = link_to "Back" , targeted_offer_list_admin_targeted_offer_managers_path , :class => 'btn btn-info'
+      = f.submit 'Save & Next', remote: true, :class => 'btn btn-info'

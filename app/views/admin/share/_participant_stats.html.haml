@@ -1,0 +1,13 @@
+%ul.infographics.clearfix
+  %li.container.reward-products
+    .header= 'Participants'
+    .number-data
+      .badge.badge-warning= "Pending - #{participant_stats["pending"] || 0}"
+      .badge.badge-success= "Active - #{participant_stats["active"] || 0}"
+      .badge.badge-important= "Inactive - #{participant_stats["inactive"] || 0}"
+    .description
+      %p= link_to "New Registrations", admin_sms_based_users_path, :class => 'btn'
+      %p= link_to "Login to Account", login_admin_sms_based_users_path, :class => 'btn' if is_client_manager? || is_representative?
+      - if  current_admin_user.role == "regional_manager"
+        - if RegionalManager.where(:admin_user_id => current_admin_user.id).first.client_id = ENV['AL_CLIENT_ID'].to_i
+          %p= link_to "Login to Account", login_admin_sms_based_users_path, :class => 'btn'

@@ -1,0 +1,15 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :msp_id_eq, "MSP"
+        = f.collection_select :msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      = f.label :name_cont, "Name"
+      = f.text_field :name_cont, :class => 'input-medium'
+    %td
+      = f.label :phone_number_cont, "Phone Number"
+      = f.text_field :phone_number_cont, :class => 'input-medium'
+    %td
+      = f.label :geographic_reach_cont, "Geographic Reach"
+      = f.text_field :geographic_reach_cont, :class => 'input-medium'

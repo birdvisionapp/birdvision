@@ -1,0 +1,18 @@
+= render :partial => "share/flash_messages"
+- content_for :left_nav do
+  = render :partial => "share/filters",:locals => {:show_point_filter => @user_scheme.show_points?}
+= render :partial => "share/carousel", :locals => { :user_items =>  @catalogs.featured }
+.span9.catalogs
+  - unless @user_scheme.redemption_active?
+    .alert.alert-info= "This scheme is not yet active!"
+  - unless @user_scheme.can_add_to_cart?
+    .alert.alert-info= "You have already redeemed from this scheme!"
+  .catalog
+    .header.clearfix
+      - unless @user_scheme.applicable_level_clubs.size == 1
+        %h4.pull-left
+          = @club_catalog.club_name.titleize
+      = link_to("Return to Catalog", catalog_path_for(@user_scheme) , :class => "pull-right back-link",:title => "Return to Catalog") unless @catalogs.single_catalog?
+    = render :partial => "share/item_listing", :locals => {:css_class => @club_catalog.name.parameterize, :user_items => user_items(@user_scheme, @client_items) }
+.grid-pager
+  = paginate @client_items, :container => false,  :window => 2 , :left => 1, :right => 1

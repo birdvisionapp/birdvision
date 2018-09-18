@@ -1,0 +1,91 @@
+/*
+    Site customization template.
+
+    Important: Emerson Theme
+*/
+
+/*
+    customize the logo here by changing the value of url
+    size of the logo must be 180 X 60 px otherwise it will be truncated
+*/
+#siteHeader .logo, .login-page-body .logo {
+    background-image: url("http://bvc-qa-assets.s3.amazonaws.com/assets/bvc-logo.png");
+}
+
+a, a:hover, a:active, a:focus, .theme-primary-text-color, .theme-primary-text-color:hover, .theme-primary-text-color:focus {
+    color: #3c8c97;
+}
+.theme-primary-gradient, .btn-info {
+    background-color: #38a5b4;
+    background-image: -moz-linear-gradient(top, #46b3c0, #2492a2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#46b3c0), to(#2492a2));
+    background-image: -webkit-linear-gradient(top, #46b3c0, #2492a2);
+    background-image: -o-linear-gradient(top, #46b3c0, #2492a2);
+    background-image: linear-gradient(to bottom, #46b3c0, #2492a2);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF46B3C0', endColorstr='#FF2492A2', GradientType=0);
+}
+.btn-info:hover, .btn-info:focus {
+    background-color: #2492a2;
+}
+.theme-auth-form {
+    border-color: #2c7682;
+    color: #3c8c97;
+}
+.theme-header-component {
+    border-color: #67bec9;
+}
+.theme-header-component:hover {
+    background-color: #2797a6;
+}
+.theme-header-component ul a:hover {
+    background-color: #bed7da;
+}
+.theme-btn-search, .theme-btn-search:hover, .theme-btn-search:focus {
+    background-color: #2c7682;
+}
+.theme-category-header {
+    background-color: #bed7da;
+}
+.theme-actions {
+    border-color: #ff6600;
+    color: #ff6600;
+}
+.theme-actions .actions, .theme-actions .add-to-cart-icon {
+    background-color: #ff6600;
+}
+.theme-actions:hover, .theme-actions:focus {
+    color: #ff6600;
+}
+.theme-actions:hover.actions, .theme-actions:hover .actions, .theme-actions:focus.actions, .theme-actions:focus .actions {
+    background-color: #ff6600;
+    color: white;
+}
+.theme-btn-cko {
+    background-color: #2492a2;
+    color: white;
+}
+.theme-btn-cko:hover {
+    background-color: #46b3c0;
+}
+.btn-continue-shopping {
+    background-color: #e8e6e4;
+    border-color: #2492a2;
+    color: #2492a2;
+}
+.btn-continue-shopping:hover, .btn-continue-shopping:focus {
+    background-color: white;
+}
+.btn-continue-shopping:before, .btn-continue-shopping .btn-continue-shopping-cart {
+    background-color: #2492a2;
+}
+#points_slider {
+    border-color: #67bec9;
+}
+#points_slider div {
+    background-color: #bed7da;
+}
+#points_slider a {
+    background-color: #67bec9;
+    border-color: #46b3c0;
+}

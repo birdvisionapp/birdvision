@@ -1,0 +1,4 @@
+= render 'select_tiers' unless product_pack.pack_tier_configs.select(:id).count > 0
+#load-mt-configuration
+  .mt-configuration-cont
+    .pc-tier-conf-layout= render 'admin/sms_based/reward_item_points/tier_config', :product_pack => product_pack if product_pack.pack_tier_configs.present?

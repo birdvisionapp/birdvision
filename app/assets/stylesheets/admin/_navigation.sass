@@ -1,0 +1,54 @@
+$bgDefault: #3db2c3
+$bgHighlight: #2b7f8b
+$colDefault: white
+$colHighlight: white
+
+.navbar-default
+  font: 15px / 18px "Helvetica"
+  background-color: $bgDefault
+  border-color: $bgHighlight
+  height: 40px
+  .navbar-brand
+    color: $colDefault
+    &:hover, &:focus
+      color: $colHighlight
+  .navbar-nav
+    > li
+      > a
+        color: $colDefault
+        &:hover, &:focus
+          color: $colHighlight
+    .active
+      > a, > a:hover, > a:focus
+        color: $colHighlight !important
+        background-color: $bgHighlight !important
+    .open
+      > a, > a:hover, > a:focus
+        color: $colHighlight !important
+        background-color: $bgHighlight !important
+        .caret
+          border-top-color: $colHighlight
+          border-bottom-color: $colHighlight
+      > .dropdown-menu
+        margin-top: -1px
+    > .dropdown
+      > a
+        > .dropdown-menu
+          margin-top: -1px
+        &:hover, &:focus
+          .caret
+            border-top-color: $colHighlight
+            border-bottom-color: $colHighlight
+  .navbar-toggle
+    border-color: $bgHighlight
+    &:hover, &:focus
+      background-color: $bgHighlight
+    .icon-bar
+      background-color: $colDefault
+
+@media (max-width: 767px)
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a
+    color: $colDefault
+    &:hover, &:focus
+      color: $colHighlight
+      background-color: $bgHighlight

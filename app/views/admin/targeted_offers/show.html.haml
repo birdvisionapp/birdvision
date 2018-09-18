@@ -1,0 +1,21 @@
+%h1
+  = "Targeted Offers for client: #{@client.client_name}"
+%br
+  = link_to("Add Templates", add_offers_admin_targeted_offers_path(:client_id=>@client.id),:class=>'btn btn-info')
+  = link_to("Back to client listing",admin_targeted_offers_path,:class=>'btn btn-info')
+  .div
+    &nbsp;
+  - if @offers.empty?
+    %h2 Please add Targeted Offers
+  - else
+    %table.table.table-bordered
+      %th Template Basis
+      %th Template Name
+      %th Template Content
+      %th Action
+      - @offers.each do |offer|
+        %tr
+          %td= get_basis(offer)
+          %td= offer.name
+          %td= offer.template_content
+          %td= link_to "Remove", admin_targeted_offer_path(:id => offer.id, :client_id => @client.id), :confirm => "Are you sure?", :method => :delete, :class=>'action remove'

@@ -1,0 +1,12 @@
+%p{:style=>"margin:5px 15px;padding:5px;"}
+  = "If you have any questions or need further assistance, please"
+  = link_to "Contact Us.", contact_us_url_for(user)
+%p
+  = "Thanks,"
+  %br
+  = "The #{user.client.client_name} Rewards Team"
+  %br
+= image_tag(root_url.chop + image_path("logo.png"), :size=>"180*60")
+- if user.full_name.present?
+  %br
+  = "If you are not #{user.full_name}, please delete this email."

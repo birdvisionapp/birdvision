@@ -1,0 +1,14 @@
+%table.filters
+  %tr
+    %td
+      = f.label :name_cont, "Name"
+      = f.text_field :name_cont, :class => 'input-medium'
+    %td
+      = f.label :status_eq, "Status"
+      = f.select :status_eq, LanguageTemplate::Status::ALL.collect {|status| [status.titleize, status]}, :include_blank => t(:all), :class => 'input-s-medium'
+    %td
+      = f.label :created_at_date_gteq,"Created On"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small'
+    %td

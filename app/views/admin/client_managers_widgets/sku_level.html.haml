@@ -1,0 +1,11 @@
+= search_form_for @search, :url => sku_level_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/reward_item_level_filter" }
+
+.content-container.widgets-container
+  %h3= @reward_item_name
+  .widgets-wrapper.row
+    - @sku_info.each do |sku|
+      .col-sm-3#reward-penetration
+        .reward-penetration-inner
+          .penetration-percentage= "#{sku['penetration']}%"
+          .penetration-name= "#{sku['pack_size']} #{sku['metric'].capitalize}"

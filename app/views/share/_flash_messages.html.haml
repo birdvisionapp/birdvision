@@ -1,0 +1,6 @@
+- unless notice.nil?
+  =render :partial => "share/messages", :locals => {:type =>:notice,:message => notice}
+- unless alert.nil?
+  =render :partial => "share/messages", :locals => {:type =>:alert,:message => alert}
+- unless flash[:info].nil?
+  =render :partial => "share/messages", :locals => {:type =>:info,:message => flash[:info]}

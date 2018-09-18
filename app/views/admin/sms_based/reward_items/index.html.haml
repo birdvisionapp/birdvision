@@ -1,0 +1,52 @@
+%h1 Reward Products
+
+= search_form_for @search, :url => admin_sms_based_reward_items_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"reward_items_filter"}
+
+.actions
+  .actions-left
+    - if can? :create, RewardItem
+      = link_to 'New Reward Product', new_admin_sms_based_reward_item_path, :class => 'btn btn-info'
+  .grid-pager
+    = paginate @reward_items
+  .actions-right
+    = link_to admin_sms_based_reward_items_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info pull-right", :id =>"downloadRewardProductsCsv" do
+      %i.icon-download.icon-white
+      Download
+
+%table.table.table-striped.table-bordered.orders
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :client_msp_name, "MSP")
+      - unless is_client_manager?
+        %th= sort_link(@search, :client_client_name, "Client")
+      %th= sort_link(@search, :scheme_name, "Scheme")
+      %th= sort_link(@search, :name, "Product Name")
+      %th Pack Size - Points
+      %th= sort_link(@search, :status, "Status")
+      %th Created At
+      %th Action
+      
+  - @reward_items.each do |reward_item|
+    %tr[reward_item]
+      - if is_super_admin?
+        %td= reward_item.client.msp_name
+      - unless is_client_manager?
+        %td= link_to reward_item.client.client_name, admin_client_path(reward_item.client)
+      %td= reward_item.scheme.name
+      %td= reward_item.name
+      %td
+        = render_reward_item_points(reward_item.reward_item_points)
+      %td.status= styling_status_label(reward_item.status)
+      %td= l reward_item.created_at, :format => :long_date_time rescue ''
+      %td
+        = link_to "View", admin_sms_based_reward_item_path(reward_item)
+        - if can? :edit, RewardItem
+          %span /
+          = link_to 'Edit', edit_admin_sms_based_reward_item_path(reward_item)
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @reward_items
+  .actions-right

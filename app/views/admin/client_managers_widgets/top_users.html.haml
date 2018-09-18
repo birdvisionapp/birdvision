@@ -1,0 +1,22 @@
+%h1 Top Performers
+
+= search_form_for @search, :url => top_users_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/top_users_filters" }
+    
+.content-container.widgets-container
+  .widgets-wrapper
+    .top-users-info
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th Full Name
+            %th Total Points
+            
+        %tbody
+          -@top_users.each do |user|
+            %tr
+              %td=user['full_name'].capitalize
+              %td=user['total_points']
+              
+    #widget-description
+      %span Top performing members figure is counted on the basis of the total points earned by the member. The top five from the entire community are selected and displayed in the ascending order.

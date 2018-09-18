@@ -1,0 +1,16 @@
+%p{:style=>"margin:5px 15px;padding:5px;"}
+  = "If you have any questions or need further assistance, please"
+  - client_params = {}
+  - if local_assigns.has_key?(:user)
+    - client = user.send(user.role).client if AdminUser::CLIENT_ADMINS.include?(user.role) && user.send(user.role).present?
+    - client_params = (client) ? {:ccode => client.code} : {}
+  = link_to "Contact Us.", contact_us_url(client_params)
+%p
+  = "Thanks,"
+  %br
+  = "The #{APP_TITLE} Team"
+  %br
+= image_tag(root_url.chop + image_path("logo.png"), :size=>"180*60")
+- if local_assigns.has_key?(:user)
+  %br
+  = "If you are not #{user.username}, please delete this email."

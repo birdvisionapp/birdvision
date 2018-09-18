@@ -1,0 +1,10 @@
+%h3 SMS Based #{f.check_box :sms_based, :class => 'tc-widget fm-check-input bg-ck-med', 'data-target' => '.sms-based-container'}
+#sms-based-container.sms-based-container
+  .control-group
+    = f.label :sms_number, "Incoming Number", :class => 'control-label mandatory-field'
+    .controls
+      = f.label :sms_number, "Virtual Number", :class => 'control-label mandatory-field'
+      = f.text_field :sms_number, :maxlength => 12, :class => 'input-medium'
+      .control
+        = f.label :exotel_linked_number, "Mobile Number", :class => 'control-label mandatory-field'
+        = f.text_field :exotel_linked_number, :maxlength => 12, :class => 'input-medium'

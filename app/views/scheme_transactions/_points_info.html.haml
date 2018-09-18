@@ -1,0 +1,5 @@
+.points-information.pull-right
+  - [:total, :redeemed, :remaining].each do |type|
+    .row
+      %span.total-points-text #{type.to_s.titleize} Points:
+      %span.total-points.theme-primary-text-color #{points_summary_info(type)}

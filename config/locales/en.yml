@@ -1,0 +1,482 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  formtastic:
+    :update: "Save %{model}"
+  date:
+    formats:
+      default: "%d-%m-%Y"
+  number:
+    currency_in_words:
+      connector: ' and '
+      negative_format: '(%n)'
+      skip_and: true
+      delimiter: true
+      currencies:
+        inr:
+          unit:
+            one: 'rupee'
+            many: 'rupees'
+          decimal:
+            one: 'paise'
+            many: 'paise'
+        euro:
+          unit:
+            one: 'euro'
+            many: 'euros'
+          decimal:
+            one: 'cent'
+            many: 'cents'
+        pound:
+          unit:
+            one: 'pound'
+            many: 'pounds'
+          decimal:
+            one: 'penny'
+            many: 'pence'
+  time:
+    am: am
+    pm: pm
+    formats:
+      default: ! '%a, %d %b %Y %H:%M:%S %z'
+      long: ! '%B %d, %Y %H:%M'
+      short: ! '%d %b %H:%M'
+      input_date: ! '%b %e, %Y'
+      input_time: ! '%I:%M %p'
+      slashed_date: ! '%m/%d/%Y'
+      long_date_time: ! '%a, %b %e, %Y at %H:%M %p'
+  errors:
+    format: "%{message}"
+    messages:
+      invalid_extra_pic: "Shop Image format Incorrect"
+      invalid_avatar: "Profile Image format Incorrect"
+      inclusion: "%{attribute} is not included in the list"
+      exclusion: "%{attribute} is reserved"
+      invalid: "%{attribute} is invalid"
+      taken: "%{attribute} is taken"
+      confirmation: "%{attribute} doesn't match "
+      accepted: "%{attribute} must be accepted"
+      empty: "%{attribute} can't be empty"
+      blank: "%{attribute} can't be blank"
+      present: "%{attribute} must be blank"
+      too_long: "%{attribute} is too long (maximum is %{count} characters)"
+      too_short: "%{attribute} is too short (minimum is %{count} characters)"
+      wrong_length: "%{attribute} is the wrong length (should be %{count} characters)"
+      not_a_number: "%{attribute} is not a number"
+      not_an_integer: "%{attribute} must be an integer"
+      greater_than: "%{attribute} must be greater than %{count}"
+      greater_than_or_equal_to: "%{attribute} must be greater than or equal to %{count}"
+      equal_to: "%{attribute} must be equal to %{count}"
+      less_than: "%{attribute} must be less than %{count}"
+      less_than_or_equal_to: "%{attribute} must be less than or equal to %{count}"
+      less_than_equal_to_other: "%{attribute} must be less than %{other}"
+      other_than: "%{attribute} must be other than %{count}"
+      odd: "%{attribute} must be odd"
+      even: "%{attribute} must be even"
+  activerecord:
+    job_names:
+      user: Participant
+      draftitem: Draft Item
+      item: Master Catalog
+      clientadmin: Client Admin
+      altransaction: Ashok Layland
+
+    attributes:
+      user/user_schemes:
+        total_points: Total points
+      scheme:
+        single_redemption: Single redemption without points
+
+    errors:
+      models:
+        format: "%{message}"
+        category:
+          attributes:
+            title:
+              blank: Please enter a title
+              taken: The title %{value} is already in use.Please enter another title
+              invalid: The title should be valid e.g. Electronics, Electronics and Computers etc
+            parent_id:
+              blank: Please select the category
+        draft_item:
+          attributes:
+            title:
+              blank: Item title cannot be blank
+              invalid: Item title not valid
+            listing_id:
+              blank: Listing id is missing
+            model_no:
+              blank: Model number is missing
+            mrp:
+              not_a_number: MRP should be a valid positive number
+              greater_than: MRP should be a valid positive number
+            channel_price:
+              not_a_number: Channel price should be a valid positive number
+              greater_than: Channel price should be a valid positive number
+            available_quantity:
+              not_a_number: Available quantity should be a valid positive number
+              greater_than: Available quantity should be a valid positive number
+            description:
+              too_long: Description is too long (maximum is %{count} characters)
+        item:
+          attributes:
+            category:
+              blank: Please assign a category before publishing it to the Master Catalog
+            description:
+              too_long: Description is too long (maximum is %{count} characters)
+        item_supplier:
+          attributes:
+            mrp:
+              not_a_number: MRP should be a valid positive number
+              greater_than: MRP should be a valid positive number
+        supplier:
+          attributes:
+            name:
+              blank: Please enter a supplier name
+              taken: The supplier %{value} already exists
+            geographic_reach:
+              blank: Please enter the geographic reach
+            delivery_time:
+              blank: Please enter the delivery time
+            payment_terms:
+              blank: Please enter the payment terms
+        client:
+          attributes:
+            client_name:
+              blank: Please enter a client name
+              taken: The Client name is already in use. Please enter another name
+            code:
+              blank: Please enter a code
+              taken: The code is already in use. Please enter another code
+              invalid: Code should be valid e.g. acme, acme-inc
+            custom_theme_content_type:
+              invalid: Custom theme should be a css file
+            domain_name:
+              blank: Please specify a subdomain for which the custom theme should be applied
+              taken: The subdomain already in use. Please enter another subdomain
+            points_to_rupee_ratio:
+              not_a_number: Please enter the points to Rs. ratio as a single number e.g if 1 Rupee = 2 points please enter 2
+            contact_email:
+              invalid: Contact email format should be valid e.g email@domain.com
+            client_url:
+              blank: Please enter a client url
+              invalid: Client url format should be valid e.g domain.com
+            allow_otp:
+              invalid: Please select atleast one OTP sending option
+            otp_code_expiration:
+              blank: Please enter the OTP expiration time
+              not_a_number: The OTP expiration time should be numeric
+            sms_number:
+              blank: Please enter Incoming SMS number
+              invalid: Please enter a valid 10 digit Incoming SMS number
+              wrong_length: Please enter a valid 10 digit Incoming SMS number
+              taken: The Incoming SMS Number is already in use
+            exotel_linked_number:
+              blank: Please enter Mobile Number
+              invalid: Please enter a valid 10 digit Mobile Number
+              wrong_length: Please enter a valid 10 digit Mobile Number
+              taken: The Mobile Number is already in use
+            cu_email:
+              blank: Please enter Contact Us email
+              invalid: Contact Us email format should be valid e.g email@domain.com
+            cu_cc_email:
+              blank: Please enter Contact Us customer care email
+              invalid: Contact Us customer care email format should be valid e.g email@domain.com
+            cu_phone_number:
+              blank: Please enter Contact Us phone number
+              invalid: Please enter a valid 10 digit Contact Us phone number
+              wrong_length: Please enter a valid 10 digit Contact Us phone number
+            
+            
+        target:
+          attributes:
+            start:
+              blank: targets should be numeric
+              invalid: targets should be numeric
+        scheme:
+          attributes:
+            name:
+              blank: Please enter a Scheme name
+              taken: The name you have entered is already in use for this client. Please enter another name
+            client:
+              blank: Please choose a Client from the dropdown of registered Clients
+            start_date:
+              blank: Please enter the date the Scheme started on / will start
+              less_than_equal_to_other: Start date must be less than %{other}
+            end_date:
+              blank: Please enter the date the Scheme ended on / will end on
+            redemption_start_date:
+              blank: Please enter the date the Scheme redemption started on / will start
+              less_than_equal_to_other: Redemption start date must be less than %{other}
+            redemption_end_date:
+              blank: Please enter the date the Scheme redemption will end on
+            level_clubs:
+              blank: Please specify at least one level and club.
+            levels:
+              duplicate: Level names need to be unique
+            clubs:
+              duplicate: Club names need to be unique
+        user:
+          attributes:
+            email:
+              blank: Please enter email of the participant
+              invalid: Email format should be valid e.g email@domain.com
+            username:
+              blank: Please enter a username of the participant
+            password:
+              blank: Please enter a password
+              confirmation: The passwords you entered doesn't match
+            current_password:
+              invalid: Please enter the valid current password
+            reset_password_token:
+              invalid: We are sorry. The link you have used has been used before. Please try again.
+            mobile_number:
+              blank: Please enter mobile number of the participant
+              invalid: Mobile number should be numeric
+            pincode:
+              too_short: Pin code is too short (minimum is 6 characters)
+              too_long: Pin code is too long (maximum is 7 characters)
+            participant_id:
+              blank: Please enter the participant id
+              invalid: Participant id should not have spaces
+            parent_id:
+              blank: Please select the retailer
+            user_role:
+              blank: Please choose a Category from the dropdown
+
+        admin_user:
+          attributes:
+            password:
+              blank: Please enter a password
+              confirmation: The passwords you entered doesn't match
+            current_password:
+              invalid: Please enter the valid current password
+            reset_password_token:
+              invalid: We are sorry. The link you have used has been used before. Please try again.
+            username:
+              blank: Please enter a username
+              taken: The Username is already in use. Please enter another username
+              invalid: The Username format should be valid e.g admin234
+            email:
+              blank: Please enter a valid email
+              invalid: Contact email format should be valid e.g email@birdvision.in
+
+        order:
+          attributes:
+            address_zip_code:
+              invalid: Please enter a valid pin code - Eg. 411007
+              too_short: "Please enter an address that is at least 6 characters long"
+            address_name:
+              blank: "Please enter the full name of the recipient"
+            address_city:
+              blank: "Please enter the city where the recipient resides"
+            address_state:
+              blank: "Please enter the state where the recipient resides"
+            address_body:
+              blank: "Please enter an address that is at least 6 characters long"
+              too_short: "Please enter an address that is at least 6 characters long"
+            address_phone:
+              blank: Please enter a valid 10 digit mobile/phone number
+              invalid: Please enter a valid 10 digit mobile/phone number
+              too_short: Please enter a valid 10 digit mobile/phone number
+              wrong_length: Please enter a valid 10 digit mobile/phone number
+        slab:
+          attributes:
+            lower_limit:
+              blank: "Please enter sales details"
+              invalid: "Sales details must be greater than 0"
+              not_a_number: "Sales details must be a number"
+            payout_percentage:
+              blank: "Please enter payout percentage"
+              invalid: "Payout percentage must be greater than 0"
+              not_a_number: "Payout percentage must be a number"
+        client_reseller:
+          attributes:
+            client_id:
+              blank: "Please select a client"
+              existing: "Selected client already has a reseller assigned."
+              reassign: "You can not reassign a client to the reseller"
+            finders_fee:
+              blank: "Please enter finders fee"
+              not_a_number: "Finders fee must be a number"
+            payout_start_date:
+              blank: "Please enter payout start date"
+
+        reseller:
+          attributes:
+            phone_number:
+              blank: Please enter a valid 10 digit mobile/phone number
+              invalid: Please enter a valid 10 digit mobile/phone number
+              wrong_length: Please enter a valid 10 digit mobile/phone number
+            email:
+              blank: Please enter a valid email
+              invalid: Contact email format should be valid e.g email@domain.com
+            name:
+              blank: Please enter a name
+
+        client_manager:
+          attributes:
+            mobile_number:
+              blank: Please enter a valid 10 digit mobile number
+              invalid: Please enter a valid 10 digit mobile number
+              wrong_length: Please enter a valid 10 digit mobile number
+            email:
+              blank: Please enter a valid email
+              invalid: Contact email format should be valid e.g email@domain.com
+            name:
+              blank: Please enter a name
+
+        user_scheme:
+          attributes:
+            level:
+              blank: Please enter the level of the participant
+
+        reward_item:
+          attributes:
+            client:
+              blank: Please choose a Client from the dropdown of registered Clients
+            scheme:
+              blank: Please choose a Scheme from the dropdown
+            name:
+              blank: Please enter a Product name
+            pack_size:
+              blank: Please enter the Pack size
+            points:
+              blank: Please enter the Points
+              not_a_number: The Points should be numeric
+        reward_item_point:
+          attributes:
+            reward_item_id:
+              blank: Please choose a Product from the dropdown
+            pack_size:
+              blank: Please enter the Pack size
+            metric:
+              blank: Please choose a Metric from the dropdown
+            points:
+              blank: Please enter the Points
+              not_a_number: The Points should be numeric
+        unique_item_code:
+          attributes:
+            reward_item_point:
+              blank: Please choose a Product Pack from the dropdown
+            expiry_date:
+              blank: Please enter the date the Unique product code(s) expires on
+        user_role:
+          attributes:
+            name:
+              blank: Please enter a participant role
+              taken: The participant role you have entered is already in use for this client. Please enter another
+        language_template:
+          attributes:
+            name:
+              blank: Please enter a template name
+              taken: The template name you have entered is already in use. Please enter another name
+        telecom_circle:
+          attributes:
+            code:
+              blank: Please enter a telecom circle code
+              taken: The telecom circle code you have entered is already in use. Please enter another code
+            description:
+              blank: Please enter a telecom circle description
+        client_admin:
+          attributes:
+            client:
+              blank: Please choose a Client from the dropdown
+            name:
+              blank: Please enter a name
+              taken: The name is already in use. Please enter another name
+            region:
+              blank: Please enter a region
+              taken: The region you have entered is already in use. Please enter another region
+            mobile_number:
+              blank: Please enter a valid 10 digit mobile number
+              invalid: Please enter a valid 10 digit mobile number
+              wrong_length: Please enter a valid 10 digit mobile number
+              taken: The mobile number is already in use. Please enter another mobile number
+            email:
+              blank: Please enter a valid email
+              invalid: Contact email format should be valid e.g email@domain.com
+            telecom_circle_ids:
+              blank: Please select atleast one Circle
+        msp:
+          attributes:
+            name:
+              blank: Please enter a name
+              taken: The name is already in use. Please enter another name
+            contact_name:
+              blank: Please enter contact name
+            phone_number:
+              blank: Please enter a valid 10 digit mobile/phone number
+              invalid: Please enter a valid 10 digit mobile/phone number
+              wrong_length: Please enter a valid 10 digit mobile/phone number
+            email:
+              blank: Please enter a valid email
+              invalid: Contact email format should be valid e.g email@domain.com
+            address:
+              blank: Please enter the address
+
+
+  flash:
+    admin:
+      categories:
+        create:
+          notice: The %{resource_description} was successfully created.
+        update:
+          notice: The %{resource_description} was successfully updated.
+      clients:
+        create:
+          notice: The client %{resource_description} was successfully created.
+        update:
+          notice: The client %{resource_description} was successfully updated.
+      master_catalog:
+        create:
+          notice: The item %{resource_description} was successfully created.
+        update:
+          notice: The item %{resource_description} was successfully updated.
+      suppliers:
+        create:
+          notice: The supplier %{resource_description} was successfully created.
+        update:
+          notice: The supplier %{resource_description} was successfully updated.
+      schemes:
+        create:
+          notice: The scheme %{resource_description} was successfully created.
+        update:
+          notice: The scheme %{resource_description} was successfully updated.
+      draft_items:
+        create:
+          notice: The draft item %{resource_description} was successfully created.
+        update:
+          notice: The draft item %{resource_description} was successfully updated.
+      reward_items:
+        create:
+          notice: The reward product %{resource_description} was successfully created.
+        update:
+          notice: The reward product %{resource_description} was successfully updated.
+      download_reports:
+        destroy:
+          notice: '%{resource_description} was successfully deleted.'
+      client_invoices:
+        create:
+          notice: 'Pro Forma Invoice: %{resource_description} has been generated. Please do payment and update the Payment Details.'
+      client_payments:
+        create:
+          notice: 'Payment Details has been updated for Pro Forma Invoice: %{resource_description}. Confirmation of payment credit would be sent shortly.'
+        update:
+          notice: 'Payment is confirmed for Invoice: %{resource_description}.'
+      language_templates:
+        create:
+          notice: The language template %{resource_description} was successfully created.
+        update:
+          notice: The language template %{resource_description} was successfully updated.
+        destroy:
+          notice: The language template %{resource_description} was successfully deleted.
+      telecom_circles:
+        create:
+          notice: Telecom Circle %{resource_description} was successfully created.
+        update:
+          notice: Telecom Circle %{resource_description} was successfully updated.
+        destroy:
+          notice: Telecom Circle %{resource_description} was successfully deleted.

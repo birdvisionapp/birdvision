@@ -1,0 +1,20 @@
+#widget-postion-1.col-sm-4
+  %span.remove-widget
+    = link_to image_tag("remove_30-sign.jpg"), "#"
+  .widget-postion-inner
+    %span.delete-widget-button
+      - @widget_id = @client_manager_dashboard.find_widget(@wid, current_admin_user)
+      = link_to image_tag("remove_30-sign.jpg"), admin_client_managers_widget_path(@widget_id), :method => :delete, :class => "remove-widget-button", :confirm => "Are you sure. You want to remove #{@wid} widget?"
+    = link_to top_users_admin_client_managers_widgets_path, :id => "top-users-link" , :class => "decoration-none" do
+      .widget-header
+        = 'Top Performers'
+      - top_users = @client_manager_dashboard.top_users_list
+      %table.table.stockout-risk
+        %thead
+          %tr
+            %th{:style => "width: 80%;"}= "User Name"
+            %th= "Total Points"
+        - top_users.each do |user|
+          %tr
+            %td{:style => "width: 80%;"}= user['full_name'].capitalize
+            %td= user['total_points']

@@ -1,0 +1,17 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :client_msp_id_eq, "MSP"
+        = f.collection_select :client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    - unless is_client_manager?
+      %td
+        = f.label :client_id_eq, "Client"
+        = f.collection_select :client_id_eq, Client.accessible_by(current_ability).select_options, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+    %td
+      = f.label :trans_date_date_gteq,"Date"
+      = f.text_field :trans_date_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :trans_date_date_lteq, :class => 'datepicker input-small'
+    %td
+    %td

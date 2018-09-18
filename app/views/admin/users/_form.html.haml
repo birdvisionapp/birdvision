@@ -1,0 +1,91 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @user.errors.full_messages}
+
+= form_for [:admin, @user], :html => {:class => 'form-horizontal'} do |f|
+
+  .fields-group
+    - if !resource.new_record? && is_admin_user?
+      %h3 Client
+      - if is_super_admin?
+        .control-group
+          = label_tag :msp, "MSP", :class => 'control-label'
+          .controls
+            = resource.client.msp_name
+      .control-group
+        = label_tag :client, "Client", :class => 'control-label'
+        .controls
+          = resource.client.client_name
+    %h3 Participant Details
+    .control-group
+      = f.label :user_role_id, "Category", :class => 'control-label mandatory-field'
+      .controls
+        = f.select :user_role_id, ancestry_options(resource.client.user_roles.accessible_by(current_ability).main_roles, true), {:include_blank => 'Please Select'}
+    .control-group
+      = f.label :full_name, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :full_name
+    .control-group
+      = f.label :email, :class => 'control-label'
+      .controls
+        = f.text_field :email
+    .control-group
+      = f.label :mobile_number, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :mobile_number
+    - if @user.client.sms_based?
+      = f.hidden_field :status, :value => User::Status::ACTIVE if @user.status == User::Status::PENDING
+      - unless @user.is_retailer? && @user.client.code == 'petronas'
+        .control-group
+          = f.label :retailer, :class => 'control-label'
+          .controls
+            = f.select :parent_id,  User.accessible_by(current_ability).where(client_id: @user.client_id).is_retailer.collect {|r| [r.name_mobile, r.id ] }, {:include_blank => 'Please Select'}, :id => 'ancestry_id'
+      - else
+        .control-group
+          = label_tag :user_ids, 'Participants', :class => 'control-label'
+          .controls
+            = @user.children_details
+          .clearfix
+
+  .fields-group
+    %h3 Additional Information
+    .control-group
+      = f.label :landline_number, :class => 'control-label'
+      .controls
+        = f.text_field :landline_number
+    .control-group
+      = f.label :address, :class => 'control-label'
+      .controls
+        = f.text_area :address, :rows => 5
+    .control-group
+      = f.label :pincode, :class => 'control-label'
+      .controls
+        = f.text_field :pincode
+    - if (is_super_admin? || is_gvi(current_admin_user)) && @user.client_id == ENV['AL_CLIENT_ID'].to_i
+      .control-group
+        = f.label :extra_field, 'Family Details', :class => 'control-label'
+        .controls
+          = f.text_area :extra_field, :rows => 5
+    .control-group
+      = f.label :notes, 'notes', :class => 'control-label'
+      .controls
+        = f.text_field :notes
+    - if @user.id.present?
+      .control-group
+        = label_tag :region, 'Region', :class => 'control-label'
+        .controls
+          = resource.region.presence || '-'
+      .control-group
+        = f.label :telecom_circle_id, 'Telecom Circle', :class => 'control-label'
+        .controls
+          = f.select :telecom_circle_id,  @telecom_circles.collect {|r| [r.name, r.id ] }, {:include_blank => 'Undefined'}
+      .control-group
+        = f.label :dob, 'Date of Birth', :class => 'control-label'
+        .controls
+          = f.text_field :dob, :class => 'datepicker'
+      .control-group
+        = f.label :anniversary, 'Anniversary', :class => 'control-label'
+        .controls
+          = f.text_field :anniversary, :class => 'datepicker'
+  .control-group
+    .controls
+      = link_to 'Cancel', admin_users_path, :class=> "btn"
+      = f.button @user.id.nil? ? "Create Participant" : "#{@is_sms_based ? 'Register' : 'Save'} Participant", :class => 'btn btn-info'

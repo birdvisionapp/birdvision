@@ -1,0 +1,101 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @scheme.errors.full_messages}
+
+= form_for [:admin, @scheme], :html => {:class => 'form-horizontal'} do |f|
+  .fields-group
+    %h3 Scheme Details
+    .image-container.pull-right
+      %h3 Poster
+      = image_tag f.object.poster.url, :size => "200x200"
+      %h3 Hero Image
+      = image_tag f.object.hero_image.url, :size => "100x100"
+    = render "admin/share/select_msp", f: @scheme.client
+    .control-group
+      = f.label :client, :class => 'control-label mandatory-field'
+      .controls
+        = f.collection_select :client_id, Client.accessible_by(current_ability).select_options, :id, :client_name, {:include_blank => 'Please Select'}, {:class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}, :disabled => local_assigns.has_key?(:disable_client)}
+    .control-group
+      = f.label :single_redemption, :class => 'control-label'
+      .controls
+        = f.check_box :single_redemption, {:disabled => local_assigns.has_key?(:disable_scheme_type)}
+    .control-group
+      = f.label :name, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :name
+    .control-group
+      = f.label :total_budget, "Total Budget(Rs.)", :class => 'control-label'
+      .controls
+        = f.text_field :total_budget_in_rupees
+
+    %h3 Scheme Period
+    .control-group
+      = f.label :start_date,"Start Date", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :start_date, :class => 'datepicker', :value => ldate(f.object.start_date)
+    .control-group
+      = f.label :end_date,"End Date", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :end_date, :class => 'datepicker', :value => ldate(f.object.end_date)
+    .control-group
+      = f.label :redemption_start_date,"Redemption Start Date", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :redemption_start_date, :class => 'datepicker', :value => ldate(f.object.redemption_start_date)
+    .control-group
+      = f.label :redemption_end_date,"Redemption End Date", :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :redemption_end_date, :class => 'datepicker', :value => ldate(f.object.redemption_end_date)
+    %h3 Scheme Options
+    .control-group
+      = f.label :poster, :class => 'control-label'
+      .controls
+        = f.file_field :poster
+    .control-group
+      = f.label :hero_image,"Hero Image", :class => 'control-label'
+      .controls
+        = f.file_field :hero_image
+      .controls
+        .icon-info-sign
+        %span.help-inline Allowed image types are jpg,jpeg,png,gif. Please ensure that the image is of 700x300 resolution to ensure best appearance
+    %h3 Levels and Clubs
+    - if @scheme.new_record?
+      %span.help-info
+        .icon-info-sign
+        %span.help-inline Please add the highest level and club first, following a descending order for the rest.
+      %h5
+        = "Levels"
+        %i.icon-plus-sign.add-more
+        = link_to 'Add more', "#", :class => 'template-action', :rev => '.level-container'
+      .level-container
+        .control-group.template
+          %p.control-label.mandatory-field Name
+          .controls
+            = text_field_tag "level_club_config[level_name][]", nil, :id => nil
+      %h5
+        = "Clubs"
+        %i.icon-plus-sign.add-more
+        = link_to 'Add more', "#", :class => 'template-action', :rev => '.club-container'
+      .club-container
+        .control-group.template
+          %p.control-label.mandatory-field Name
+          .controls
+            = text_field_tag "level_club_config[club_name][]", nil, :id => nil
+    - else
+      %h5
+        = "Levels"
+      - @scheme.levels.each do |level|
+        .control-group.template
+          .control-label Name
+          .controls
+            = text_field_tag nil, level.name, :id => nil, :disabled => true
+
+      %h5
+        = "Clubs"
+      - @scheme.clubs.each do |club|
+        .control-group.template
+          .control-label Name
+          .controls
+            = text_field_tag nil, club.name, :id => nil, :disabled => true
+
+  .control-group
+    .controls
+      =link_to 'Cancel', admin_schemes_path, :class=> "btn"
+      = f.button @scheme.id.nil? ? "Create Scheme" : "Save Scheme", :class => 'btn btn-info'

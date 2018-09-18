@@ -1,0 +1,46 @@
+%h1 Language Templates
+
+= search_form_for @search, :url => admin_language_templates_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "language_templates_filter" }
+
+.actions
+  -if can? :create, LanguageTemplate
+    .actions-left
+      = link_to 'Add New Template', new_admin_language_template_path, :class => 'btn btn-info'
+
+  - if @language_templates.empty?
+    %p.text-danger There are no language templates yet
+  - else
+    .grid-pager
+      = paginate @language_templates
+
+%table.table.table-striped.table-bordered.language-templates
+  %thead
+    %tr
+      %th.span4= sort_link(@search, :name,"Name")
+      %th Template
+      %th= sort_link(@search, :status, "Status")
+      %th= sort_link(@search, :created_at, "Created At")
+      %th.span4
+        %span Action
+
+  - @language_templates.each do |language_template|
+    %tr[language_template]
+      %td= language_template.name
+      %td= language_template.render_templates.join("<br />").html_safe
+      %td.status= styling_status_label(language_template.status)
+      %td= l language_template.created_at, :format => :long_date_time rescue ''
+      %td
+        =link_to 'View', admin_language_template_path(language_template)
+        - if can? :edit, LanguageTemplate
+          %span /
+          = link_to 'Edit', edit_admin_language_template_path(language_template)
+        - if can? :destroy, LanguageTemplate
+          = "/"
+          = link_to "Delete", admin_language_template_path(language_template), :confirm => "Are you sure, you want to delete Template: #{language_template.name} ?", :method => :delete
+
+- unless @language_templates.empty?
+  .actions-down
+    .actions-left
+    .grid-pager
+      = paginate @language_templates

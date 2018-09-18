@@ -1,0 +1,27 @@
+%h1
+  Reports
+- if @download_reports.present?
+  %p= "Click on failed report(s) to see more details"
+  .actions
+    .actions-left
+    .grid-pager= paginate @download_reports
+  #accordion2.accordion
+    - @download_reports.each do |report|
+      .accordion-group
+        .accordion-heading{:id => "accordion_heading_#{report.id}"}
+          %div.accordion-toggle{"data-parent" => "#accordion2", "data-toggle" => "collapse", :href => "#collapse#{report.id}", :class => "#{report.status}"}
+            = "#{report.filename} - at #{report.created_at.strftime("%d/%m/%Y  %H:%M")} #{report_generated_by(report)}"
+            %span.download-report-ln= link_to 'Download Report', admin_download_report_download_path(report), :method => :get if report.url.present?
+            = link_to "Delete", admin_download_report_path(report), :method => :delete, :class => 'pull-right action'
+            %span.pull-right= report.status.titleize
+        - if report.status == "failed"
+          .accordion-body.collapse{:id => "collapse#{report.id}"}
+            .accordion-inner
+              - if report.report_errors.present?
+                = report.report_errors
+  .actions
+    .actions-left
+    .grid-pager= paginate @download_reports
+- else
+  %p.alert.alert-info
+    No reports for download.

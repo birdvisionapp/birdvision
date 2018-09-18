@@ -1,0 +1,10 @@
+%table.filters
+  %tr
+    %td
+      = f.label :scheme_id_eq, "Scheme"
+      = f.collection_select :scheme_id_eq, current_user.client.schemes.select_options, :id, :name, {:include_blank => t(:all)}
+    %td
+      = f.label :created_at_date_gteq,"Date"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small', :value => (params[:q]) ? params[:q][:created_at_date_gteq] : ''
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small', :value => (params[:q]) ? params[:q][:created_at_date_lteq] : ''

@@ -1,0 +1,170 @@
+// colors used in theme
+$theme-prominent-gradient-start-color:  #46b3c0 !default
+$theme-prominent-gradient-end-color: #2492a2 !default
+$theme-dark-prominent-color: #2c7682 !default
+$theme-highlight-color: #ff6600 !default
+$theme-prominent-link-color: #3c8c97 !default
+$theme-light-prominent-color: #67bec9 !default
+$theme-sub-prominent-color: #BED7DA !default
+$theme-prominent-hover-color: #2797a6 !default
+
+@mixin vertical-gradient($startColor: #555, $endColor: #333)
+  background-color: mix($startColor, $endColor, 60%)
+  background-image: -moz-linear-gradient(top, $startColor, $endColor) // FF 3.6+
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), to($endColor)) // Safari 4+, Chrome 2+
+  background-image: -webkit-linear-gradient(top, $startColor, $endColor) // Safari 5.1+, Chrome 10+
+  background-image: -o-linear-gradient(top, $startColor, $endColor) // Opera 11.10
+  background-image: linear-gradient(to bottom, $startColor, $endColor) // Standard, IE10
+  background-repeat: repeat-x
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=0) // IE9 and down
+/*!
+ *  Site customization template.
+ *
+ *  Important: Custom Theme Template
+ *  Name: Client Name
+ */
+
+#siteHeader .logo, .login-page-body .logo
+  /*!
+   *   customize the logo here by changing the value of url
+   *   size of the logo must be 180 X 60 px otherwise it will be truncated
+   */
+  background-image: url("/assets/bvc-logo.png")
+
+
+a, a:hover, a:active, a:focus, .theme-primary-text-color, .theme-primary-text-color:hover, .theme-primary-text-color:focus
+  /*!
+   * Customize the primary text color and color of all links on site.
+   * Primary text color is used to highlight Item title on item details page, and also at category hierarchy
+   */
+  color: $theme-prominent-link-color
+
+.theme-primary-gradient, .btn-info
+  /*
+   *   Customize the gradient of header band and primary buttons
+   */
+  +vertical-gradient($theme-prominent-gradient-start-color, $theme-prominent-gradient-end-color)
+
+.btn-info:hover, .btn-info:focus
+  /*
+   *   Customize the state change color of primary buttons on its Hover and Focused state
+   */
+  background-color: $theme-prominent-gradient-end-color
+
+.theme-auth-form
+  /*
+   *   Customize the text and border color of authentication forms i.e. Login form, Forgot Password, Reset Password form
+   */
+  border-color: $theme-dark-prominent-color
+  color:  $theme-prominent-link-color
+
+.theme-header-component
+  /*
+   *  Customize the left border color components on header like User Name, Shopping Cart icon, Home icon and All Scheme list
+   */
+  border-color: $theme-light-prominent-color
+
+  &:hover
+    /*
+     *   Customize the hover, focus state background color for components on header
+     */
+    background-color: $theme-prominent-hover-color
+
+  ul a:hover
+    /*
+     *  Customize the background color of list item under user name and Scheme list
+     */
+    background-color: $theme-sub-prominent-color
+
+
+.theme-btn-search, .theme-btn-search:hover, .theme-btn-search:focus
+  /*
+   *   Customize the background color of search button
+   */
+  background-color: $theme-dark-prominent-color
+
+.theme-category-header
+  /*
+   *   Customize the background color of category hierarchy header
+   */
+  background-color: $theme-prominent-gradient-end-color
+  color: white
+
+
+.theme-actions
+  /*
+   *   Customize text and border color of action buttons like add-to-cart
+   */
+  border-color: $theme-highlight-color
+  color: $theme-highlight-color
+
+  .actions, .add-to-cart-icon
+    /*
+     *  Customize the default background color action buttons
+     */
+    background-color: $theme-highlight-color
+
+  &:hover, &:focus
+    /*
+     *   Customize the hover state background color of action buttons
+     */
+    color: $theme-highlight-color
+
+    &.actions, .actions
+      /*
+       *  Customize the hover, focus background color of action buttons
+       */
+      background-color: $theme-highlight-color
+      color: #FFF
+
+
+.theme-btn-cko
+  /*
+   *   Customize the background and text color buttons on checkout flow like confirm button
+   */
+  background-color: $theme-prominent-gradient-end-color
+  color: #ffffff
+  &:hover
+    /*
+     *  Customize the hover state background color of buttons on checkout flow
+     */
+    background-color: $theme-prominent-gradient-start-color
+
+.btn-continue-shopping
+  /*
+   *   Customize the text, background and border color of Continue Shopping button
+   */
+  background-color: #E8E6E4
+  border-color: $theme-prominent-gradient-end-color
+  color: $theme-prominent-gradient-end-color
+
+  &:hover, &:focus
+    /*
+     *  Customize the hover state background color of Continue Shopping button
+     */
+    background-color: #fff
+
+  &:before, .btn-continue-shopping-cart
+    /*
+     *  Customize the background color of cart icon on Continue Shopping button
+     */
+    background-color: $theme-prominent-gradient-end-color
+
+#points_slider
+  /*
+   *   Customize the border color of Points Slider
+   */
+
+  border-color: $theme-light-prominent-color
+  div
+    /*
+     * Customize the background color Points slider bar
+     */
+    background-color: $theme-sub-prominent-color
+  a
+    /*
+     *   Customize the background and border colors of handlers of Points slider
+     */
+    background-color: $theme-light-prominent-color
+    border-color: $theme-prominent-gradient-start-color
+

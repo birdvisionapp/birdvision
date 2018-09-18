@@ -1,0 +1,14 @@
+%table.filters
+  %tr
+    %td
+      = f.label :code_eq, "Code"
+      = f.text_field :code_eq, :class => 'input-medium'
+    %td
+      = f.label :description_cont, "Description"
+      = f.text_field :description_cont, :class => 'input-medium'
+    %td
+      = f.label :created_at_date_gteq,"Created On"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small'
+    %td

@@ -1,0 +1,5 @@
+= form_tag print_preview_admin_sms_based_unique_item_codes_path(:q => params[:q]), {:class => 'form-horizontal'} do |f|
+  = select_tag 'language[0]', options_for_select(@language_templates), :class => 'input-medium'
+  -#= select_tag 'language[1]', options_for_select(@language_templates), prompt: '-- Optional --', :class => 'input-medium'
+  %button{type: 'submit', class: 'btn btn-primary clnt-dnp-submt-btn'}
+    Generate Coupon

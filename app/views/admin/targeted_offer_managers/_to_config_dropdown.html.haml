@@ -1,0 +1,8 @@
+= form_for(:client, :url => {:action => 'offer_manager'}, :method=>'get') do |f|
+  %table
+    - if current_admin_user.role == AdminUser::Roles::SUPER_ADMIN and current_admin_user.msp_id.nil?
+      %th Msp
+      %td= f.collection_select(:msp_id_selected, @msps, :id, :name, {:prompt => "All"}, {:onchange => "collectionSelected(this);"})
+    %th Client
+    %td= f.collection_select(:client_id_dropdown, @clients, :id, :client_name, {:prompt => true , :id => "client_id"})
+    %th= f.submit "Next", :class => 'btn btn-info'

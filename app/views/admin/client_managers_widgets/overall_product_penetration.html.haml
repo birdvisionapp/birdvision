@@ -1,0 +1,20 @@
+= search_form_for @search, :url => overall_product_penetration_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/overall_product_penetration_filter" }
+
+%table.table.table-striped.table-bordered.schemes
+  %thead
+    %tr
+      %th
+        %span Product Name
+      %th
+        %span Product Penetration
+    - @total_penetrations.each do |penetration|
+      %tr
+        %td= link_to "#{penetration['name']}", sku_level_admin_client_managers_widgets_path(:id => penetration['id'])
+        %td= "#{penetration['penetration']}%"
+        
+- unless @total_penetrations.empty?
+  .actions-down
+    .actions-left
+    .grid-pager
+      = paginate @total_penetrations

@@ -1,0 +1,19 @@
+.span12
+  = render :partial => "share/flash_messages"
+- if @cart.empty?
+  .span3.offset5
+    = continue_shopping_index_button(@user_scheme)
+- else
+  .span12
+    .shopping-cart.clearfix
+      %h1.cart-title Shopping Cart
+      = render :partial => "share/cart_items" , :locals => { :sufficient_points =>  @sufficient_points }
+      .action-items
+        - unless @cart.empty? || !@sufficient_points
+          .pull-right
+            - if @user_scheme.redemption_active?
+              =button_to 'Redeem Cart', new_order_path(:scheme_slug => @user_scheme.scheme.slug), :method =>:get, :class => "btn-redeem theme-btn-cko"
+            - else
+              =button_to 'Redeem Cart', new_order_path(:scheme_slug => @user_scheme.scheme.slug), :method =>:get, :class => "btn btn-disabled", :disabled => 'disabled'
+
+        = continue_shopping_index_button(@user_scheme)

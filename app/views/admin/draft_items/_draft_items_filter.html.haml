@@ -1,0 +1,28 @@
+%table.filters
+  %tr
+    %td
+      = f.label :title_cont, "Item Name"
+      = f.text_field :title_cont, :class => 'input-medium'
+    %td
+      = f.label :model_no_cont, "Model No."
+      = f.text_field :model_no_cont, :class => 'input-small'
+    %td
+      = f.label :created_at_date_gteq,"Created Between"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small'
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :supplier_msp_id_eq, "MSP"
+        = f.collection_select :supplier_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      = f.label :category_id_eq, "Category"
+      = f.collection_select :category_ancestry_eq, Category.accessible_by(current_ability).main_categories.select_options, :id, :title, {:include_blank => t(:all)}, :class => 'al-category-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:title')}
+    %td
+      = f.label :category_id_eq, "Sub - Category"
+      = f.collection_select :category_id_eq, Category.accessible_by(current_ability).sub_categories.select_options, :id, :title, {:include_blank => t(:all)}, :class => 'al-subcategory-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:title', subset: true)}
+  %tr
+    %td
+      = f.label :supplier_id_eq, "Supplier"
+      = f.collection_select :supplier_id_eq, Supplier.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'al-supplier-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Supplier:name')}

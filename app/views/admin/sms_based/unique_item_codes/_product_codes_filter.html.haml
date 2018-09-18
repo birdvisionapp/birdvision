@@ -1,0 +1,35 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :reward_item_point_reward_item_client_msp_id_eq, "MSP"
+        = f.collection_select :reward_item_point_reward_item_client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      - unless is_client_manager?
+        = f.label :reward_item_point_reward_item_client_id_eq, "Client"
+        = f.collection_select :reward_item_point_reward_item_client_id_eq, Client.accessible_by(current_ability).select_options.is_sms_based, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name', sms_based: true)}
+    %td
+      = f.label :reward_item_point_reward_item_scheme_id_eq, "Scheme"
+      = f.select :reward_item_point_reward_item_scheme_id_eq,  Scheme.accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 'al-content-loader', :data => {:url => list_for_client_admin_schemes_url}
+  %tr
+    %td
+      = f.label :reward_item_point_id_eq, "Product"
+      = f.select :reward_item_point_id_eq,  RewardItemPoint.includes(:reward_item).accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 's-pp-content-loader', :data => {:url => list_for_scheme_admin_sms_based_reward_item_points_url}
+    %td
+      = f.label :code_eq, "Code"
+      = f.text_field :code_eq, :class => 'input-medium'
+    %td
+      = f.label :used_at_date_gteq,"Used On"
+      = f.text_field :used_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :used_at_date_lteq, :class => 'datepicker input-small'
+  %tr
+    %td
+      = f.label :user_full_name_cont, "Full Name"
+      = f.text_field :user_full_name_cont, :class => 'input-medium'
+    %td
+      = f.label :user_username_cont, "Username"
+      = f.text_field :user_username_cont, :class => 'input-medium'
+    %td
+      = f.label :user_mobile_number_cont, "Mobile Number"
+      = f.text_field :user_mobile_number_cont, :class => 'input-medium'

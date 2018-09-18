@@ -1,0 +1,27 @@
+%h1 Download Product Codes
+= search_form_for @search, :url => admin_sms_based_unique_item_codes_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter => "unused_product_codes_filter" }
+
+.sms-based-dashboard.clnt-dn-product-codes
+  %ul.infographics.clearfix
+    %li.container.pcodes-download
+      .header= 'Product Codes'
+      .codes-listing
+        - if @unused_codes_count > 0
+          .description.pull-left
+            .fmt-pr-codes-cnt= "#{@unused_codes_count} Not Used"
+            - unless current_admin_user.role == AdminUser::Roles::CLIENT_MANAGER
+              .download-pr-codes.pull-left
+                = link_to admin_sms_based_unique_item_codes_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info", :id =>"downloadCodesCsv" do
+                  %i.icon-download.icon-white
+                  Download
+              .print-pr-gn-codes.pull-left= render 'print_preview_form'
+        - if @used_codes_count > 0
+          .description.pull-left
+            .fmt-pr-codes-cnt= "#{@used_codes_count} Used"
+            .download-pr-codes
+              = link_to report_admin_sms_based_unique_item_codes_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info", :id =>"downloadUsedCodesCsv" do
+                %i.icon-download.icon-white
+                Download
+        - unless @unused_codes_count > 0 || @used_codes_count > 0
+          .text-error No product codes found.

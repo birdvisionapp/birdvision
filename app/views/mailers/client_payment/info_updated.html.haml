@@ -1,0 +1,10 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@client_payment.client_invoice.client.client_name} Team,"
+  %div{:style=>"padding-left:20px"}
+    %p= "#{@subject_slug} for #{@client_payment.client_invoice.invoice_label}: <strong>#{@client_payment.client_invoice.invoice_number}</strong>.".html_safe
+    %p{:style=>"margin-top: 10px;"}= "Confirmation of payment credit would be sent shortly." unless @client_payment.is_paid?
+    %p{:style=>"margin-top: 10px;"}= "Your Invoice has now been generated." if @client_payment.is_paid?
+    %p{:style=>"margin-top: 10px;"}= "<strong>#{@client_payment.client_invoice.points} Points </strong> has now been credited to your account.".html_safe if @client_payment.points_credited? && @client_payment.client_invoice.points_upload?
+    %p{:style=>"margin-top: 10px;"}= "Your monthly subscription has been renewed till <strong>#{@client_payment.client_invoice.client.expiry_date.strftime('%d-%m-%Y')}</strong>.".html_safe if @client_payment.is_paid? && @client_payment.client_invoice.monthly_retainer?
+    = render "mailers/client_payment/details", :resource => @client_payment
+  = render :partial => "mailers/admin_user/email_footer"

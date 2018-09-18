@@ -1,0 +1,34 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @category.errors.full_messages}
+= form_for @category, :url => @category.id.nil? ? admin_categories_path(:type => @type) : admin_category_path(@category.id,:type => @type), :html => {:class => 'form-horizontal'} do |f|
+  .fields-group
+    = render "admin/share/member_msp", f: f
+    .control-group
+      = f.label :title, "#{@taxonomy_type} Name",:class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :title
+    - if @is_subcategory_page
+      .control-group
+        = f.label :parent_id, "Category", :class => 'control-label mandatory-field'
+        .controls
+          = f.collection_select :parent_id, Category.accessible_by(current_ability).main_categories, :id, :title, {:include_blank => 'Please Select'}, {:class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:title')}}
+      .control-group
+        = f.label :service_charge, "Service Charge",:class => 'control-label'
+        .controls
+          .input-append.prepend-wrapper
+            = f.text_field :service_charge, :maxlength => 5, :class => 'input-mini'
+            %span.add-on %
+          - extra_params = (@category.service_charge && @category.service_charge > 0) ? {:checked => true} : {}
+          = f.check_box :is_service_charge, {:class => 'fm-check-input bg-ck-med'}.merge!(extra_params)
+      .control-group
+        = f.label :delivery_charges, "Delivery Charges",:class => 'control-label'
+        .controls
+          .input-append.prepend-wrapper
+            = f.text_field :delivery_charges, :maxlength => 5, :class => 'input-mini'
+            %span.add-on INR
+          - extra_params = (@category.delivery_charges && @category.delivery_charges > 0) ? {:checked => true} : {}
+          = f.check_box :is_delivery_charges, {:class => 'fm-check-input bg-ck-med'}.merge!(extra_params)
+  .control-group
+    .controls
+      =link_to 'Cancel', admin_categories_path, :class=> "btn"
+      = f.button "Save", :class => 'btn btn-info'
+

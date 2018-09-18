@@ -1,0 +1,37 @@
+- show_add_to_cart = local_assigns.has_key?(:show_add_to_cart)
+- css_class1 = show_add_to_cart ? "actions theme-actions" : "btn btn-info"
+- css_class2 = show_add_to_cart ? 'actions theme-actions' : 'action-container theme-actions'
+-if user_item.redeemable? && user_item.item.status == Item::Status::ACTIVE
+  -if user_item.single_redemption?
+    = link_to (single_redemption_redemption_path(:scheme_slug => user_item.scheme_slug, :id => user_item.client_item)), :method=>:post, :class=> css_class1 do
+      %span.redeem Redeem
+  -else
+    = link_to (add_to_cart_path(:id=>user_item)), :method=>:post, :class=> css_class2, :title => 'Add to cart' do
+      - unless local_assigns.has_key?(:show_add_to_cart)
+        %span.item-pts
+          = "#{bvc_currency(user_item.price_to_points)}"
+          %span.text= " pts"
+        %span.actions
+      - else
+        %span.add-to-cart-icon
+        %span.add-to-cart-text Add to cart
+        %span.item-points=bvc_currency(user_item.price_to_points)
+        %span.pts-text= "pts"
+-else
+  - unless local_assigns.has_key?(:show_add_to_cart)
+    - if user_item.single_redemption?
+      =button_tag "#", :class => "not-eligible-container", :disabled => "disabled" do
+        %span.not-eligible-text Not Eligible
+    -else
+      = button_tag "#", :class => "not-eligible-container show-points", :disabled => "disabled" do
+        %span.item-pts
+          = "#{bvc_currency(user_item.price_to_points)}"
+          %span.text= " pts"
+        %span.not-eligible-text Not Eligible
+
+  - else
+    %span.not-eligible
+      %span.not-eligible-text Not Eligible
+      - unless user_item.single_redemption?
+        %span.item-points= bvc_currency(user_item.price_to_points)
+        %span.pts-text= "pts"

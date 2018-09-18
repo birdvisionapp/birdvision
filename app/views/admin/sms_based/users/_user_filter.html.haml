@@ -1,0 +1,24 @@
+%table.filters
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :client_msp_id_eq, "MSP"
+        = f.collection_select :client_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    - if is_admin_user?
+      %td
+        = f.label :client_id_eq, "Client"
+        = f.collection_select :client_id_eq, Client.accessible_by(current_ability).select_options.is_sms_based, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-selector-init al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name', sms_based: true)}
+    %td
+      = f.label :unique_item_codes_reward_item_point_reward_item_scheme_id_eq, "Scheme"
+      = f.select :user_schemes_scheme_id_eq,  Scheme.accessible_by(current_ability).select_options.map(&:option_format), {:include_blank => t(:all)}, :class => 'al-content-loader', :data => {:url => list_for_client_admin_schemes_url}
+
+  %tr
+    %td
+      = f.label :created_at_date_gteq,"Created On"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small'
+    %td
+      = f.label :mobile_number_cont, "Mobile Number"
+      = f.text_field :mobile_number_cont, :class => 'input-medium'
+    %td

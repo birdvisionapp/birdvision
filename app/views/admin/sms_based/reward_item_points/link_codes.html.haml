@@ -1,0 +1,57 @@
+= search_form_for @search, :url => link_codes_admin_sms_based_reward_item_points_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"link_product_codes_filter"}
+
+- if @reward_item_point.present?
+  %h1 Link Codes
+  - if @unused_single_tier_codes > 0
+    = render 'participants'
+  - else
+    %p.text-danger
+      == There are no product codes yet.
+      - if can? :create, UniqueItemCode
+        == Please #{link_to("Generate", new_admin_sms_based_unique_item_code_path(:q => {:reward_item_point_id_eq => @reward_item_point.id}), :class => 'label btn-primary')} here.
+%br
+%h1 Link Details
+.actions
+  - if @product_code_links.empty?
+    %p.text-danger There are no product code links yet
+  - else
+    .actions-left
+    .grid-pager
+      = paginate @product_code_links
+
+%table.table.table-striped.table-bordered.telecom-circles
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :linkable_of_User_type_client_msp_name, "MSP")
+      - if is_admin_user?
+        %th= sort_link(@search, :linkable_of_User_type_client_client_name, "Client")
+      %th= sort_link(@search, :linkable_of_User_type_full_name, "Full Name")
+      %th= sort_link(@search, :linkable_of_User_type_username, "Username")
+      %th Mobile Number
+      %th Codes Linked
+      - unless current_admin_user.role == AdminUser::Roles::CLIENT_MANAGER
+        %th.span4 
+          %span Action
+
+  - @product_code_links.each do |product_code_link|
+    %tr
+      - if is_super_admin?
+        %td= product_code_link.linkable.client.msp_name
+      - if is_admin_user?
+        %td= link_to product_code_link.linkable.client.client_name, admin_client_path(product_code_link.linkable.client)
+      %td= product_code_link.linkable.full_name
+      %td= link_to product_code_link.linkable.username, admin_user_path(product_code_link.linkable)
+      %td= product_code_link.linkable.mobile_number
+      %td= product_code_link.codes_count
+      - unless current_admin_user.role == AdminUser::Roles::CLIENT_MANAGER
+        %td
+          = link_to "Download", download_linkable_admin_sms_based_unique_item_codes_path(q: params[:q].merge(linkable_id_eq: product_code_link.linkable_id)), :class => 'label btn-primary'
+          -#= link_to "View", '#', :class => 'label btn-warning'
+
+- unless @product_code_links.empty?
+  .actions-down
+    .actions-left
+    .grid-pager
+      = paginate @product_code_links

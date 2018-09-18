@@ -1,0 +1,9 @@
+%h3.dl-header Allow OTP (One Time Password) - #{styling_boolean_label(resource.allow_otp)}
+- if resource.allow_otp?
+  %dl.dl-horizontal.draft_item
+    %dt Email
+    %dd= styling_boolean_label(resource.allow_otp_email)
+    %dt Mobile (SMS)
+    %dd= styling_boolean_label(resource.allow_otp_mobile)
+    %dt Expiration Time
+    %dd= "#{resource.otp_code_expiration || '-'} seconds"

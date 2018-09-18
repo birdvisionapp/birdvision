@@ -1,0 +1,29 @@
+.span12.points-summary
+  .row
+    %h3.span12 Uploaded Points Statement
+  .row
+    %table.orders.table-striped
+      %thead
+        %tr.header
+          %td.span4 Created At
+          %td.span4 Purchase Date
+          %td.span3 Retailer Code
+          %td.span3 Part Number
+          %td.span3 Quantity
+          %td.span3 Points per Unit
+          %td.span3 Total points
+      %tbody
+        -@dms.each do |dms|
+          %tr.order.item
+            %td= humanize_date(dms.created_at)
+            %td= humanize_date(dms.purchase_date)
+            %td.product-description= dms.sap_code
+            %td.points= dms.part_number
+            %td.points= dms.quantity
+            %td.points= dms.part_points
+            %td= dms.total_points
+    .actions-down.participants
+      .actions-left
+      .grid-pager
+        = paginate @dms
+      .actions-right

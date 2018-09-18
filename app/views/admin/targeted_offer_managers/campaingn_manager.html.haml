@@ -1,0 +1,78 @@
+.header-div
+  - toc = OfferManagers.new(@targeted_offer_config.id)
+  = render(:partial => 'header' , :locals => {:f => 2})
+.main-div
+  %p= render "template_header"
+  = form_for(:campaingn_manager, :url => store_campaingn_admin_targeted_offer_managers_path, :client_id => @client_id, :method => :post, :html => {:id => 'campaign_form'}) do |f|
+    = f.hidden_field :client_id, :value =>   @client_id, :id => "hidden_client"
+    = f.hidden_field :config_id, :value => @targeted_offer_config.id, :id => "hidden_config_id"
+    #participant
+      %table.table.table-bordered.table-style
+        %tr
+          %td
+            %fieldset#id-set-participant
+              %h3 User Categories
+              .adjust
+              .control-by
+                = check_box_tag :all_category , :class => 'check_category'
+                .group-by
+                  = f.label 'All Category'
+                  %br/
+              .control
+                .control-scroll
+                  .control-error
+                    - user_roles = toc.get_client_user_roles
+                    - user_roles.each do |user_role|
+                      = check_box_tag 'selective_category_ids[]' , user_role.id , false , :class => 'check_category' 
+                      \#{user_role.name}
+                      %br
+          %td
+            #geography
+              %fieldset#id-set-geography
+                %h3 Geography
+                .control-by
+                  = check_box_tag :telecom_circle_id, "all-telecom-circle"
+                  .group-by
+                    = f.label :telecom_circle_id, 'All Telecom Circle', :class => 'control-label'  
+                #selective_telecom_circle.controls
+                  - telecom_circle = toc.get_telecom_circles
+                  .control-scroll
+                    - telecom_circle.each do |telecom|
+                      = check_box_tag 'telecom_circle_select[]' , telecom.id , false , :class => 'check_geography' 
+                      \#{telecom.description}
+                      %br
+    #age
+      %table.table.table-bordered.table-style
+        %tr
+          %td
+            %fieldset#id-set-age
+              %h3 Age Range
+              .control-by
+                = f.radio_button :age_range, "all-range", :checked => 'checked'
+                .group-by
+                  = f.label 'All Age Range'
+                  %br
+              .control-by
+                = f.radio_button :age_range, "custom-age-range"
+                .group-by
+                  = f.label 'Custom Age Range'
+                #custom_range.controls
+                  \ Age From
+                  = f.text_field :age_from , :maxlength => 2 , :size => 3 , :class => "age", :disabled => 'disabled'
+                  \ Age To
+                  = f.text_field :age_to, :maxlength => 2, :size => 3, :class => "age", :disabled => 'disabled'
+          
+          #datepicker
+            %td
+              %fieldset#id-set-datepicker
+                %h3 Validity Period
+                .control-group
+                  Start Date
+                  = f.text_field :start_date, :id => 'dateFrom'
+                  \ End Date
+                  = f.text_field :end_date, :id => 'dateTo'
+
+    .space
+    #alignsubmit
+      =link_to "Back" , offer_manager_edit_admin_targeted_offer_managers_path(:id =>@targeted_offer_config.id) , :class => 'btn btn-info'
+      = f.submit 'Save & Next', :class => 'btn btn-info'

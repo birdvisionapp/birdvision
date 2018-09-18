@@ -1,0 +1,84 @@
+.login-page-body
+  background: url(image_path("giftPic.jpg")) no-repeat center transparent
+  +background-size(cover)
+  .logo
+    background-repeat: no-repeat
+    background-position: center
+    height: 70px
+    margin-bottom: 20px
+  #wrapper
+    margin-bottom: -85px
+  #footer
+    background-color: rgba(0,0,0,0.6)
+    border-top: 0px
+    height: auto
+    padding-bottom: 10px
+    a
+      color: white
+  .field_with_errors
+    display: inline-block
+
+.authentication-form
+  +border-radius(3px)
+  +box-shadow(0 0 6px 1px rgb(51, 51, 51))
+  background: url(image_path("login-grid.png")) repeat 0 0
+  border-width:  0px
+  left: 50%
+  margin: -200px auto auto -225px
+  max-width: 500px
+  padding-left: 10px
+  position: absolute
+  top: 50%
+  width:  450px
+  &.password-reset
+    .controls:first-child
+      margin-left: 105px
+  h2, p
+    color: #fff
+  h2
+    font-weight: normal
+    text-align: center
+  .input-medium
+    background: rgba(255, 255, 255, 0.3)
+    border-radius: 0px
+    border-width: 0px
+    color:  #FFF
+    font-size: 1.3em
+    width: 210px
+  .btn
+    +gradient-vertical(rgb(254, 193, 48),rgb(255, 144, 0))
+    border-width: 0px
+    color: #000
+    min-width: 85px
+    text-shadow: none
+    &:hover
+      +gradient-vertical(rgb(254, 193, 48),rgb(255, 144, 0))
+      +box-shadow(0 0 9px rgb(255, 144, 0))
+      background-position: 0 0
+  #user_password + a
+    color: #FFF
+    display: block
+    margin-left: 0px
+    margin-top: 3px
+    text-align: left
+  .control-group
+    text-align: center
+    &.last
+      text-align: left
+      .controls
+        margin-left: 155px
+    .controls, .control-label
+      display: inline-block
+      vertical-align: top
+    .control-label
+      float: none
+    .controls
+      margin-left: 10px
+
+#login-title
+  height: 40px
+  margin: 3%
+  border-bottom: #999999 solid 1px
+  h2
+    padding: 1%
+    color: #999999

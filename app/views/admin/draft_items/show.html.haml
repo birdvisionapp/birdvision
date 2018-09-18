@@ -1,0 +1,60 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h1= @draft_item.title
+
+-unless @item.nil?
+  = render :partial => "share/messages", :locals => {:type => :alert, :message => @item.errors.full_messages}
+
+%dl.dl-horizontal.draft_item
+  %h3 Taxonomy
+  - if is_super_admin?
+    %dt MSP
+    %dd= resource.supplier.msp_name  
+  %dt Category
+  %dd= @draft_item.category.nil? ? "-" : resource.category.title
+
+  %h3 Item Summary
+  %dt Brand
+  %dd= @draft_item.brand.presence || "-"
+  %dt Item Name
+  %dd= @draft_item.title.presence || "-"
+  %dt Model No.
+  %dd= @draft_item.model_no.presence || "-"
+  %dt Description
+  %dd.description= @draft_item.description.presence || "-"
+
+  %h3 Specification
+  -#%dt Specification #semantically this should have been there not h3! --kunal
+  %dd.item-specification= @draft_item.specification.present? ? @draft_item.specification.html_safe : "-"
+
+  %h3 Images
+  -#%dt Image #semantically this should have been there not h3! --kunal
+  %dd.image= image_tag @draft_item.image.url
+
+  %h3 Supplier
+  %dt Supplier
+  %dd= @draft_item.supplier.name.presence || "-"
+  %dt Listing ID
+  %dd= @draft_item.listing_id.presence || "-"
+
+  %dt Available Quantity
+  %dd= @draft_item.available_quantity.presence || "-"
+  %dt Available Till Date
+  %dd= @draft_item.available_till_date.nil? ? "-" : humanize_date(@draft_item.available_till_date)
+  %dt Geographic Reach
+  %dd= @draft_item.geographic_reach.presence || "-"
+  %dt Delivery Time
+  %dd= @draft_item.delivery_time.presence || "-"
+
+  %dt Channel Price(Rs.)
+  %dd= bvc_currency(@draft_item.channel_price)
+  %dt MRP(Rs.)
+  %dd= bvc_currency(@draft_item.mrp)
+  %dt Supplier Margin(%)
+  %dd= @draft_item.supplier_margin
+
+=link_to 'Back', admin_draft_items_path, :class=> "btn"
+=link_to "Edit", edit_admin_draft_item_path(@draft_item), {:class =>'btn btn-info'}
+=link_to "Publish to Master Catalog", admin_draft_item_publish_path(@draft_item), {:method => :post, :class =>'btn btn-info'}
+

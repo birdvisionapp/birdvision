@@ -1,0 +1,16 @@
+.heading Community Traction
+
+= search_form_for @search, :url => traction_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/traction_filter" }
+
+.hidden-values
+  %span.commulative-count
+    =@cumulative_tractions
+  %span.non-commulative-count
+    = @non_cumulative_traction
+
+.adjust
+  #container{:style => "min-width: 310px; height: 350px; margin: 0 auto"}
+        
+#widget-description
+  %span This widget show the progression in the growth of the community over the period of time. In the graph one line shows the cumulative community growth over the period of time where as the other line shows monthwise participants number getting added into the program.

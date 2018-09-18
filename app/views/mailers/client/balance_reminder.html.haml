@@ -1,0 +1,7 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@client.client_name} Team,"
+  %div{:style=>"padding-left:20px"}
+    %p= "Your #{APP_TITLE} balance as of <strong>#{@options[:balance_date]} is #{@options[:balance_points]} Points</strong>, and based upon your usage for the previous 5 days, you are spending approximately #{@options[:avg_points]} Points on an average per day.".html_safe
+    %p{:style=>"margin-top: 10px;"}= "It looks like your current balance will last for #{@options[:balance_days]} days or lesser."
+    %p{:style=>"margin-top: 10px;"}= "Please generate Pro Forma Invoice at #{link_to new_admin_client_invoice_url, new_admin_client_invoice_url} and update the payment details to avoid disruption of service".html_safe
+  = render :partial => "mailers/admin_user/email_footer"

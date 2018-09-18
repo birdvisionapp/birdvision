@@ -1,0 +1,25 @@
+%h1 Resellers
+%dl.dl-horizontal
+  %h3 Reseller Details
+
+  %dt Name
+  %dd=@reseller.name
+  
+  %dt Username
+  %dd=@reseller.admin_user.username
+
+  %dt Email
+  %dd=@reseller.email
+
+  %dt Phone Number
+  %dd=@reseller.phone_number
+
+  %dt Is Locked
+  %dd= styling_boolean_label(@reseller.admin_user.is_locked)
+  = display_time_stamp_details(@reseller.admin_user)
+  
+  %h3 Clients
+  = render :partial => 'client_resellers'
+
+  =link_to 'Back', admin_user_management_resellers_path, :class=> "btn"
+  =link_to "Edit", edit_admin_user_management_reseller_path(@reseller), :class => 'btn btn-info' if can? :edit, Reseller

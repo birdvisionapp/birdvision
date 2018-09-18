@@ -1,0 +1,102 @@
+.shopping-cart
+  border: 1px solid #b2b2b2
+  .cart-title
+    padding: 10px 10px 0
+  .action-items
+    padding: 10px 25px
+    margin-bottom: 20px
+
+.cart-items
+  margin-bottom: 20px
+  width: 100%
+  tr
+    border-top: 1px solid #edeeee
+    overflow: hidden
+    &:first-child
+      border-top: 0
+    &.header
+      +gradient-vertical(#f1f2f2, #eaebeb)
+      color: #787777
+      font-size: 12px
+      font-weight: bold
+      + tr
+        border-top: 0
+    &.footer
+      background: #f7f8f8
+  .image-container
+    padding: 10px
+    width: 100px
+    img
+      background-color: #FFF
+      border: 1px solid #cccccc
+      margin: 0 auto
+      padding: 1px
+      width: 70px
+  td
+    border-left: 1px solid #edeeee
+    vertical-align: top
+    padding: 5px
+    box-sizing: border-box
+    &:first-child, &.product-description
+      border-left: none
+
+  .points, .sub-total, .quantity
+    width: 80px
+  .quantity-container
+    text-align: center
+    width: 70px
+    .save-quantity
+      padding: 5px 0 0 0
+    .item-quantity
+      margin-bottom: 0
+  .remove-cart-item
+    width: 55px
+    input[type=submit]
+      +size(24px, 20px)
+      background: url(image_path("icons.png")) no-repeat 0px -22px transparent
+      border:  none
+      display: block
+      margin: 0px auto
+      text-indent: -9999px
+  .cart-total-points
+    color: #676868
+    font-size: 20px
+    line-height: 40px
+    padding-right: 68px
+    .total
+      font-weight: bold
+      color: #333
+    .pts-text
+      font-size: 16px
+    .insufficient
+      color: #ff6600
+
+  input[type='text']
+    width: auto
+
+.btn-redeem
+  background: url(image_path('redeem_cart.png')) no-repeat 105px 5px
+  border-style: solid
+  border-width: 1px
+  font-weight: bold
+  padding: 8px 30px 8px 10px
+
+
+.btn-disabled
+  padding: 6px 21px
+  border: 2px solid transparent
+
+.service-charge-container
+  text-align: center
+  width: 100px
+
+.cart-item-service-charge
+  color: $red
+  font-size: 12px
+
+.cart-items-order-det
+  .image-container
+    width: 80px
+
+.product-title
+  margin-bottom: 6px

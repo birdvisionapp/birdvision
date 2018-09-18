@@ -1,0 +1,22 @@
+#footer
+  %div{:class => @container_class}
+    %span.pull-left © 2011-2013 Birdvision Consulting Pvt. Ltd.
+    - if user_signed_in? || admin_user_signed_in?
+      - unless current_admin_user.nil?
+        - user = current_admin_user
+      - else
+        - user = current_user
+      - client_params = (client_for_admin_user) ? {:ccode => client_for_admin_user.code} : {}
+      %span.pull-right
+        = link_to "Privacy Policy", privacy_policy_path
+        = " | "
+        = link_to "Terms & Conditions", terms_and_conditions_path
+        = " | "
+        - if bandhan_user(user)
+          = link_to "About Us", "http://www.hathi-sidheecements.com/", {:target=>"_blank"}
+        - else
+          = link_to "About Us", "http://www.birdvision.in", {:target=>"_blank"}
+        = " | "
+        = link_to "Contact Us", contact_us_path(client_params)
+        = " | "
+        = link_to "FAQ", faq_path

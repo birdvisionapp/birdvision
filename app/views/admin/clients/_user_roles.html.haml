@@ -1,0 +1,14 @@
+%h3.dl-header Participant Roles
+%dl.dl-horizontal.draft_item
+  %dt Categories
+  %dd
+    - if resource.user_roles_main.present?
+      - resource.user_roles_main.each do |user_role|
+        %ul
+          %li
+            = user_role.name
+            .span1.clnt-usr-rl-color{:style => "background-color: #{(user_role.color_hex) ? user_role.color_hex : '#fff'}"}
+          - if user_role.children.present?
+            %ul.ad-cl-sub-categories
+              - user_role.children.each do |child|
+                %li= child.name

@@ -1,0 +1,52 @@
+.row
+  #address.span9
+    .checkout-step-content#shippingAddress
+      %h4 Please enter the Shipping Address
+      = form_for @to_order_item, :url => admin_to_transaction_path, :method => :put, :html => {:class => 'form-horizontal', :id => 'id-transc'}  do |order_form|
+        - if @to_order_item.errors.any?
+          = render :partial => "share/messages", :locals => {:type => :alert, :message => @to_order_item.errors.full_messages}
+        .span7.offset1
+          .control-group
+            = order_form.label :address_name, "Name" , :class => "control-label mandatory-field"
+            .controls
+              = order_form.text_field :address_name
+
+          .control-group
+            = order_form.label :address_body, "Address" , :class => "control-label mandatory-field"
+            .controls
+              = order_form.text_area :address_body, {:rows=>5}
+
+          .control-group
+            = order_form.label :address_landmark, "Landmark" , :class => "control-label"
+            .controls
+              = order_form.text_field :address_landmark
+
+          .control-group
+            = order_form.label :address_city, "City" , :class => "control-label mandatory-field"
+            .controls
+              = order_form.text_field :address_city
+
+          .control-group
+            = order_form.label :address_state, "State" , :class => "control-label mandatory-field"
+            .controls
+              = order_form.text_field :address_state
+
+          .control-group
+            = order_form.label :address_zip_code, "Pin Code" , :class => "control-label mandatory-field"
+            .controls
+              = order_form.text_field :address_zip_code
+
+          .control-group
+            = order_form.label :address_phone, "Mobile Number" , :class => "control-label mandatory-field"
+            .controls.mobile-number
+              = label_tag "", "+91"
+              = order_form.text_field :address_phone
+
+          .control-group
+            = order_form.label :address_landline_phone, "Optional Phone" , :class => "control-label"
+            .controls
+              = order_form.text_field :address_landline_phone
+
+        .span9.control-group.action-items
+          .controls
+            = order_form.submit "Confirm", {:class=>"btn-confirm theme-btn-cko pull-right"}

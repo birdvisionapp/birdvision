@@ -1,0 +1,8 @@
+- unless @hide_search
+  #searchForm.control-group.pull-left
+    = form_for :search, :url => search_path_for(@user_scheme), :html => {:method => :get}, :class => 'form-search form-inline'  do |f|
+      .control-group
+        .controls
+          .input-append
+            = f.text_field :keyword, :placeholder => 'Search' , :class => 'search-text'
+            = submit_tag  "" , { :class => "btn theme-btn-search"}

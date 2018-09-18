@@ -1,0 +1,14 @@
+- unless current_admin_user.nil?
+  - user = current_admin_user
+- else
+  - user = current_user
+
+- if bandhan_user(user)
+  =render :partial => "static_pages/bandhan_tnc"
+- elsif current_admin_user.nil?
+  - if user.client_id == ENV['AL_CLIENT_ID'].to_i
+    =render :partial => "static_pages/al_tnc"
+  -else
+    =render :partial => "static_pages/bvc_tnc"
+-else
+  =render :partial => "static_pages/bvc_tnc"

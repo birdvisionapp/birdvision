@@ -1,0 +1,21 @@
+= render :partial => "share/messages", :locals => {:type => :alert, :message => @admin_user.errors.full_messages}
+= form_for [:admin, @admin_user], :url => @admin_user.id.nil? ? [:admin, :user_management, @msp, :super_admins] : (@msp) ? admin_user_management_msp_super_admin_path(@msp, @admin_user) : admin_user_management_super_admin_path(@admin_user), :html => {:class => 'form-horizontal'} do |f|
+
+  .fields-group
+    %h3 Contact Details
+
+    .control-group
+      = f.label :username, :class => 'control-label mandatory-field'
+      .controls
+        = @msp.user_label if @msp && @admin_user.id.nil?
+        = f.text_field :username
+    .control-group
+      = f.label :email, :class => 'control-label mandatory-field'
+      .controls
+        = f.text_field :email
+    = render :partial => "admin/share/admin_security", :locals => {:f => f} if @admin_user.id.present? && (!@admin_user.manage_roles? || @msp.present?) && params[:action] != "create"
+
+  .control-group
+    .controls
+      = link_to 'Cancel', [:admin, :user_management, @msp, :super_admins], :class=> "btn"
+      = f.button "Save", :class => 'btn btn-info'

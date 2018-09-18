@@ -1,0 +1,32 @@
+%h3 Thresholds
+
+= link_to "Edit Threshold Values", edit_admin_threshold_path(@thresholds.id), :class => "btn btn-info"
+
+%table.table.table-striped.table-bordered.thresholds-table
+  %thead
+    %tr
+      %th
+        %span Threshold Level
+      %th
+        %span Color
+      %th
+        %span Lower Limit
+      %th
+        %span Upper Limit
+      
+  %tbody
+    %tr
+      %td Low
+      %td= @thresholds.low_color
+      %td= 0
+      %td= @thresholds.low
+    %tr
+      %td Medium
+      %td= @thresholds.medium_color
+      %td= @thresholds.low
+      %td= @thresholds.medium
+    %tr
+      %td High
+      %td= @thresholds.high_color
+      %td= @thresholds.medium
+      %td= 100

@@ -1,0 +1,26 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@gift.user.full_name},"
+  %div{:style=>"padding-left:20px"}
+    %p
+      - unless @gift.shipping_code.nil?
+        = "We are pleased to inform you that we have shipped your gift- #{@gift_name}. Tracking ID: #{@gift.shipping_code}"
+      - else
+        = "We are pleased to inform you that we have shipped your gift- #{@gift_name}."
+        
+    -if @gift.shipping_agent.present? and @gift.shipping_code.present?
+      %p="You can track your Gift on #{@gift.shipping_agent}'s website with the tracking number #{@gift.shipping_code}"
+
+      %div
+        = "The shipment was sent to: "
+        %div{:style=>"margin-left:20px"}
+          %b= "#{@gift.address_name}"
+          %br
+          = "#{@gift.address_body}"
+          %br
+          = "#{@gift.address_city}"
+          = "#{@gift.address_state}"
+          = "#{@gift.address_zip_code}"
+          %br
+          = "#{@gift.address_landmark}"
+
+  = render :partial => "mailers/user/email_footer", :locals => {:user=>@gift.user}

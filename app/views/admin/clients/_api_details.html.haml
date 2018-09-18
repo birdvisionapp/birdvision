@@ -1,0 +1,9 @@
+%h3.dl-header Allow API - #{styling_boolean_label(resource.allow_sso)}
+- if resource.allow_sso?
+  %dl.dl-horizontal.draft_item
+    %dt Client ID
+    %dd= resource.client_key || "-"
+    %dt Client Secret
+    %dd= resource.client_secret || "-"
+    %dt Client URL
+    %dd= resource.client_url || "-"

@@ -1,0 +1,6 @@
+.template-header
+  %fieldset#id-set-template-header
+    %h3 Create New Template
+= form_for :template , :url => {:action => 'create'}, :method => :post, :html => {:id => 'formTemplate'}  do |f|
+  = render :partial => 'form', :locals => {:f => f}
+  

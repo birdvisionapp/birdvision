@@ -1,0 +1,32 @@
+- if @reseller.id.present? and @reseller.client_resellers.present?
+  %table.table.table-striped.table-bordered.client-resellers
+    %thead
+      %tr
+        %th
+          %span Client Name
+        %th
+          %span Finders fee(Rs.)
+        %th
+          %span Payout start date
+        %th
+          %span Total Sales(Rs.)
+        %th
+          %span Payout(Rs.)
+        %th
+          %span Status
+        %th
+          %span Action
+
+    - @reseller.client_resellers.each do |client_reseller|
+      %tr[client_reseller]
+        %td= client_reseller.client.client_name
+        %td= client_reseller.finders_fee
+        %td= client_reseller.payout_start_date
+        %td= client_reseller.sales
+        %td= client_reseller.payout
+        %td= client_reseller.assigned? ? "Assigned" : "Unassigned"
+        %td
+          - if client_reseller.assigned? && can?(:edit, Reseller)
+            = link_to 'Edit', admin_user_management_reseller_edit_client_for_reseller_path(:reseller_id => @reseller, :id => client_reseller)
+            = "/"
+            = link_to 'Unassign Client', admin_user_management_reseller_unassign_client_for_reseller_path(:reseller_id => @reseller, :id => client_reseller), :method => :put

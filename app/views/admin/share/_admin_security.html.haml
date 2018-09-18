@@ -1,0 +1,17 @@
+.control-group
+  = f.label :password, :class => 'control-label'
+  .controls
+    = f.password_field :password
+.control-group
+  = f.label :password_confirmation, 'Password Confirmation', :class => 'control-label'
+  .controls
+    = f.password_field :password_confirmation
+.control-group
+  = f.label :is_locked, 'Is Locked', :class => 'control-label'
+  .controls
+    = f.check_box :is_locked, :class => 'fm-check-input bg-ck-med'
+- if @msp && !f.object.manage_roles?
+  .control-group
+    = f.label :manage_roles, 'Is Super Admin', :class => 'control-label'
+    .controls
+      = f.check_box :manage_roles, :class => 'fm-check-input bg-ck-med'

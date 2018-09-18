@@ -1,0 +1,111 @@
+.category-list
+  +box-sizing(border-box)
+  background: white
+  border: 1px solid rgba(0,0,0,0.2)
+  border-top: none
+  padding: 5px 0 0
+  width: 100%
+  li
+    //color: #26646d
+    list-style: none
+    position: relative
+    padding: 2px 10px
+    &:hover
+      background: #edebeb
+      ul
+        display: block
+    label
+      cursor: default
+
+    .btn-link
+      display: block
+      padding-top: 0
+      padding-bottom: 0
+      text-align: left
+      width: 100%
+      &:hover
+        text-decoration: none
+    ul
+      +box-shadow(0 0 6px rgba(0, 0, 0, 0.3))
+      display: none
+      position: absolute
+      left:  100%
+      top: -3px
+      width: 100%
+      li
+        background: white
+
+.global-category-list
+  margin-bottom: 15px
+  &.collapsible
+    .global-category-header
+      > span
+        position: relative
+        &:after, .category-header-after
+          +size(16px, 17px)
+          background: url(image_path('icons.png')) no-repeat -2px -46px transparent
+          content: ''
+          display: inline-block
+          position: absolute
+          right: 10px
+          top: 7px
+      > ul
+        display: none
+        position: absolute
+      &:hover > ul
+        display: block
+
+  .category-list
+    > li:hover:after, .li-hover-after
+      +size(34px, 12px)
+      background: url(image_path("icons.png")) no-repeat -71px -66px
+      content: ''
+      display: inline-block
+      position: absolute
+      right: 0
+      top: 0
+
+.global-category-header
+  list-style: none
+  position: relative
+  z-index: 2
+  > span
+    +border-top-left-radius(5px)
+    +border-top-right-radius(5px)
+    font-weight: bold
+    display: block
+    font-size: 16px
+    line-height: 32px
+    margin-bottom: 0
+    padding: 0 0 0 10px
+    a
+      //color: #12717F
+      display: inline-block
+      font-weight: bold
+      width: 100%
+      &:hover
+        text-decoration: none
+
+.search-result-category-list.category-list
+  border: 1px solid rgba(0,0,0,0.2)
+  border-radius: 4px
+  margin: 26px 0 15px
+  li
+    padding-left: 20px
+    &.active
+      background-color: #E6EFF1
+      button
+        font-weight: bold
+    &.nav-header
+      margin: 0 2px
+      border-bottom: 1px solid rgba(0,0,0,0.2)
+      font-size: 14px
+      padding: 4px 0px 4px 20px
+      text-transform: capitalize
+      &:hover
+        background: transparent
+      + li
+        border-top: 0
+
+  .btn-link
+    padding-left: 0

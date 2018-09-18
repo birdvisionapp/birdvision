@@ -1,0 +1,85 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+-if can? :edit, ClientCatalog
+  %h4.pull-right Average Client Margin: #{@average_client_margin} %
+
+%h1 #{@client.client_name} Catalog
+= render :partial => "share/messages", :locals => {:type => :alert, :message => ""}
+
+= search_form_for @search, :url => admin_client_catalog_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"admin/share/client_items_filter"}
+
+.actions
+  .actions-left
+    -if can? :edit, ClientCatalog
+      = link_to "Add Items", edit_admin_client_catalog_path(@client), :class=>"btn btn-info"
+  - unless @client_items.empty?
+    .grid-pager
+      = paginate @client_items , :container => false,  :window => 2 , :left => 1, :right => 1
+  .actions-right
+    = link_to admin_client_catalog_path(@client, :format => "csv", :q => params[:q]), :class=> "btn btn-info", :id =>"downloadClientCatalogCsv" do
+      %i.icon-arrow-down.icon-white
+      Download
+
+%table.table.client-catalog-items.table-striped.table-bordered
+  %thead
+    %tr
+      - if is_super_admin?
+        %th= sort_link(@search, :item_category_msp_name, "MSP")
+      %th= sort_link(@search, :item_id, "Item Id")
+      %th= sort_link(@search, :item_title, "Item Name")
+      %th
+        %span= "Category"
+      %th= sort_link(@search, :item_category_title, "Sub Category")
+      -if can? :edit, ClientCatalog
+        %th
+          %span= "Pref. Supplier"
+      %th= sort_link(@search, :item_preferred_supplier_mrp, "MRP(Rs.)")
+      -if can? :edit, ClientCatalog
+        %th= sort_link(@search, :item_preferred_supplier_channel_price, "Channel Price(Rs.)")
+        %th= sort_link(@search, :item_preferred_supplier_supplier_margin, "Supplier margin(%)")
+        %th.align-right= sort_link(@search, :item_bvc_price,"Base Price(Rs.)")
+        %th.align-right= sort_link(@search, :item_margin,"Base Margin(%)")
+      %th.align-right= sort_link(@search, :client_price,"Client Price(Rs.)")
+      -if can? :edit, ClientCatalog
+        %th.align-right= sort_link(@search, :margin, "Client Margin(%)")
+      %th.align-right= sort_link(@search, :client_price, "Points")
+      %th
+        %span.align-right= "Schemes"
+      -if can? :edit, ClientCatalog
+        %th
+          %span= "Actions"
+
+
+  - @client_items.each do |client_item|
+    %tr[client_item]
+      - if is_super_admin?
+        %td= client_item.item.category.msp_name
+      %td= client_item.item.id
+      %td= client_item.item.title.nil? ? '-' : client_item.item.title
+      %td= client_item.item.category.parent.nil? ? '-' : client_item.item.category.parent.title
+      %td= client_item.item.category.nil? ? '-' : client_item.item.category.title
+      -if can? :edit, ClientCatalog
+        %td= client_item.item.preferred_supplier.present? ? client_item.item.preferred_supplier.supplier.name : '-'
+      %td.align-right= bvc_currency(client_item.item.preferred_supplier.mrp)
+      -if can? :edit, ClientCatalog
+        %td.align-right= bvc_currency(client_item.item.channel_price)
+        %td.align-right= client_item.item.preferred_supplier.supplier_margin
+        %td.align-right= bvc_currency(client_item.item.bvc_price)
+        %td.align-right= client_item.item.margin.nil? ? '-' : client_item.item.margin
+      %td.align-right= bvc_currency(client_item.client_price)
+      -if can? :edit, ClientCatalog
+        %td.align-right= client_item.margin.nil? ? '-' : client_item.margin
+      %td.align-right= client_item.client_price.nil? ? '-' : bvc_currency(client_item.price_to_points)
+      %td.align-right= schemes_for client_item
+      -if can? :edit, ClientCatalog
+        %td
+          = link_to 'Edit', admin_client_item_edit_path(:id => client_item.id, :q => params[:q])
+          |
+          = link_to 'Delete', admin_remove_from_client_catalog_path(:id => client_item.client.id, :client_item_id =>client_item.id, :q => params[:q]), :method => :put
+.actions-down
+  .actions-left
+  .grid-pager
+    = paginate @client_items , :container => false,  :window => 2 , :left => 1, :right => 1
+  .actions-right

@@ -1,0 +1,15 @@
+#clientItemCarousel.carousel.slide
+  .carousel-inner
+    - user_items(@user_scheme, @catalogs.featured).each_with_index do |user_item, index|
+      %div{:class => "item #{'active' if index == 0}", :id => "item_#{user_item.client_item.id}"}
+        - item = user_item.item
+        .client-item
+          .image-container.do-nothing-car
+            = link_to image_tag(item.image.url, :id => "#{item.id}_image_carousel"), client_item_path(@user_scheme.scheme.slug, user_item),:title => item.title
+          .item-details
+            %h1.item-title= link_to item.title, client_item_path(@user_scheme.scheme.slug, user_item),:title => item.title
+            %p.description.ellipsis= item.description
+            = render :partial => 'share/add_to_cart', :locals => {:user_item => user_item}
+  =link_to '' ,"#clientItemCarousel" , :class => "carousel-control left" , :'data-slide' => "prev"
+  =link_to '' ,"#clientItemCarousel" , :class => "carousel-control right" , :'data-slide' => "next"
+

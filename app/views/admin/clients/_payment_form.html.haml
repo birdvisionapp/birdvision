@@ -1,0 +1,31 @@
+%h3 Payment Details
+.clnt-payment-info-form
+  - if @client.id.nil?
+    .control-group
+      = f.label :opening_balance, "Opening Balance", :class => 'control-label'
+      .controls
+        = f.text_field :opening_balance, :maxlength => 20, :class=> 'input-medium'
+  .control-group
+    = f.label :ots_charges, "Setup Charges (INR)", :class => 'control-label'
+    .controls
+      = f.text_field :ots_charges, :maxlength => 20, :class=> 'input-medium'
+  .control-group
+    = f.label :fixed_amount, "Fixed Amount (INR)", :class => 'control-label'
+    .controls
+      = f.text_field :fixed_amount, :maxlength => 20, :class=> 'input-medium'
+      = f.check_box :is_fixed_amount, :class => 'fm-check-input bg-ck-med'
+  .control-group
+    = f.label :participant_rate, "Participant Rate Basis (INR)", :class => 'control-label'
+    .controls
+      = f.text_field :participant_rate, :maxlength => 20, :class=> 'input-medium'
+      = f.check_box :is_participant_rate, :class => 'fm-check-input bg-ck-med'
+  .control-group
+    = f.label :puc_rate, "Point Upload Charges", :class => 'control-label'
+    .controls
+      .input-append.prepend-wrapper
+        = f.text_field :puc_rate, :maxlength => 20, :class => 'input-mini'
+        %span.add-on %
+  .control-group
+    = f.label :is_locked, 'Is Locked', :class => 'control-label'
+    .controls
+      = f.check_box :is_locked, :class => 'fm-check-input bg-ck-med'

@@ -1,0 +1,33 @@
+%div{:style=>"border-bottom: 5px solid #3DB2C3; padding-bottom:10px; border-radius: 10px; border-left: 1px solid #3DB2C3; border-right: 1px solid #3DB2C3;margin:5px 15px;padding:5px;"}
+  %p= "Dear #{@user.full_name},"
+
+  %div{:style=>"padding-left: 20px"}
+    %p{:style=>"margin-bottom:0px"}
+      = "#{@points_deducted} Points have been deducted from your account. Your Current Account Balance is #{@balance} Points."
+    %p{:style=>"margin-bottom:0px"}
+      = "Your current contact details as per our records are:"
+    %ul{:style=>"margin:5px; padding-left: 10px;list-style:none;"}
+      %li
+        = "Name: "
+        %strong= "#{@user.full_name}"
+      %li
+        = "User Name: "
+        %strong= "#{@user.username}"
+      %li
+        = "Participant ID: "
+        %strong= "#{@user.participant_id}"
+      %li
+        = "Mobile Number: "
+        %strong= "#{@user.mobile_number}"
+      %li
+        = "Land line Number: "
+        %strong= "#{@user.landline_number}"
+      %li
+        = "Address: "
+        %strong= "#{@user.address}, #{@user.pincode}"
+
+    %p
+      = "You can view your scheme details "
+      = link_to "here", root_url_for(@user)
+
+  = render :partial => "mailers/user/email_footer", :locals => {:user=>@user}

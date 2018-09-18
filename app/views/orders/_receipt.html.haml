@@ -1,0 +1,24 @@
+%table.cart-items.clearfix
+  %tr.header
+    %td= "Product"
+    - if @user_scheme.show_points?
+      %td.align-right= "Points"
+      %td.align-right= "Quantity"
+      %td.align-right= "Subtotal"
+  - @order.order_items.each do |order_item|
+    - item = order_item.client_item.item
+    %tr{:id => item.slug}
+      %td.product-description
+        %p.product-title= link_to item.title, client_item_path_for(order_item.client_item, @user_scheme)
+        .cart-item-service-charge= order_item.extra_charges.display
+      - if @user_scheme.show_points?
+        %td.points.align-right= bvc_currency((order_item.total_points_claimed / order_item.quantity))
+        %td.quantity.align-right
+          %span= order_item.quantity
+        %td.align-right.sub-total= bvc_currency(order_item.points_claimed)
+  - if @user_scheme.show_points?
+    %tr.footer
+      %td{:colspan=>4, :class=>"align-right total-points"}
+        %span.total-text= "Grand Total : "
+        %span= bvc_currency(@order.total)
+        %span.pts-text= " pts"

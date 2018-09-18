@@ -1,0 +1,9 @@
+.error-page
+  %h1= "#{@type}"
+  %p.message= "#{@message}"
+  %p
+    = "Error - "
+    = "#{@error}"
+  =hidden_field_tag :request_uuid, request.uuid
+  .go-home
+    = link_to "Take me back", back_path, :class=>"btn btn-info"

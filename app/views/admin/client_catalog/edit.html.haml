@@ -1,0 +1,66 @@
+- content_for :left_nav do
+  = render :partial => "admin/share/catalog_hierarchy"
+
+%h1="Add Items to #{@client.client_name} Catalog"
+
+= render :partial => "share/messages", :locals => {:type => :alert, :message => ""}
+
+= search_form_for @search, :url => edit_admin_client_catalog_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=>"admin/share/items_filter"}
+
+= form_tag admin_client_catalog_path(:q => params[:q]), :method => :put do
+  .actions
+    = render 'admin/share/select_all'
+    .actions-left
+      = hidden_field_tag "client_id", @client.id
+      = submit_tag 'Add To Catalog', :class => 'btn btn-info'
+    .grid-pager
+      = paginate @items , :container => false,  :window => 2 , :left => 1, :right => 1
+  %table.table.master_catalog.table-striped.table-bordered
+    %thead
+      %tr
+        %th
+          %input{:type=>"checkbox", :class=>"select-all", :title=>"Select all"}
+        - if is_super_admin?
+          %th= sort_link(@search, :category_msp_name, "MSP")
+        %th
+          = sort_link(@search, :id, "Item Id")
+        %th
+          = sort_link(@search, :title, "Item Name")
+        %th
+          %span= "Category"
+        %th
+          = sort_link(@search, :category_title, "Sub Category")
+        %th
+          .align-right= sort_link(@search, :preferred_supplier_supplier_name, "Pref. Supplier")
+        %th
+          .align-right= sort_link(@search, :preferred_supplier_mrp, "MRP(Rs.)")
+        %th
+          .align-right= sort_link(@search, :preferred_supplier_channel_price, "Channel Price(Rs.)")
+        %th
+          .align-right= sort_link(@search, :bvc_price, "Base Price(Rs.)")
+        %th
+          .align-right= sort_link(@search, :margin, "Base Margin(%)")
+        %th
+          %span= "Clients"
+
+    - @items.each do |item|
+      %tr[item]
+        %td= check_box_tag 'item_ids[]', item.id, false, :id => "batch_action_item_#{item.id}", :class => "item_checkbox selectable"
+        - if is_super_admin?
+          %td= item.category.msp_name
+        %td= item.id
+        %td= item.title.nil? ? '-' : item.title
+        %td= item.category.parent.nil? ? '-' : item.category.parent.title
+        %td= item.category.nil? ? '-' : item.category.title
+        %td= item.preferred_supplier.supplier.name
+        %td.align-right= bvc_currency(item.preferred_supplier.mrp)
+        %td.align-right= bvc_currency(item.preferred_supplier.channel_price)
+        %td.align-right= bvc_currency(item.bvc_price)
+        %td.align-right= item.margin.nil? ? '-' : item.margin
+        %td
+          = get_client_names_for item
+  .actions
+    .actions-left
+    .grid-pager
+      = paginate @items , :container => false,  :window => 2 , :left => 1, :right => 1

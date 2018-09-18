@@ -1,0 +1,32 @@
+- if can? :read, DraftItem
+  = link_to import_csv_admin_draft_items_path, :class => 'btn btn-info',:id =>"uploadCsv" do
+    %i.icon-arrow-up.icon-white
+    Upload Catalog
+- if can? :update, Item
+  = link_to import_csv_admin_master_catalog_index_path, :class => 'btn btn-info',:id =>"updateCatalogCsv" do
+    %i.icon-edit.icon-white
+    Edit Catalog
+
+  %h3 Catalogs
+  %ul.nav.nav-list.system-catalog
+    %li
+      =active_link_to_if_one_of %w(draft_items), "Drafts", admin_draft_items_path, :class=>"nav-header", :active_class => "nav-header nav-active active"
+    %li
+      =active_link_to_if_one_of %w(master_catalog), "Master", admin_master_catalog_index_path, :class=>"nav-header", :active_class => "nav-header nav-active active"
+
+%h3 Client catalogs
+%ul.nav.nav-list.client-catalog
+  - Client.accessible_by(current_ability).includes(:schemes => :level_clubs).each do |client|
+    %li[client]{:class => client.client_name.parameterize.underscore}
+      =active_link_to_if_one_of catalog_urls(client), client.client_name, admin_client_catalog_path(client.id),:class=>"nav-header has_tooltip", :active_class => "nav-header nav-active active has_tooltip", 'data-toggle'=>"tooltip", :title=>client.client_name.titleize
+      - if is_current_one_of?(catalog_urls(client))
+        %ul.nav.nav-list
+          -client.schemes.each do |scheme|
+            %li[scheme]{:class => scheme.name.parameterize.underscore}
+              = active_link_to_if_one_of scheme_urls(scheme), scheme.name, admin_scheme_catalog_path(:id => scheme.id),:class=>"nav-header has_tooltip", :active_class => "nav-header nav-active active has_tooltip", 'data-toggle'=>"tooltip", :title=> scheme.name.titleize
+              - if is_current_one_of? scheme_urls(scheme)
+                -unless scheme.is_1x1?
+                  %ul.nav.nav-list
+                    - scheme.level_clubs.each do |level_club|
+                      %li{:class => level_club.name.parameterize.underscore}
+                        =active_link_to_if_one_of [admin_level_club_catalog_path(level_club), edit_admin_level_club_catalog_path(level_club)], level_club.name, admin_level_club_catalog_path(level_club.id),:class=>"nav-header has_tooltip", :active_class => "nav-header nav-active has_tooltip active", 'data-toggle'=>"tooltip", :title=> level_club.name

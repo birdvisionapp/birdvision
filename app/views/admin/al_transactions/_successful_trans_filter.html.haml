@@ -1,0 +1,26 @@
+%table.filters
+  %tr
+    %td
+      = f.label :sales_office_code_eq, "Sales Office Code"
+      = f.text_field :sales_office_code_eq, :class => 'input-medium'
+    %td
+      = f.label :sap_code_eq, "Sap Code"
+      = f.text_field :sap_code_eq, :class => 'input-medium'
+    %td
+      = f.label :part_number_eq, "Part Number"
+      = f.text_field :part_number_eq, :class => 'input-medium'
+    %td
+      = f.label :dealer_hierarchy_eq, "Dealer Hierarchy"
+      = f.text_field :dealer_hierarchy_eq, :class => 'input-medium'
+  %tr
+    %td
+      = f.label :part_points_eq, "Part Points"
+      = f.text_field :part_points_eq, :class => 'input-medium'
+    %td
+      = f.label :total_points_eq, "Total Points"
+      = f.text_field :total_points_eq, :class => 'input-medium'
+    %td
+      = f.label :created_at_date_gteq,"Select Custom Date"
+      = f.text_field :created_at_date_gteq, :class => 'datepicker input-small created-at-date-gteq'
+      = f.label "-", :class=>"to"
+      = f.text_field :created_at_date_lteq, :class => 'datepicker input-small created-at-date-gteq'

@@ -1,0 +1,37 @@
+.contact-us.span12
+  %h1= "Contact Us"
+  .row
+    .address.pull-left.span4
+      .office
+        %span
+          = "Email:"
+          = link_to "#{@to_email}", "mailto:#{@to_email}"
+        %br
+        %span
+          = "Customer Care:"
+          = link_to "#{@cc_email}", "mailto:#{@cc_email}"        
+        %br
+        %span= "Tel.: #{@phone_number}"
+      
+
+    .contact-form.pull-right.span8
+      = render :partial=>"share/messages", :locals => {:type => @type, :message => @message }
+      %p= "Thank you for your interest in #{@company}."
+      %p= "Please use the form to contact us with any questions or issues that you may have; we'll be glad to help."
+      = form_tag contact_request_path(:ccode => params[:ccode]), :class => 'form-horizontal' do
+        .control-group
+          = label_tag "contact_name","Name:", :class=>"control-label mandatory-field"
+          .controls
+            = text_field_tag 'contact_name'
+        .control-group
+          = label_tag "contact_mail", "Email Address:", :class=>"control-label mandatory-field"
+          .controls
+            = email_field_tag 'contact_email'
+        .control-group
+          = label_tag "contact_message", "Message:", :class=>"control-label mandatory-field"
+          .controls
+            = text_area_tag 'contact_message', '', :rows=>5
+        .control-group
+          = submit_tag 'Submit', :disable_with => "Please wait...", :class=>"pull-right btn btn-info"
+
+

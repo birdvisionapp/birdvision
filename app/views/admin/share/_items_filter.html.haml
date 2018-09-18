@@ -1,0 +1,60 @@
+%table.filters
+  %tr
+    %td
+      = f.label :id_eq, "Item Id"
+      = f.text_field :id_eq, :class => 'input-small'
+    %td
+      = f.label :title_cont, "Item Name"
+      = f.text_field :title_cont, :class => 'input-medium'
+    %td
+      = f.label :model_no_cont, "Model No."
+      = f.text_field :model_no_cont, :class => 'input-small'
+  %tr
+    - if is_super_admin?
+      %td
+        = f.label :category_msp_id_eq, "MSP"
+        = f.collection_select :category_msp_id_eq, Msp.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'msp-selector-init'
+    %td
+      = f.label :category_ancestry_eq, "Category"
+      = f.collection_select :category_ancestry_eq, Category.accessible_by(current_ability).main_categories.select_options, :id, :title, {:include_blank => t(:all)}, :class => 'al-category-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:title')}
+    %td
+      = f.label :category_id_eq, "Sub Category"
+      = f.collection_select :category_id_eq, Category.accessible_by(current_ability).sub_categories.select_options, :id, :title, {:include_blank => t(:all)}, :class => 'al-subcategory-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Category:title', subset: true)}
+  %tr
+    %td
+      = f.label :preferred_supplier_mrp, "MRP"
+      = f.text_field :preferred_supplier_mrp_gteq, :class=>"input-mini"
+      = f.label "-", :class=>"to"
+      = f.text_field :preferred_supplier_mrp_lteq, :class=>"input-mini"
+    %td
+      = f.label :bvc_price, "Base Price"
+      = f.text_field :bvc_price_gteq, :class=>"input-mini"
+      = f.label "-", :class=>"to"
+      = f.text_field :bvc_price_lteq, :class=>"input-mini"
+    %td
+      = f.label :margin_cont, "Base Margin"
+      = f.text_field :margin_gteq, :class=>"input-mini"
+      = f.label "-", :class=>"to"
+      = f.text_field :margin_lteq, :class=>"input-mini"
+  %tr
+    %td
+      = f.label :preferred_supplier_channel_price, "Channel Price"
+      = f.text_field :preferred_supplier_channel_price_gteq, :class=>"input-mini"
+      = f.label "-", :class=>"to"
+      = f.text_field :preferred_supplier_channel_price_lteq, :class=>"input-mini"
+    %td
+      = f.label :preferred_supplier_supplier_margin, "Supplier Margin"
+      = f.text_field :preferred_supplier_supplier_margin_gteq, :class=>"input-mini"
+      = f.label "-", :class=>"to"
+      = f.text_field :preferred_supplier_supplier_margin_lteq, :class=>"input-mini"
+    %td
+      = f.label :client_items_client_id_eq, "Client"
+      = f.collection_select :client_items_client_id_eq, Client.accessible_by(current_ability).select_options, :id, :client_name, {:include_blank => t(:all)}, :class => 'al-client-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Client:client_name')}
+  %tr
+    %td
+      = f.label :status_eq, "Status"
+      = f.select :status_eq, Item::Status::ALL.collect {|status| [status.titleize, status]}, :include_blank => t(:all)
+    %td
+      = f.label :preferred_supplier_supplier_id_eq, "Pref. Supplier"
+      = f.collection_select :preferred_supplier_supplier_id_eq, Supplier.accessible_by(current_ability).select_options, :id, :name, {:include_blank => t(:all)}, :class => 'al-supplier-content-loader', :data => {:url => list_options_admin_user_management_msps_url(slug: 'Supplier:name')}
+    %td

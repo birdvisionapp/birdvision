@@ -1,0 +1,15 @@
+= form_for :search, :url => search_path_for(@user_scheme), :html => {:method => :get, :id => 'category-filter', :class => 'form-inline breadcrumb' } do |f|
+  -if can_show_home_link?(@search)
+    %span= link_to "Home", catalog_path_for(@user_scheme), :class=>"btn btn-link theme-primary-text-color",:title => "Home"
+  -elsif can_show_back_link?(@search)
+    = f.hidden_field :parent_category, :value => @search.parent_category, :id=>'filter-search-parent_category'
+    %span= f.button "Back to search results for \"#{@search.keyword}\"", :value => @search.keyword, :name => 'search[keyword]', :id => "back-to-search", :class => 'btn btn-link theme-primary-text-color'
+  -if is_parent_category_active_in_breadcrumb(@search)
+    %span.active-breadcrumb="#{@search.parent_category}"
+  -elsif sub_category_breadcrumb(@search)
+    - category = Category.where(:title => @search.category).first
+    - if category.present?
+      - parent_category = category.parent.title
+      %span= f.button "#{parent_category}", :value => parent_category, :name => 'search[parent_category]', :class => 'btn btn-link theme-primary-text-color'
+  -if sub_category_breadcrumb(@search)
+    %span.active-breadcrumb="#{@search.category}"

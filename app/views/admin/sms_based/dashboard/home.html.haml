@@ -1,0 +1,48 @@
+%h1 SMS Program
+.sms-based-dashboard
+  %ul.infographics.clearfix
+    %li.container.reward-products
+      - product_stats = @dashboard.product_stats
+      .header= 'Reward Products Category'
+      .number-data
+        .badge.badge-important= "Total - #{@dashboard.total_reward_categories || 0}"
+      .description
+        %p= link_to "View All", admin_reward_product_catagories_path, :class => 'btn'
+        %p= link_to "New Reward Product Category", new_admin_reward_product_catagory_path, :class => 'btn' if can? :create, RewardProductCatagory
+        
+    %li.container.reward-products
+      - product_stats = @dashboard.product_stats
+      .header= 'Reward Products'
+      .number-data
+        .badge.badge-success= "Active - #{product_stats["active"] || 0}"
+        .badge.badge-important= "Inactive - #{product_stats["inactive"] || 0}"
+      .description
+        %p= link_to "View All", admin_sms_based_reward_items_path, :class => 'btn'
+        %p= link_to "New Reward Product", new_admin_sms_based_reward_item_path, :class => 'btn' if can? :create, RewardItem
+
+  %ul.infographics.clearfix
+    %li.container.reward-products
+      - product_pack_stats = @dashboard.product_pack_stats
+      .header= 'Product Packs'
+      .number-data
+        .badge.badge-success= "Active - #{product_pack_stats["active"] || 0}"
+        .badge.badge-important= "Inactive - #{product_pack_stats["inactive"] || 0}"
+      .description
+        %p= link_to "View All", admin_sms_based_reward_item_points_path, :class => 'btn'
+        %p= link_to "New Product Pack", new_admin_sms_based_reward_item_point_path, :class => 'btn' if can? :create, RewardItemPoint
+
+  %ul.infographics.clearfix
+    %li.container.unique-codes
+      - unique_code_stats = @dashboard.unique_code_stats
+      .header= 'Product Codes'
+      .number-data
+        %span.sub-title= "Used - #{unique_code_stats[:used]}"
+        %span.sub-title= "Not Used - #{unique_code_stats[:unused]}"
+      .description
+        %p= link_to 'Product Codes Report', report_admin_sms_based_unique_item_codes_path, :class => 'btn'
+        %p= link_to 'Track Product Code', track_admin_sms_based_unique_item_codes_path, :class => 'btn'
+        %p= link_to 'Generate Codes', new_admin_sms_based_unique_item_code_path, :class => 'btn' if can? :create, UniqueItemCode
+        %p= link_to 'Codes Status', admin_sms_based_unique_item_codes_path, :class => 'btn'
+        - unless is_client_manager?
+          %p= link_to 'Linked Codes', link_codes_admin_sms_based_reward_item_points_path, :class => 'btn'
+  = render 'admin/share/participant_stats', :participant_stats => @dashboard.participant_stats

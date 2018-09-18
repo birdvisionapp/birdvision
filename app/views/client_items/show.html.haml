@@ -1,0 +1,22 @@
+- content_for :left_nav do
+  = render :partial => "share/filters", :locals => {:show_point_filter => false}
+.item-page.row
+  -item = @user_item.item
+  .item-category-hierarchy.span9
+    = form_for :search, :url => search_path_for(@user_scheme), :html => {:method => :get, :id => 'category-filter', :class => 'form-inline breadcrumb' } do |f|
+      %span= link_to("Home", catalog_path_for(@user_scheme), :class => 'btn-link theme-primary-text-color')
+      %span= f.button "#{item.category.parent.title}", :value => item.category.parent.title, :name => 'search[parent_category]', :class => 'btn btn-link theme-primary-text-color'
+      %span= f.button "#{item.category.title}", :value => item.category.title, :name => 'search[category]', :class => 'btn btn-link theme-primary-text-color'
+      %span.active-breadcrumb= "#{item.title}"
+
+  .item-details.span9
+    .row
+      .span3.item-image-container
+        = link_to "#{item.image}", :class => "image_zoom", :title => "#{item.title}" do
+          = image_tag item.image, :class => "thumbnail-image"
+      %h1.span6.item-title.theme-primary-text-color= "#{item.title}"
+      %p.span6.item-description= item.description
+      .span6.add-to-cart
+        = render :partial => 'share/add_to_cart', :locals => {:user_item => @user_item}
+
+  .item-specification.span9= item.specification.html_safe if item.specification.present?

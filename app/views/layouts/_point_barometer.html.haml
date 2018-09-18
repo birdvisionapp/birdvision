@@ -1,0 +1,13 @@
+- barometer = Barometer.new(current_user)
+.barometer-container.pull-left
+  .barometer
+    .point-based
+      -if barometer.percent_redeemed.nonzero?
+        .reading.redeemed{:style => "width: #{barometer.percent_redeemed}%;"}
+      -if barometer.percent_remaining.nonzero?
+        .reading.remaining{:style => "width: #{barometer.percent_remaining}%;"}
+  .barometer-attributes
+    %span.redeemed
+      ="Redeemed : #{bvc_currency(barometer.redeemed_points)}"
+    %span.remaining.pull-right
+      ="Remaining : #{bvc_currency(barometer.remaining_points)}"

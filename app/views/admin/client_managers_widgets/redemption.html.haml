@@ -1,0 +1,15 @@
+%h1 Redemption
+
+= search_form_for @search, :url => redemption_admin_client_managers_widgets_path do |f|
+  = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "admin/client_managers_widgets/filters/redemption_filter" }
+
+.content-container.widgets-container
+  .widgets-wrapper
+    #widget-postion-1#redemption.col-sm-4
+      .widget-postion-inner
+        = link_to top_redemptions_admin_client_managers_widgets_path, :id => "top_redemptions-link", :class => "decoration-none" do
+          .widget-header= 'Redemption'
+          %span.redemption-val.penetration-number=bvc_currency(@orders)
+          %span.widget-sub-title
+    #widget-description
+      %span This widget displays the overall figure of the redemption done by the community under the client.

@@ -1,0 +1,4 @@
+#clnt-pp-tiers-prev-form
+  - if @product_pack.pack_tier_configs.present?
+    = render 'admin/sms_based/reward_item_points/preview_tier_conf', :reward_item_point => @product_pack
+#clnt-pp-tiers-edit-form{style: "display: #{@product_pack.pack_tier_configs.present? ? 'none' : 'block'}"}= render 'admin/sms_based/reward_item_points/tiers_form', :product_pack => @product_pack

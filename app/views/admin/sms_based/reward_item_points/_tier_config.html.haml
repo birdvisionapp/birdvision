@@ -1,0 +1,19 @@
+- user_roles = product_pack.reward_item.client.user_roles_main
+- tiers_count = product_pack.pack_tier_configs.select(:id).count
+- tiers = tiers_count > 0 ? tiers_count : @tiers
+%h4= "Number of Tiers (Packaging Layers) Selected: #{tiers}"
+= form_for [:preview_conf, :admin, :sms_based, product_pack], :html => {:method => :put, :class => 'control-group', :id => 'product-pack-config'} do |f|
+  #reward-item-point-errors{:style => 'display:none'}
+  = f.fields_for :pack_tier_configs do |p|
+    - index = (p.object_name.match(/(\d+)]/)[1]).to_i
+    - i = index + 1
+    - user_role_id = p.object.user_role_id || user_roles.map(&:id).values_at(index)
+    - codes =  p.object.codes ? p.object.codes : (i==1) ? 1 : nil
+    - tier_name = p.object.tier_name || "Tier#{i}"
+    .controls
+      = p.select :user_role_id, user_roles.map{|r|[r.name, r.id]}, {:selected => user_role_id}, { :class => 'input-medium'}
+      = p.number_field :codes, :value => codes, :min => 1, :class => 'input-mini'
+      = p.text_field :tier_name, :value => tier_name, :class => 'input-medium'
+  .controls
+    = f.submit "#{(tiers_count > 0) ? "Save" : "Configure"} Code Pack", :class => 'btn btn-info', :id => 'save-product-pack-config'
+    = link_to 'Cancel', '#', :class => 'btn', :id => 'clnt-pp-tiers-edit-cn' if tiers_count > 0

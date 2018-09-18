@@ -1,0 +1,27 @@
+class AddKeys < ActiveRecord::Migration
+  def change
+    add_foreign_key "cart_items", "carts", :name => "cart_items_cart_id_fk"
+    add_foreign_key "cart_items", "client_items", :name => "cart_items_client_item_id_fk"
+    add_foreign_key "carts", "users", :name => "carts_user_id_fk"
+    add_foreign_key "catalog_items", "client_items", :name => "catalog_items_client_item_id_fk"
+    add_foreign_key "catalog_items", "level_clubs", :name => "catalog_items_level_club_id_fk"
+    add_foreign_key "client_items", "client_catalogs", :name => "client_items_client_catalog_id_fk"
+    add_foreign_key "client_items", "items", :name => "client_items_item_id_fk"
+    add_foreign_key "clients", "client_catalogs", :name => "clients_client_catalog_id_fk"
+    add_foreign_key "draft_items", "categories", :name => "draft_items_category_id_fk"
+    add_foreign_key "draft_items", "suppliers", :name => "draft_items_supplier_id_fk"
+    add_foreign_key "item_suppliers", "items", :name => "item_suppliers_item_id_fk"
+    add_foreign_key "item_suppliers", "suppliers", :name => "item_suppliers_supplier_id_fk"
+    add_foreign_key "items", "categories", :name => "items_category_id_fk"
+    add_foreign_key "level_clubs", "clients", :name => "level_clubs_client_id_fk"
+    add_foreign_key "order_items", "client_items", :name => "order_items_client_item_id_fk"
+    add_foreign_key "order_items", "orders", :name => "order_items_order_id_fk"
+    add_foreign_key "order_items", "schemes", :name => "order_items_scheme_id_fk"
+    add_foreign_key "orders", "users", :name => "orders_user_id_fk"
+    add_foreign_key "schemes", "clients", :name => "schemes_client_id_fk"
+    add_foreign_key "schemes_users", "schemes", :name => "schemes_users_scheme_id_fk"
+    add_foreign_key "schemes_users", "users", :name => "schemes_users_user_id_fk"
+    add_foreign_key "user_scheme_points", "schemes", :name => "user_scheme_points_scheme_id_fk"
+    add_foreign_key "user_scheme_points", "users", :name => "user_scheme_points_user_id_fk"
+  end
+end

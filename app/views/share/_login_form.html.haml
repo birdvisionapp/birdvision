@@ -1,0 +1,22 @@
+-if !resource.is_a?(AdminUser)
+  %p#hidden-bg-img{"data-url" => get_bg_image_for_client(resource)} 
+= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "authentication-form form-horizontal clearfix theme-auth-form", :novalidate=>'novalidate'}) do |f|
+  - if defined?(logo)
+    .col-sm-12#login-title
+      %h2 Login
+  -else
+    %h2= title
+  .control-group
+    = f.label :username , :class => "control-label"
+    .controls
+      = f.text_field :username, :maxlength =>'100', :class => "input-medium" , :autofocus => "autofocus"
+  .control-group
+    = f.label :password , :class => "control-label"
+    .controls
+      = f.password_field :password, :class => 'input-medium', :maxlength => '30'
+      = render "devise/shared/links" unless resource.is_a?(AdminUser)
+  .control-group.last
+    .controls
+      = button_tag(:type => 'submit',:class => 'btn') do
+        Sign in
+      = link_to "Sign up", new_user_registration_path unless is_signup_allowed(request.url)

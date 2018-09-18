@@ -1,0 +1,42 @@
+%h1 Clients
+%div.sales-total= "Redemption Total: #{bvc_currency(current_admin_user.reseller.sales_total)}"
+%div.payout= "Payout Total: #{bvc_currency(current_admin_user.reseller.payout_total)}"
+
+- if @clients.empty?
+  %p There are no clients yet
+- else
+  .grid-pager
+    = paginate @clients
+
+  %table.table.table-striped.table-bordered.clients
+    %thead
+      %tr
+        %th= sort_link(@search, :client_name,"Client Name")
+        %th= sort_link(@search, :contact_name,"Contact Name")
+        %th= sort_link(@search, :contact_email,"Contact Email")
+        %th= sort_link(@search, :contact_phone_number,"Contact Phone Number")
+        %th= sort_link(@search, :points_to_rupee_ratio,"Points To Rs. Ratio")
+        %th
+          %span Redemption Total(Rs.)
+        %th
+          %span Payout Total(Rs.)
+        %th
+          %span Action
+
+    - @clients.each do |client|
+      %tr[client]
+        %td= client.client_name
+        %td= client.contact_name
+        %td= client.contact_email
+        %td= client.contact_phone_number
+        %td= client.points_to_rupee_ratio
+        - client_reseller = client.client_resellers.first
+        %td= bvc_currency(client_reseller.sales)
+        %td= bvc_currency(client_reseller.payout)
+        %td
+          =link_to "Orders Report", admin_sales_client_orders_path(client.id)
+          = "/"
+          =link_to "Participants Report", admin_sales_client_participants_path(client.id)
+
+  .grid-pager
+    = paginate @clients

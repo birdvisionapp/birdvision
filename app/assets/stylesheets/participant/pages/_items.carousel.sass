@@ -1,0 +1,49 @@
+#clientItemCarousel
+  +box-shadow(0 0 5px #C9C9C9)
+  margin-bottom: 25px
+  &:after, .carousel-featured-tag
+    +size(93px, 82px)
+    background: url(image_path("featured.png")) top right no-repeat
+    content: ''
+    position: absolute
+    right: 0
+    top: 0
+
+  .carousel-inner
+    +box-shadow(inset 0 0 30px #e4e4e4)
+
+  .carousel-control, .carousel-control:hover
+    background: url(image_path('icons.png')) no-repeat 0 -250px
+    border: none
+    border-radius: 0
+    color: #C1C1C1
+    height: 30px
+    opacity: 1
+    top: 50%
+    &.right
+      background-position: -45px -250px
+
+  .image-container
+    float: left
+    a
+      display: inline-block
+      width: 160px
+      height: 160px
+      text-align: center
+    img
+      max-height: 160px
+      max-width: 160px
+
+  .item-details
+    padding-left: 180px
+    padding-right: 10px
+    height: 160px
+    .item-title a
+      @extend .ellipsis
+      display: block
+  .client-item
+    padding: 30px 45px
+  .description
+    margin-bottom: 40px
+
+

@@ -1,0 +1,24 @@
+
+.template-new
+  %fieldset#id-set-template-new
+    .group-header1
+      %h3 Template Basis
+      .group-template1
+        = f.collection_select :targeted_offer_type_id, TargetedOfferType.all, :id, :offer_type_name, {:prompt => true}
+    .group-header2
+      %h3 Template Name
+      .group-template2  
+        = f.text_field :name , :maxlength => 40
+    .group-header3
+      %h3 Template Content
+      .group-template3
+        = f.text_area :template_content, :cols => 10,:rows => 7,:id => "template_content",:maxlength => 140
+        = f.label "140",:id=>'count'
+    .space
+    = link_to "Back",admin_templates_path, :class=>'btn btn-default'
+    - Rails.logger.info(params)
+    - if params[:action] == 'new'
+      = f.submit "Create", :class => "btn btn-info", :id =>"submitTemplate"
+    -elsif params[:action] == 'edit'
+      = f.submit "Update", :class=>"btn btn-info", :id=>"submitTemplate"
+    

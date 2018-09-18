@@ -1,0 +1,7 @@
+%dl.dl-horizontal
+  %dt Opening Balance:
+  - opening_balance = current_client.client_point_reports.present? ? "#{current_client.opening_balance} as of #{current_client.client_point_reports.first.trans_date.strftime("%I:%M%P on %B %d, %Y")}" : '-'
+  %dd= opening_balance
+  %dt Closing Balance:
+  - closing_balance = current_client.client_point_reports.present? ? "#{current_client.closing_balance} as of #{current_client.client_point_reports.last.trans_date.strftime("%I:%M%P on %B %d, %Y")}" : '-'
+  %dd= closing_balance

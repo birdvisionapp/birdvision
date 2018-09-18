@@ -1,0 +1,94 @@
+%h1 Participants
+.clearfix
+  %h4.users_stats
+    - @users_stats.each do |att, stat|
+      %span= "#{att}:#{stat}" if att.present?
+    %span= "Total Users:#{@users_stats.values.sum}"
+  = search_form_for @search, :url => admin_users_path do |f|
+    = render :partial => "admin/share/filter_wrapper", :locals => { :f => f, :filter=> "participants_filter" }
+
+= form_tag send_activation_email_to_admin_users_path(:q => params[:q]) do
+  .actions.participants
+    .actions-left
+      - if can?([:create, :update], User) && current_admin_user.manage_participants?
+        .select-all-records
+          = check_box_tag :select_all, true, false, {:class => 'tc-widget fm-check-input bg-ck-med', :title => "Select all", 'data-target' => '#client-wise-count-stats'}
+          = label_tag :select_all, "Select All (#{@search.result.count} Participants)"
+        .clearfix
+        .client-pt-stats#client-wise-count-stats= render 'client_stats' if @client_stats.present?
+        = link_to  import_csv_admin_users_path, :class => 'btn btn-info', :id=> "uploadCsv" do
+          %i.icon-arrow-up.icon-white
+          Upload Participants
+        = submit_tag 'Send Activation Link', :name => 'send_activation_link', :class => 'btn inline' unless current_client && current_client.allow_sso?
+        = submit_tag 'Activate Participant(s)', :name => 'active', :class => 'btn btn-success ptc-action-bt'
+        = submit_tag 'Inactivate Participant(s)', :name => 'inactive', :class => 'btn btn-danger ptc-action-bt confirm-in-pa', :rel => 'participant'
+    .grid-pager
+      = paginate @users
+    .actions-right
+      = link_to admin_users_path(:format => "csv", :q => params[:q]), :class=> "btn btn-info pull-right", :id =>"downloadMasterCatalogCsv" do
+        %i.icon-arrow-down.icon-white
+        Download
+
+
+  %table.table.table-striped.table-bordered.users
+    %thead
+      %tr
+        -if can?([:create, :update], User) && current_admin_user.manage_participants?
+          %th
+            %input{:type=>"checkbox", :class=>"select-all", :title=>"Select"}
+        %th= sort_link(@search, :participant_id, "Participant Id")
+        %th= sort_link(@search, :username)
+        %th= sort_link(@search, :full_name,"Full Name")
+        %th= sort_link(@search, :email)
+        %th= sort_link(@search, :mobile_number,"Mobile Number")
+        - unless current_client && current_client.allow_sso?
+          %th= sort_link(@search, :activation_status, "Activation Status")
+        %th Region
+        %th Telecom Circle
+        %th= sort_link(@search, :status, "Status")
+        - if is_admin_user?
+          %th= sort_link(@search, :client_client_name,"Client")
+        %th
+          %span Schemes(Points)
+        %th= sort_link(@search, :created_at,"Created On")
+        %th
+          %span Actions
+
+    - activation_status_color = {User::ActivationStatus::LINK_NOT_SENT => "badge badge-important",
+                          User::ActivationStatus::NOT_ACTIVATED => "badge badge-warning",
+                          User::ActivationStatus::ACTIVATED => "badge badge-success"}
+    - @users.each do |user|
+      %tr
+        -if can?([:create, :update], User) && current_admin_user.manage_participants?
+          %td= check_box_tag 'user_ids[]', user.id, false, :id => "batch_action_item_#{user.id}", :class => "user_checkbox selectable"
+        %td= user.participant_id
+        %td= user.username
+        %td= user.full_name
+        %td= user.email
+        %td= user.mobile_number
+        - unless current_client && current_client.allow_sso?
+          %td
+            %span{:class => activation_status_color[user.activation_status]}
+              = user.activation_status
+        %td= user.region
+        %td= user.circle_name
+        %td= styling_status_label(user.status)
+        - if is_admin_user?
+          %td= link_to user.client_name, admin_client_path(id: user.client_id)
+        %td= raw points_per_scheme(user)
+        %td= humanize_date(user.created_at)
+        %td
+          = link_to 'View', admin_user_path(id: user.id, :q => params[:q])
+          %span /
+          - if can? :update, User
+            - if user.client.sms_based? && user.status == User::Status::PENDING
+              = link_to 'Register', edit_admin_user_path(id: user.id, :sms_based_registration => true)
+            - else
+              = link_to 'Edit', edit_admin_user_path(id: user.id)
+            %span /
+          = points_summary_link({:user_id_eq => user.id})
+  .actions-down.participants
+    .actions-left
+    .grid-pager
+      = paginate @users
+    .actions-right

@@ -1,0 +1,70 @@
+.ie6_7
+  margin:  0 auto
+  background: #ff471b
+  font-size: 1.3em
+  line-height: 1.5em
+  padding:  10px
+  text-align: center
+  color: white
+
+.ie8, .ie7
+  .container
+    border: 1px solid #DDD
+    border-top:  0px
+
+.ie7
+  #mainNavigation
+    padding-left: 20px
+  .alert
+    overflow: hidden
+    padding-left: 10px !important
+
+  #filters-container
+    float: left
+  form[class*="_search"]
+    overflow: hidden
+  #filters-content
+    td
+      overflow: hidden
+      white-space: nowrap
+    label
+      display: block
+      text-align: left
+    input, label.to
+      float: left
+    .input-prepend .add-on
+      float: left
+  .content-container .form-horizontal .control-group .controls
+    margin-left: -10px
+  .infographics
+    .container
+      .number-data, .description
+        float: left
+      .description
+        width: 43%
+        margin-left: -1px
+      a
+        cursor: pointer
+        height: auto
+        overflow: auto
+  .participant_search .input-append .btn
+    margin-top: 1px
+
+
+  .actions, .actions-down
+    .actions-right
+      float: right
+    .actions-left, .grid-pager
+      float: left
+    .grid-pager
+      width: 50%
+  .grid-pager
+    text-align: center
+    .pagination
+      +ie7-inline-block()
+      margin-top: 10px
+      text-align: center
+      span
+        float: left
+    .page
+      margin-top: -2px

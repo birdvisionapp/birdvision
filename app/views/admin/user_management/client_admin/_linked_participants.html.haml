@@ -1,0 +1,21 @@
+.total-lnkd-participants
+  = "Total: "
+  %span#tl-lnkd-ptps= @linked_users.size
+
+.lnk-pts-participants-list
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %th Username
+        %th Full Name
+        %th Mobile Number
+        %th Action
+    - @linked_users.each do |user|
+      %tr[user]
+        %td= user.username
+        %td= user.full_name
+        %td= user.mobile_number
+        %td
+          = link_to 'View', admin_user_path(id: user.id)
+          %span /
+          = link_to 'Remove', unlink_user_admin_user_management_representatives_path(resource_id: @resource.id, user_id: user.id), :method => :delete, :remote => true, :class => 'unlink-participant-rep'
