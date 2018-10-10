@@ -40,11 +40,19 @@ class AdminDashboard
     Hash[[:new, :sent_to_supplier, :delivery_in_progress, :delivered, :incorrect, :refunded].collect { |status| [status, order_items_count[status.to_s]|| 0] }]
   end
 
+  def off_order_stats
+    Hash[[:new, :sent_to_supplier, :delivery_in_progress, :delivered, :incorrect, :refunded].collect { |status| [status, order_items_count[status.to_s]|| 0] }]
+  end
+
   def participant_stats
     users.group(:status).count
   end
 
   private
+  
+  def off_order_items_count
+    @off_order_items_count ||= OfflineOrder.accessible_by(current_ability).group(:status).count
+  end
 
   def clients
     @clients ||= Client.accessible_by(current_ability).live_client.pluck(:id)
